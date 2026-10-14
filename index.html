@@ -2243,6 +2243,9 @@
             <option value="safe">【安全與導航】</option>
             <option value="gear">【個人配件】</option>
           </select>
+          <button id="btnOpenSpecSearchFromLocker" class="btn-secondary-pill" title="直接查詢 80+ 款常見戶外裝備規格庫" style="white-space:nowrap;">
+            <span>🌐 查詢規格庫</span>
+          </button>
         </div>
 
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -2479,7 +2482,8 @@
       <form id="addLockerForm">
         <div class="form-group">
           <label for="lockerInputBrand">裝備品牌（Brand）</label>
-          <input type="text" id="lockerInputBrand" class="form-control" placeholder="例：Arc'teryx, Montbell, Osprey, Soto..." required>
+          <input type="text" id="lockerInputBrand" class="form-control" placeholder="例：Arc'teryx, Montbell, Osprey, Soto..." autocomplete="off" required>
+          <div id="autocompleteListBrand" class="autocomplete-list"></div>
         </div>
 
         <div class="form-group">
@@ -3024,6 +3028,8 @@
       lockerInputStartDate: document.getElementById('lockerInputStartDate'),
       lockerCheckConsumable: document.getElementById('lockerCheckConsumable'),
       autocompleteList2: document.getElementById('autocompleteList2'),
+      autocompleteListBrand: document.getElementById('autocompleteListBrand'),
+      btnOpenSpecSearchFromLocker: document.getElementById('btnOpenSpecSearchFromLocker'),
 
       pickFromLockerModal: document.getElementById('pickFromLockerModal'),
       btnClosePickModal: document.getElementById('btnClosePickModal'),
@@ -3038,6 +3044,8 @@
       specSearchResultsArea: document.getElementById('specSearchResultsArea'),
       linkGoogleSpec: document.getElementById('linkGoogleSpec'),
       linkGearLab: document.getElementById('linkGearLab'),
+      btnAutoSearchSpec1: document.getElementById('btnAutoSearchSpec1'),
+      btnAutoSearchSpec2: document.getElementById('btnAutoSearchSpec2'),
 
       // Tools
       btnSoundToggle: document.getElementById('btnSoundToggle'),
@@ -3410,15 +3418,42 @@
 
       // 渲染卡片
       dom.lockerGridContainer.innerHTML = '';
+
+      // 檢查外部 80+ 規格庫相符品項
+      let dbMatches = [];
+      if (searchKey) {
+        dbMatches = OUTDOOR_SPECS_DATABASE.filter(dbItem => {
+          const matchText = (dbItem.brand && dbItem.brand.toLowerCase().includes(searchKey)) ||
+                            (dbItem.model && dbItem.model.toLowerCase().includes(searchKey));
+          const alreadyInLocker = state.gearLocker.some(l => l.name === dbItem.model && l.brand === dbItem.brand);
+          return matchText && !alreadyInLocker;
+        }).slice(0, 6);
+      }
+
       if (items.length === 0) {
-        dom.lockerGridContainer.innerHTML = `
-          <div style="grid-column:1/-1; text-align:center; padding:40px 20px; color:var(--text-muted); background:rgba(255,255,255,0.02); border-radius:var(--radius-lg); border:1px dashed var(--border-card);">
-            <div style="font-size:2rem; margin-bottom:8px;">🎒</div>
-            <div style="font-size:1.05rem; font-weight:700; color:var(--text-secondary);">尚無符合條件的個人裝備</div>
-            <div style="font-size:0.85rem; margin-top:4px;">點選上方「➕ 登記新裝備」或「🌟 載入精選範本」開始建立您的專屬戶外軍火庫！</div>
+        let noMatchHtml = `
+          <div style="grid-column:1/-1; text-align:center; padding:36px 20px; color:var(--text-muted); background:rgba(255,255,255,0.02); border-radius:var(--radius-lg); border:1px dashed var(--border-card);">
+            <div style="font-size:2rem; margin-bottom:8px;">🔍</div>
+            <div style="font-size:1.05rem; font-weight:700; color:var(--text-secondary);">${searchKey ? `個人裝備庫中找不到「${escapeHtml(searchKey)}」` : '尚無符合條件的個人裝備'}</div>
+            <div style="font-size:0.85rem; margin-top:6px; color:var(--text-muted);">
+              ${dbMatches.length > 0 ? '但在【80+ 款戶外資料庫】找到以下相符規格，點擊即可一鍵登記存入！' : '點選下方按鈕線上查詢官方克數規格，或手動登記新裝備！'}
+            </div>
+            <div style="margin-top:14px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+              <button class="btn-primary" id="btnSearchOnlineFallback">🌐 自動上網查詢「${escapeHtml(searchKey || '裝備')}」規格</button>
+              <button class="btn-secondary" id="btnAddManualFallback">➕ 手動登記新裝備</button>
+            </div>
           </div>
         `;
-        return;
+        dom.lockerGridContainer.innerHTML = noMatchHtml;
+
+        const btnOnline = dom.lockerGridContainer.querySelector('#btnSearchOnlineFallback');
+        if (btnOnline) {
+          btnOnline.addEventListener('click', () => openSpecSearchModal(searchKey));
+        }
+        const btnManual = dom.lockerGridContainer.querySelector('#btnAddManualFallback');
+        if (btnManual) {
+          btnManual.addEventListener('click', () => dom.btnOpenAddLockerModal.click());
+        }
       }
 
       items.forEach(item => {
@@ -3486,6 +3521,61 @@
 
         dom.lockerGridContainer.appendChild(card);
       });
+
+      // 如果有額外的戶外資料庫規格推薦，渲染在下方
+      if (dbMatches && dbMatches.length > 0) {
+        const divider = document.createElement('div');
+        divider.style.cssText = "grid-column:1/-1; margin-top:20px; margin-bottom:4px; padding-bottom:8px; border-bottom:1px solid rgba(56,189,248,0.3); display:flex; justify-content:space-between; align-items:center;";
+        divider.innerHTML = `<span style="font-size:0.88rem; font-weight:700; color:var(--blue-accent);">🌟 80+ 款戶外資料庫相符規格（點擊 ➕ 立即存入個人裝備庫）：</span>`;
+        dom.lockerGridContainer.appendChild(divider);
+
+        dbMatches.forEach(dbItem => {
+          const dbCard = document.createElement('div');
+          dbCard.className = 'locker-item-card';
+          dbCard.style.borderColor = 'rgba(56,189,248,0.35)';
+          dbCard.style.background = 'rgba(12,24,32,0.7)';
+          dbCard.innerHTML = `
+            <div>
+              <div class="locker-card-top">
+                <div>
+                  <span class="locker-brand-name" style="color:var(--brand-green-light);">${escapeHtml(dbItem.brand)}</span>
+                  <h4 class="locker-item-title">${escapeHtml(dbItem.model)}</h4>
+                </div>
+                <span class="locker-grams-badge" style="color:#38bdf8; border-color:rgba(56,189,248,0.4); background:rgba(56,189,248,0.1);">${dbItem.grams} g</span>
+              </div>
+              <div class="locker-meta-row" style="margin-top:8px;">
+                <span class="service-age-pill"><span class="service-status-green">●</span> 官方標準規格</span>
+                <span style="font-size:0.75rem; color:var(--text-muted);">${CATEGORIES[dbItem.cat]?.name || ''}</span>
+                ${dbItem.consumable ? '<span class="badge-consumable">💧 消耗品</span>' : ''}
+              </div>
+            </div>
+            <div class="locker-card-actions">
+              <button class="btn-add-to-pack btn-save-db-item" style="background:rgba(56,189,248,0.15); border-color:rgba(56,189,248,0.4); color:#38bdf8;">
+                ➕ 登記存入裝備庫
+              </button>
+            </div>
+          `;
+          dbCard.querySelector('.btn-save-db-item').addEventListener('click', () => {
+            const newLockerItem = {
+              id: 'locker_' + Date.now() + Math.random().toString(36).substr(2, 4),
+              brand: dbItem.brand,
+              name: dbItem.model,
+              cat: dbItem.cat,
+              grams: dbItem.grams,
+              startDate: new Date().toISOString().slice(0, 10),
+              isConsumable: !!dbItem.consumable,
+              vital: !!dbItem.vital,
+              vitalType: dbItem.vitalType || null
+            };
+            state.gearLocker.unshift(newLockerItem);
+            renderGearLocker();
+            saveToStorage();
+            sound.playSuccess();
+            showToast(`已登記「${dbItem.brand} ${dbItem.model}」至個人裝備庫！`, '🗄️');
+          });
+          dom.lockerGridContainer.appendChild(dbCard);
+        });
+      }
     }
 
     function addItemToPackCheck(lockerItem) {
@@ -3924,16 +4014,37 @@
             dom.selectGearCategory.value = item.cat;
             dom.inputGearWeight.value = item.grams;
             dom.checkIsConsumable.checked = !!item.consumable;
+            dom.specSearchModal.classList.remove('open');
+            sound.playSuccess();
+            showToast(`已帶入「${item.model}」(${item.grams}g) 規格！`, '✨');
           } else if (dom.addLockerModal.classList.contains('open')) {
             dom.lockerInputBrand.value = item.brand;
             dom.lockerInputName.value = item.model;
             dom.lockerSelectCat.value = item.cat;
             dom.lockerInputWeight.value = item.grams;
             dom.lockerCheckConsumable.checked = !!item.consumable;
+            dom.specSearchModal.classList.remove('open');
+            sound.playSuccess();
+            showToast(`已帶入「${item.model}」(${item.grams}g) 規格！`, '✨');
+          } else {
+            const newLockerItem = {
+              id: 'locker_' + Date.now(),
+              brand: item.brand,
+              name: item.model,
+              cat: item.cat,
+              grams: item.grams,
+              startDate: new Date().toISOString().slice(0, 10),
+              isConsumable: !!item.consumable,
+              vital: !!item.vital,
+              vitalType: item.vitalType || null
+            };
+            state.gearLocker.unshift(newLockerItem);
+            renderGearLocker();
+            saveToStorage();
+            dom.specSearchModal.classList.remove('open');
+            sound.playSuccess();
+            showToast(`已登記「${item.brand} ${item.model}」(${item.grams}g) 至個人裝備庫！`, '🗄️');
           }
-          dom.specSearchModal.classList.remove('open');
-          sound.playSuccess();
-          showToast(`已帶入「${item.model}」(${item.grams}g) 規格！`, '✨');
         });
         dom.specSearchResultsArea.appendChild(row);
       });
@@ -4080,6 +4191,7 @@
       // 裝備庫工具列事件
       dom.lockerSearchInput.addEventListener('input', renderGearLocker);
       dom.lockerCatFilter.addEventListener('change', renderGearLocker);
+      dom.btnOpenSpecSearchFromLocker.addEventListener('click', () => openSpecSearchModal(dom.lockerSearchInput.value));
       dom.btnLoadSampleLocker.addEventListener('click', loadSampleGearLocker);
       dom.btnExportLockerJson.addEventListener('click', exportLockerJson);
       dom.btnImportLockerJson.addEventListener('click', () => dom.fileImportLocker.click());
@@ -4113,6 +4225,14 @@
         dom.selectGearCategory.value = item.cat;
         dom.inputGearWeight.value = item.grams;
         dom.checkIsConsumable.checked = !!item.consumable;
+      });
+
+      setupSpecAutocomplete(dom.lockerInputBrand, dom.autocompleteListBrand, (item) => {
+        dom.lockerInputBrand.value = item.brand;
+        dom.lockerInputName.value = item.model;
+        dom.lockerSelectCat.value = item.cat;
+        dom.lockerInputWeight.value = item.grams;
+        dom.lockerCheckConsumable.checked = !!item.consumable;
       });
 
       setupSpecAutocomplete(dom.lockerInputName, dom.autocompleteList2, (item) => {
