@@ -357,11 +357,17 @@
 
     .preset-buttons {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
     }
 
-    @media (max-width: 540px) {
+    @media (max-width: 900px) {
+      .preset-buttons {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
       .preset-buttons {
         grid-template-columns: 1fr;
       }
@@ -2057,6 +2063,10 @@
               <span class="preset-name">🎒 多日重裝露營</span>
               <span class="preset-desc">全自理野營 / 帳篷睡墊</span>
             </button>
+            <button class="btn-preset" data-preset="trail_run" id="presetTrailRun">
+              <span class="preset-name">🏃 越野跑 / 跑山</span>
+              <span class="preset-desc">輕裝速行 / 賽事強制裝備</span>
+            </button>
           </div>
         </div>
       </section>
@@ -2243,7 +2253,7 @@
             <option value="safe">【安全與導航】</option>
             <option value="gear">【個人配件】</option>
           </select>
-          <button id="btnOpenSpecSearchFromLocker" class="btn-secondary-pill" title="直接查詢 80+ 款常見戶外裝備規格庫" style="white-space:nowrap;">
+          <button id="btnOpenSpecSearchFromLocker" class="btn-secondary-pill" title="直接查詢 130+ 款常見戶外、越野跑與迪卡儂裝備規格庫" style="white-space:nowrap;">
             <span>🌐 查詢規格庫</span>
           </button>
         </div>
@@ -2601,8 +2611,9 @@
      * 輕量化負重 • 個人裝備資產庫 • 上河步程與 EPH 體能計算機
      */
 
-    // --- 1. 常見戶外裝備規格大資料庫 (80+ 款熱門經典裝備，支援即時自動補全與重量搜尋) ---
+    // --- 1. 常見戶外裝備規格大資料庫 (130+ 款經典登山、越野跑與迪卡儂全系列熱門裝備) ---
     const OUTDOOR_SPECS_DATABASE = [
+      // ====== 登山健行經典裝備 ======
       // 睡眠與收納
       { brand: "Osprey", model: "Atmos AG 50", grams: 2020, cat: "sleep", consumable: false, vital: false },
       { brand: "Osprey", model: "Exos 48", grams: 1260, cat: "sleep", consumable: false, vital: false },
@@ -2671,7 +2682,91 @@
       { brand: "Black Diamond", model: "Distance Carbon Z 碳纖摺疊杖 (雙杖)", grams: 280, cat: "gear", consumable: false, vital: false },
       { brand: "Black Diamond", model: "Trail Pro 鋁合金避震杖 (雙杖)", grams: 530, cat: "gear", consumable: false, vital: false },
       { brand: "Leki", model: "Makaralu FX Carbon 碳纖登山杖", grams: 508, cat: "gear", consumable: false, vital: false },
-      { brand: "TheTentLab", model: "The Deuce #2 超輕鋁合金貓鏟", grams: 17, cat: "gear", consumable: false, vital: false }
+      { brand: "TheTentLab", model: "The Deuce #2 超輕鋁合金貓鏟", grams: 17, cat: "gear", consumable: false, vital: false },
+
+      // ====== 🏃 越野跑 (TRAIL RUNNING) 專屬裝備 ======
+      // 越野跑水袋背心與腰帶
+      { brand: "Salomon 所羅門", model: "Adv Skin 12 越野跑水袋背心 (12L)", grams: 293, cat: "gear", consumable: false, vital: false },
+      { brand: "Salomon 所羅門", model: "Active Skin 8 越野跑背心 (8L)", grams: 210, cat: "gear", consumable: false, vital: false },
+      { brand: "Salomon 所羅門", model: "Sense Pro 5 極限超輕越野背心 (5L)", grams: 144, cat: "gear", consumable: false, vital: false },
+      { brand: "Salomon 所羅門", model: "Soft Flask 500ml 軟水壺 (標準款)", grams: 30, cat: "cook", consumable: false, vital: false },
+      { brand: "Salomon 所羅門", model: "Soft Flask 500ml Speed 快速軟水壺 (硬底)", grams: 38, cat: "cook", consumable: false, vital: false },
+      { brand: "Salomon 所羅門", model: "Bonatti Waterproof 越野防水連帽外套", grams: 195, cat: "warm", consumable: false, vital: true, vitalType: "rain" },
+      { brand: "Salomon 所羅門", model: "Bonatti Trail 頂級越野跑風雨衣", grams: 195, cat: "warm", consumable: false, vital: true, vitalType: "rain" },
+      { brand: "Salomon 所羅門", model: "Trail Gaiters High 高筒越野防砂套", grams: 80, cat: "gear", consumable: false, vital: false },
+      { brand: "Salomon 所羅門", model: "Custom Quiver 越野跑箭袋 (折疊杖專用收納筒)", grams: 36, cat: "gear", consumable: false, vital: false },
+
+      { brand: "Black Diamond", model: "Distance 4 Hydration Vest 越野跑背心", grams: 200, cat: "gear", consumable: false, vital: false },
+      { brand: "Black Diamond", model: "Distance 8L 越野跑登山背包", grams: 355, cat: "gear", consumable: false, vital: false },
+      { brand: "Black Diamond", model: "Distance 15L 輕裝快速攻頂包", grams: 394, cat: "gear", consumable: false, vital: false },
+      { brand: "Black Diamond", model: "Distance LT 1100 越野跑強光頭燈", grams: 108, cat: "safe", consumable: false, vital: true, vitalType: "headlamp" },
+
+      { brand: "Ultimate Direction", model: "Mountain Vest 5.0 越野跑背包 (13.4L)", grams: 328, cat: "gear", consumable: false, vital: false },
+      { brand: "Ultimate Direction", model: "Ultra Vest 6.0 越野水袋背心 (10.3L)", grams: 230, cat: "gear", consumable: false, vital: false },
+      { brand: "Ultimate Direction", model: "Body Bottle 500ml 越野軟水壺", grams: 35, cat: "cook", consumable: false, vital: false },
+
+      { brand: "Naked", model: "Running Band 裸感越野跑高彈性腰帶", grams: 65, cat: "gear", consumable: false, vital: false },
+      { brand: "Compressport", model: "Free Belt Pro 專業越野跑步腰帶", grams: 57, cat: "gear", consumable: false, vital: false },
+      { brand: "Compressport", model: "Hurricane 防水越野跑褲 (賽事必備)", grams: 98, cat: "warm", consumable: false, vital: true, vitalType: "rain" },
+
+      { brand: "Leki", model: "Ultratrail FX.One Superlite 越野跑碳纖杖 (雙杖)", grams: 274, cat: "gear", consumable: false, vital: false },
+      { brand: "Mountain King", model: "Trail Blaze 鋁合金超輕折疊跑杖 (雙杖)", grams: 230, cat: "gear", consumable: false, vital: false },
+
+      { brand: "HydraPak", model: "UltraFlask 500ml 超輕越野軟水壺", grams: 38, cat: "cook", consumable: false, vital: false },
+      { brand: "HydraPak", model: "Velocity 1.5L 越野跑專用吸水袋", grams: 120, cat: "cook", consumable: false, vital: false },
+      { brand: "Katadyn", model: "BeFree 0.6L 越野跑軟水壺濾水器", grams: 59, cat: "cook", consumable: false, vital: false },
+
+      { brand: "Petzl", model: "Swift RL 越野跑智慧感應頭燈 (1100流明)", grams: 100, cat: "safe", consumable: false, vital: true, vitalType: "headlamp" },
+      { brand: "Petzl", model: "IKO Core 極輕量環形越野頭燈 (500流明)", grams: 79, cat: "safe", consumable: false, vital: true, vitalType: "headlamp" },
+      { brand: "Ledlenser", model: "NEO9R 專業越野跑頭燈 (1200流明)", grams: 199, cat: "safe", consumable: false, vital: true, vitalType: "headlamp" },
+      { brand: "Inov-8", model: "Raceshell Pro FZ 超輕防水透氣跑衣", grams: 106, cat: "warm", consumable: false, vital: true, vitalType: "rain" },
+
+      { brand: "賽事強制裝備", model: "高音無珠急救哨 (越野賽事必備)", grams: 8, cat: "safe", consumable: false, vital: false },
+      { brand: "賽事強制裝備", model: "鋁箔輕量急救求生毯 (越野賽事必備)", grams: 50, cat: "safe", consumable: false, vital: false },
+      { brand: "賽事強制裝備", model: "自黏彈性加壓繃帶 (越野賽事必備)", grams: 35, cat: "safe", consumable: false, vital: false },
+      { brand: "能量補給", model: "能量膠 Energy Gel 40g (單包)", grams: 40, cat: "cook", consumable: true, vital: false },
+      { brand: "能量補給", model: "電解質水溶發泡錠/鹽糖", grams: 30, cat: "cook", consumable: true, vital: false },
+
+      // ====== 🏕️ 迪卡儂 DECATHLON (FORCLAZ / QUECHUA / EVADICT / KIPRUN) ======
+      // 迪卡儂 越野跑與跑步系列 (Evadict / Kiprun)
+      { brand: "Decathlon 迪卡儂 (Evadict)", model: "15L 越野跑多功能背包 (含水袋夾層)", grams: 360, cat: "gear", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Evadict)", model: "10L 越野跑水袋背心 (含雙胸前軟水袋位)", grams: 240, cat: "gear", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Evadict)", model: "5L 越野跑輕量背心", grams: 180, cat: "gear", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Evadict)", model: "越野跑軟水壺 500ml (咬嘴軟水袋)", grams: 35, cat: "cook", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Evadict)", model: "越野跑高彈性多功能腰帶 (可攜帶水壺與手機)", grams: 75, cat: "gear", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Evadict)", model: "三節碳纖折疊越野跑杖 (雙杖)", grams: 280, cat: "gear", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Evadict)", model: "越野跑防水連帽風雨衣 (10,000mm 賽事認證)", grams: 210, cat: "warm", consumable: false, vital: true, vitalType: "rain" },
+      { brand: "Decathlon 迪卡儂 (Evadict)", model: "越野跑防水長褲 (10,000mm 壓膠)", grams: 150, cat: "warm", consumable: false, vital: true, vitalType: "rain" },
+      { brand: "Decathlon 迪卡儂 (Evadict)", model: "越野跑低筒防砂石鞋套 (防砂套)", grams: 45, cat: "gear", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Kiprun)", model: "Kiprun 900 越野跑充電頭燈 (250流明 含後置紅警示燈)", grams: 105, cat: "safe", consumable: false, vital: true, vitalType: "headlamp" },
+
+      // 迪卡儂 登山裝備系列 (Forclaz / Quechua)
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT900 輕量雙人自立式帳篷", grams: 1300, cat: "sleep", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT900 輕量單人自立帳", grams: 1000, cat: "sleep", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT500 充氣睡墊 / 防潮充氣墊 (標準長度)", grams: 510, cat: "sleep", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT500 蛋巢折疊泡棉睡墊", grams: 380, cat: "sleep", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT900 超輕充氣露營枕", grams: 80, cat: "sleep", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT500 0°C 輕量保暖羽絨睡袋", grams: 980, cat: "sleep", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT900 0°C 800FP 頂級羽絨睡袋", grams: 780, cat: "sleep", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT900 800FP 輕量保暖羽絨外套 (登山CP神物)", grams: 275, cat: "warm", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT100 連帽羽絨外套", grams: 290, cat: "warm", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT500 登山防水透氣風雨衣 (20,000mm)", grams: 425, cat: "warm", consumable: false, vital: true, vitalType: "rain" },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT500 登山防雨透氣雨褲", grams: 280, cat: "warm", consumable: false, vital: true, vitalType: "rain" },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT500 美麗諾羊毛短袖排汗底層衣", grams: 140, cat: "warm", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT500 美麗諾羊毛長袖保暖衣", grams: 220, cat: "warm", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT500 20L 超輕折疊攻頂背包 (收納僅手掌大)", grams: 145, cat: "gear", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT500 Air 50+10L 輕量透氣登山背包", grams: 1750, cat: "sleep", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "MT500 快拆三節鋁合金登山杖 (單支)", grams: 230, cat: "gear", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "HL900 USB 充電式登山露營頭燈 (400-600流明)", grams: 99, cat: "safe", consumable: false, vital: true, vitalType: "headlamp" },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "HL500 USB 充電防水頭燈 (300流明)", grams: 85, cat: "safe", consumable: false, vital: true, vitalType: "headlamp" },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "不鏽鋼個人露營鍋具組 (0.95L 含折疊餐具)", grams: 345, cat: "cook", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "超輕摺疊鈦金屬叉匙 (14g 鈦湯匙)", grams: 14, cat: "cook", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "0.8L 輕量鋁合金登山茶壺", grams: 150, cat: "cook", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Forclaz)", model: "登山健行隨身急救包 (輕裝小包)", grams: 160, cat: "safe", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Quechua)", model: "MH500 輕量防風防潑水外套", grams: 310, cat: "warm", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Quechua)", model: "MH100 輕量刷毛保暖中層外套", grams: 212, cat: "warm", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Quechua)", model: "NH500 20L 輕裝健行背包", grams: 470, cat: "gear", consumable: false, vital: false },
+      { brand: "Decathlon 迪卡儂 (Quechua)", model: "防雨背包套 40-60L", grams: 110, cat: "gear", consumable: false, vital: false }
     ];
 
     // --- 2. 台灣熱門路線庫（包含里程、爬升、下降與上河文化標準步程時間） ---
@@ -2825,6 +2920,20 @@
         { id: 'cm_16', cat: 'safe', brand: 'Nitecore', name: '20000mAh 行動電源', grams: 320, checked: true, isConsumable: false, vital: false },
         { id: 'cm_17', cat: 'gear', brand: 'Black Diamond', name: 'Trail Pro 登山杖', grams: 530, checked: true, isConsumable: false, vital: false },
         { id: 'cm_18', cat: 'gear', brand: 'TheTentLab', name: 'The Deuce #2 貓鏟與排遺包', grams: 50, checked: true, isConsumable: false, vital: false }
+      ],
+      trail_run: [
+        { id: 'tr_1', cat: 'gear', brand: 'Salomon 所羅門', name: 'Adv Skin 12 越野跑水袋背心', grams: 293, checked: true, isConsumable: false, vital: false },
+        { id: 'tr_2', cat: 'cook', brand: 'Salomon 所羅門', name: 'Soft Flask 500ml 軟水壺 (雙壺)', grams: 76, checked: true, isConsumable: false, vital: false },
+        { id: 'tr_3', cat: 'cook', brand: '飲用水', name: '越野行進補給水 (1000ml)', grams: 1000, checked: true, isConsumable: true, vital: false },
+        { id: 'tr_4', cat: 'cook', brand: '能量補給', name: '能量膠、電解質粉與能量棒 (賽事儲備)', grams: 350, checked: true, isConsumable: true, vital: false },
+        { id: 'tr_5', cat: 'warm', brand: 'Salomon 所羅門', name: 'Bonatti Waterproof 越野防水透氣外套', grams: 195, checked: true, isConsumable: false, vital: true, vitalType: 'rain' },
+        { id: 'tr_6', cat: 'safe', brand: 'Petzl', name: 'Swift RL 越野智慧感應頭燈 (1100流明)', grams: 100, checked: true, isConsumable: false, vital: true, vitalType: 'headlamp' },
+        { id: 'tr_7', cat: 'safe', brand: '賽事強制裝備', name: '鋁箔輕量急救求生毯 (賽事強制裝備)', grams: 50, checked: true, isConsumable: false, vital: false },
+        { id: 'tr_8', cat: 'safe', brand: '賽事強制裝備', name: '高音無珠急救哨 (賽事強制裝備)', grams: 8, checked: true, isConsumable: false, vital: false },
+        { id: 'tr_9', cat: 'safe', brand: '賽事強制裝備', name: '自黏彈性加壓繃帶與藥品', grams: 45, checked: true, isConsumable: false, vital: false },
+        { id: 'tr_10', cat: 'safe', brand: 'Apple', name: '離線GPX導航手機 (含保護套)', grams: 220, checked: true, isConsumable: false, vital: false },
+        { id: 'tr_11', cat: 'gear', brand: 'Black Diamond', name: 'Distance Carbon Z 碳纖越野跑杖 (雙杖)', grams: 280, checked: true, isConsumable: false, vital: false },
+        { id: 'tr_12', cat: 'gear', brand: 'Salomon 所羅門', name: 'Trail Gaiters 高筒越野防砂套', grams: 80, checked: true, isConsumable: false, vital: false }
       ]
     };
 
@@ -2944,6 +3053,7 @@
       presetDayHike: document.getElementById('presetDayHike'),
       presetCabin: document.getElementById('presetCabin'),
       presetCampMulti: document.getElementById('presetCampMulti'),
+      presetTrailRun: document.getElementById('presetTrailRun'),
       displayBaseWeightGrams: document.getElementById('displayBaseWeightGrams'),
       displayBaseWeightKg: document.getElementById('displayBaseWeightKg'),
       displayTotalWeightGrams: document.getElementById('displayTotalWeightGrams'),
@@ -3419,7 +3529,7 @@
       // 渲染卡片
       dom.lockerGridContainer.innerHTML = '';
 
-      // 檢查外部 80+ 規格庫相符品項
+      // 檢查外部 130+ 規格庫相符品項
       let dbMatches = [];
       if (searchKey) {
         dbMatches = OUTDOOR_SPECS_DATABASE.filter(dbItem => {
@@ -3427,7 +3537,7 @@
                             (dbItem.model && dbItem.model.toLowerCase().includes(searchKey));
           const alreadyInLocker = state.gearLocker.some(l => l.name === dbItem.model && l.brand === dbItem.brand);
           return matchText && !alreadyInLocker;
-        }).slice(0, 6);
+        }).slice(0, 8);
       }
 
       if (items.length === 0) {
@@ -3436,7 +3546,7 @@
             <div style="font-size:2rem; margin-bottom:8px;">🔍</div>
             <div style="font-size:1.05rem; font-weight:700; color:var(--text-secondary);">${searchKey ? `個人裝備庫中找不到「${escapeHtml(searchKey)}」` : '尚無符合條件的個人裝備'}</div>
             <div style="font-size:0.85rem; margin-top:6px; color:var(--text-muted);">
-              ${dbMatches.length > 0 ? '但在【80+ 款戶外資料庫】找到以下相符規格，點擊即可一鍵登記存入！' : '點選下方按鈕線上查詢官方克數規格，或手動登記新裝備！'}
+              ${dbMatches.length > 0 ? '但在【130+ 款裝備資料庫】找到以下相符規格，點擊即可一鍵登記存入！' : '點選下方按鈕線上查詢官方克數規格，或手動登記新裝備！'}
             </div>
             <div style="margin-top:14px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
               <button class="btn-primary" id="btnSearchOnlineFallback">🌐 自動上網查詢「${escapeHtml(searchKey || '裝備')}」規格</button>
@@ -3526,7 +3636,7 @@
       if (dbMatches && dbMatches.length > 0) {
         const divider = document.createElement('div');
         divider.style.cssText = "grid-column:1/-1; margin-top:20px; margin-bottom:4px; padding-bottom:8px; border-bottom:1px solid rgba(56,189,248,0.3); display:flex; justify-content:space-between; align-items:center;";
-        divider.innerHTML = `<span style="font-size:0.88rem; font-weight:700; color:var(--blue-accent);">🌟 80+ 款戶外資料庫相符規格（點擊 ➕ 立即存入個人裝備庫）：</span>`;
+        divider.innerHTML = `<span style="font-size:0.88rem; font-weight:700; color:var(--blue-accent);">🌟 130+ 款裝備資料庫相符規格（含越野跑與迪卡儂，點擊 ➕ 立即存入個人庫）：</span>`;
         dom.lockerGridContainer.appendChild(divider);
 
         dbMatches.forEach(dbItem => {
@@ -3607,7 +3717,7 @@
     }
 
     function loadSampleGearLocker() {
-      if (confirm('確定要載入熱門百岳精選裝備庫範本嗎？（將保留現有裝備並補充熱門品項）')) {
+      if (confirm('確定要載入精選裝備庫範本嗎？（包含熱門百岳登山、越野跑與迪卡儂高CP值品項）')) {
         const samples = [
           { id: 'l_1', brand: 'Arc\'teryx', name: 'Beta LT 防水風雨衣', cat: 'warm', grams: 395, startDate: '2023-05-10', isConsumable: false, vital: true, vitalType: 'rain' },
           { id: 'l_2', brand: 'Montbell', name: 'Versalite 超輕風雨衣', cat: 'warm', grams: 134, startDate: '2024-02-18', isConsumable: false, vital: true, vitalType: 'rain' },
@@ -3617,7 +3727,11 @@
           { id: 'l_6', brand: 'Soto', name: 'Windmaster SOD-310 攻頂爐', cat: 'cook', grams: 67, startDate: '2022-04-15', isConsumable: false, vital: false },
           { id: 'l_7', brand: 'Petzl', name: 'Actik Core 450流明 頭燈', cat: 'safe', grams: 88, startDate: '2023-09-01', isConsumable: false, vital: true, vitalType: 'headlamp' },
           { id: 'l_8', brand: 'Black Diamond', name: 'Distance Carbon Z 登山杖', cat: 'gear', grams: 280, startDate: '2023-03-30', isConsumable: false, vital: false },
-          { id: 'l_9', brand: 'Sea to Summit', name: 'Spark SpII 羽絨睡袋', cat: 'sleep', grams: 490, startDate: '2023-10-10', isConsumable: false, vital: false }
+          { id: 'l_9', brand: 'Sea to Summit', name: 'Spark SpII 羽絨睡袋', cat: 'sleep', grams: 490, startDate: '2023-10-10', isConsumable: false, vital: false },
+          { id: 'l_10', brand: 'Decathlon 迪卡儂 (Forclaz)', name: 'MT900 800FP 輕量保暖羽絨衣', cat: 'warm', grams: 275, startDate: '2023-12-01', isConsumable: false, vital: false },
+          { id: 'l_11', brand: 'Decathlon 迪卡儂 (Forclaz)', name: 'MT500 輕量防潮充氣睡墊', cat: 'sleep', grams: 510, startDate: '2024-03-15', isConsumable: false, vital: false },
+          { id: 'l_12', brand: 'Salomon 所羅門', name: 'Adv Skin 12 越野跑水袋背心', cat: 'gear', grams: 293, startDate: '2024-05-20', isConsumable: false, vital: false },
+          { id: 'l_13', brand: 'Decathlon 迪卡儂 (Evadict)', name: '越野跑軟水壺 500ml', cat: 'cook', grams: 35, startDate: '2024-05-22', isConsumable: false, vital: false }
         ];
 
         // 避免重複
@@ -4100,6 +4214,7 @@
       dom.presetDayHike.addEventListener('click', () => loadPreset('day_hike', true));
       dom.presetCabin.addEventListener('click', () => loadPreset('cabin_overnight', true));
       dom.presetCampMulti.addEventListener('click', () => loadPreset('camp_multi', true));
+      dom.presetTrailRun?.addEventListener('click', () => loadPreset('trail_run', true));
 
       // 補齊安全裝備
       dom.btnFixSafetyItems.addEventListener('click', fixSafetyItems);
