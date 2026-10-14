@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>山岳馱獸包包 PackBeast | 輕量化負重、個人裝備庫與上河/EPH路線計算</title>
-  <meta name="description" content="全方位登山神隊友：輕量化負重檢核、個人裝備資產庫（品牌/規格/啟用日期）、智慧規格搜尋、上河步程時間與個人EPH體能計算機。">
+  <title>山岳馱獸包包 PackBeast | 輕量化負重、個人裝備庫與 EPH 路線體能計算</title>
+  <meta name="description" content="全方位登山神隊友：輕量化負重檢核、個人裝備資產庫（品牌/規格/啟用日期）、智慧規格搜尋、路線步程時間與個人 EPH 體能計算機。">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1422,7 +1422,7 @@
     }
 
     /* =========================================
-       TAB 3: 路線與上河/EPH計算 (ROUTE & PACE)
+       TAB 3: 路線規格與 EPH 體能計算 (ROUTE & PACE)
        ========================================= */
     .route-planner-grid {
       display: grid;
@@ -1986,7 +1986,7 @@
         </div>
         <div class="brand-text">
           <h1>山岳馱獸包包 <span style="font-size: 0.85rem; font-weight: 600; padding: 2px 8px; background: rgba(52,211,153,0.15); border: 1px solid rgba(52,211,153,0.3); border-radius: 99px; -webkit-text-fill-color: #34d399;">PackBeast Pro</span></h1>
-          <div class="brand-tagline">登山輕量化負重 • 個人裝備資產庫 • 上河步程與 EPH 體能計算機</div>
+          <div class="brand-tagline">登山輕量化負重 • 個人裝備資產庫 • 路線步程與 EPH 體能計算機</div>
         </div>
       </div>
 
@@ -2014,7 +2014,7 @@
         <span class="tab-badge" id="tabBadgeLockerCount">0 件</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabRoutePace" role="tab" aria-selected="false">
-        <span>🧭 路線與上河 / EPH 計算</span>
+        <span>🧭 路線規格與 EPH 步程計算</span>
         <span class="tab-badge" id="tabBadgeEph">EPH -</span>
       </button>
     </nav>
@@ -2282,7 +2282,7 @@
     </main>
 
     <!-- ========================================================
-         TAB 3: 路線與上河 / EPH 計算 (ROUTE & PACE)
+         TAB 3: 路線規格與 EPH 體能計算 (ROUTE & PACE)
          ======================================================== -->
     <main id="tabRoutePace" class="tab-content-panel">
       <div class="route-planner-grid">
@@ -2290,7 +2290,7 @@
         <section class="route-card">
           <div class="box-label" style="margin-bottom:12px;">
             <span>台灣熱門路線庫（點選一鍵套用）</span>
-            <span style="font-size:0.75rem; color:var(--text-muted);">上河基準時間</span>
+            <span style="font-size:0.75rem; color:var(--text-muted);">標準步程時間</span>
           </div>
 
           <div class="route-preset-selector" id="routePresetsContainer">
@@ -2318,20 +2318,20 @@
             </div>
           </div>
 
-          <!-- SunRiver Factor Control -->
+          <!-- Pace Ratio Control -->
           <div style="margin-top:20px;">
             <div class="box-label">
-              <span>個人上河係數（SunRiver Pace Ratio）</span>
+              <span>個人步速係數（Pace Ratio）</span>
               <strong id="displayPaceRatioVal" style="color:var(--brand-green-light); font-family:'JetBrains Mono'; font-size:1.1rem;">0.90x</strong>
             </div>
             <div style="display:flex; align-items:center; gap:12px; margin-top:8px;">
-              <span style="font-size:0.75rem; color:var(--text-muted);">0.6x (神腿)</span>
+              <span style="font-size:0.75rem; color:var(--text-muted);">0.6x (超快神腿)</span>
               <input type="range" id="sliderPaceRatio" class="custom-slider" min="0.6" max="1.5" step="0.05" value="0.9">
-              <span style="font-size:0.75rem; color:var(--text-muted);">1.5x (休閒)</span>
+              <span style="font-size:0.75rem; color:var(--text-muted);">1.5x (休閒慢速)</span>
             </div>
             <div style="display:flex; justify-content:space-between; margin-top:6px; font-size:0.74rem; color:var(--text-secondary);">
-              <span id="pacePillDesc">⚡ 健腳快腿水準（約上河 0.8~0.9）</span>
-              <span>上河 1.0 = 標準地圖時間</span>
+              <span id="pacePillDesc">⚡ 健腳快腿水準（約 0.8~0.9x）</span>
+              <span>1.0x = 標準山徑地圖時間</span>
             </div>
           </div>
 
@@ -2362,7 +2362,7 @@
                 <span class="pace-time-val" id="displayAdjustedTime">10 小時 40 分</span>
               </div>
               <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--text-muted); border-top:1px dashed rgba(255,255,255,0.1); padding-top:8px;">
-                <span>上河標準時間：<strong id="displayBaseSunRiverTime" style="color:#ffffff;">11.5 hr</strong></span>
+                <span>標準地圖步程：<strong id="displayBaseSunRiverTime" style="color:#ffffff;">11.5 hr</strong></span>
                 <span>個人無負重預估：<strong id="displayPersonalRawTime" style="color:#ffffff;">10.3 hr</strong></span>
               </div>
             </div>
@@ -2405,7 +2405,7 @@
     <!-- Footer -->
     <footer class="app-footer">
       <div class="footer-left">
-        <span>🐾 <strong>山岳馱獸包包 PackBeast Pro</strong> — 輕量化負重 • 裝備履歷庫 • 上河步程計算</span>
+        <span>🐾 <strong>山岳馱獸包包 PackBeast Pro</strong> — 輕量化負重 • 裝備履歷庫 • 路線與 EPH 體能計算</span>
       </div>
       <div class="footer-links">
         <span>純前端單一靜態架構 • LocalStorage 本地儲存 • 隱私優先</span>
@@ -2608,7 +2608,7 @@
   <script>
     /**
      * 《山岳馱獸包包 PackBeast Pro》
-     * 輕量化負重 • 個人裝備資產庫 • 上河步程與 EPH 體能計算機
+     * 輕量化負重 • 個人裝備資產庫 • 路線步程與 EPH 體能計算機
      */
 
     // --- 1. 常見戶外裝備規格大資料庫 (130+ 款經典登山、越野跑與迪卡儂全系列熱門裝備) ---
@@ -2769,7 +2769,7 @@
       { brand: "Decathlon 迪卡儂 (Quechua)", model: "防雨背包套 40-60L", grams: 110, cat: "gear", consumable: false, vital: false }
     ];
 
-    // --- 2. 台灣熱門路線庫（包含里程、爬升、下降與上河文化標準步程時間） ---
+    // --- 2. 台灣熱門路線庫（包含里程、爬升、下降與標準步程時間） ---
     const TAIWAN_ROUTES_DATABASE = [
       {
         id: "yushan_main",
@@ -2777,7 +2777,7 @@
         distKm: 21.8,
         ascentM: 1350,
         descentM: 1350,
-        sunRiverHours: 11.5,
+        standardHours: 11.5,
         desc: "百岳之首！塔塔加登山口 ↔ 排雲山莊 ↔ 主峰頂峰，步道平緩但後段海拔高。"
       },
       {
@@ -2786,7 +2786,7 @@
         distKm: 21.8,
         ascentM: 1740,
         descentM: 1740,
-        sunRiverHours: 13.0,
+        standardHours: 13.0,
         desc: "哭坡、三六九山莊至黑森林與圈谷，登頂台灣第二高峰。"
       },
       {
@@ -2795,7 +2795,7 @@
         distKm: 26.0,
         ascentM: 1600,
         descentM: 1600,
-        sunRiverHours: 15.5,
+        standardHours: 15.5,
         desc: "天使的眼淚！向陽山屋 ↔ 嘉明湖避難山屋 ↔ 嘉明湖畔。"
       },
       {
@@ -2804,7 +2804,7 @@
         distKm: 37.0,
         ascentM: 1500,
         descentM: 1500,
-        sunRiverHours: 14.0,
+        standardHours: 14.0,
         desc: "五星級天池山莊、奇萊南峰黃金日出與南華山壯麗大草原。"
       },
       {
@@ -2813,7 +2813,7 @@
         distKm: 13.4,
         ascentM: 1300,
         descentM: 1300,
-        sunRiverHours: 10.5,
+        standardHours: 10.5,
         desc: "七上八下的鳥山試煉！考驗膝蓋與肌耐力，展望開闊無遮蔽。"
       },
       {
@@ -2822,7 +2822,7 @@
         distKm: 18.0,
         ascentM: 1600,
         descentM: 1600,
-        sunRiverHours: 12.0,
+        standardHours: 12.0,
         desc: "南台灣屏障，喜多麗斷崖雲海與千年紅檜巨木林。"
       },
       {
@@ -2831,7 +2831,7 @@
         distKm: 9.0,
         ascentM: 1400,
         descentM: 1400,
-        sunRiverHours: 8.5,
+        standardHours: 8.5,
         desc: "武陵農場防火巷陡上 1400m，山勢尖聳展望無敵。"
       },
       {
@@ -2840,7 +2840,7 @@
         distKm: 7.5,
         ascentM: 700,
         descentM: 700,
-        sunRiverHours: 6.5,
+        standardHours: 6.5,
         desc: "東北角經典攀爬岩稜路線，需手腳並用與耐熱補水。"
       },
       {
@@ -2849,7 +2849,7 @@
         distKm: 21.0,
         ascentM: 850,
         descentM: 850,
-        sunRiverHours: 11.0,
+        standardHours: 11.0,
         desc: "夢幻堰塞湖與凋零柳杉，中級山泥濘經典考驗。"
       }
     ];
@@ -2944,7 +2944,7 @@
       gearList: [],              // 本次打包檢核清單
       gearLocker: [],            // 個人裝備資產庫
       currentRoute: TAIWAN_ROUTES_DATABASE[0], // 當前選擇的路線
-      paceRatio: 0.9,            // 個人上河係數
+      paceRatio: 0.9,            // 個人步速係數
       startTime: "04:30",        // 起登時間
       soundEnabled: true
     };
@@ -3853,15 +3853,16 @@
       showToast(`已同步挑選之裝備至打包清單！`, '🎒');
     }
 
-    // --- 12. TAB 3 路線、上河步程與 EPH 體能計算 (ROUTE & PACE) ---
+    // --- 12. TAB 3 路線規格、步程與 EPH 體能計算 (ROUTE & PACE) ---
     function renderRoutePresets() {
       dom.routePresetsContainer.innerHTML = '';
       TAIWAN_ROUTES_DATABASE.forEach(r => {
         const btn = document.createElement('button');
         btn.className = `btn-route-chip ${state.currentRoute.id === r.id ? 'active' : ''}`;
+        const hrs = r.standardHours || r.sunRiverHours;
         btn.innerHTML = `
           <span class="route-chip-title">${escapeHtml(r.name)}</span>
-          <span class="route-chip-meta">${r.distKm}km • ↑${r.ascentM}m • 上河 ${r.sunRiverHours}h</span>
+          <span class="route-chip-meta">${r.distKm}km • ↑${r.ascentM}m • 標準 ${hrs}h</span>
         `;
         btn.addEventListener('click', () => {
           state.currentRoute = r;
@@ -3905,16 +3906,16 @@
         dom.ephDifficultyBadge.innerText = '🔴 極限縱走 / 鐵人級考驗';
       }
 
-      // (B) 上河文化基準時間 (SunRiver Benchmark Hours)
-      let baseSunRiverHours = state.currentRoute ? state.currentRoute.sunRiverHours : null;
-      if (!baseSunRiverHours || state.currentRoute.id === 'custom') {
-        // 自訂路線自動使用標準步程估計 (平路 4km/h + 每100m爬升15分鐘)
-        baseSunRiverHours = (distKm / 3.8) + (ascentM / 400) + (descentM / 1200);
+      // (B) 標準步程基準時間 (Standard Baseline Hours)
+      let baseStandardHours = state.currentRoute ? (state.currentRoute.standardHours || state.currentRoute.sunRiverHours) : null;
+      if (!baseStandardHours || state.currentRoute.id === 'custom') {
+        // 自訂路線自動使用標準山徑步程模型 (平路 3.8km/h + 每400m爬升1小時 + 下降)
+        baseStandardHours = (distKm / 3.8) + (ascentM / 400) + (descentM / 1200);
       }
-      dom.displayBaseSunRiverTime.innerText = `${baseSunRiverHours.toFixed(1)} hr`;
+      dom.displayBaseSunRiverTime.innerText = `${baseStandardHours.toFixed(1)} hr`;
 
       // 個人無負重時間
-      const rawPersonalHours = baseSunRiverHours * paceRatio;
+      const rawPersonalHours = baseStandardHours * paceRatio;
       dom.displayPersonalRawTime.innerText = `${rawPersonalHours.toFixed(1)} hr`;
 
       // (C) 馱獸包包獨創：背包負重聯動修正 (Pack Weight Penalty)
@@ -3983,13 +3984,13 @@
       // 係數說明標籤
       dom.displayPaceRatioVal.innerText = `${paceRatio.toFixed(2)}x`;
       if (paceRatio < 0.75) {
-        dom.pacePillDesc.innerText = '⚡ 極速越野跑者 / 野獸神腿級';
+        dom.pacePillDesc.innerText = '⚡ 極速越野跑者 / 野獸神腿級（0.6 ~ 0.7x）';
       } else if (paceRatio <= 0.95) {
-        dom.pacePillDesc.innerText = '🏃 健腳高手步調（上河 0.8 ~ 0.9）';
+        dom.pacePillDesc.innerText = '🏃 健腳高手步調（快步 0.8 ~ 0.9x）';
       } else if (paceRatio <= 1.05) {
-        dom.pacePillDesc.innerText = '🚶 上河 1.0 標準地圖時間';
+        dom.pacePillDesc.innerText = '🚶 1.0x 標準山徑地圖步程時間';
       } else {
-        dom.pacePillDesc.innerText = '📸 悠閒賞景照相 / 慢活隊伍';
+        dom.pacePillDesc.innerText = '📸 悠閒賞景照相 / 慢活隊伍（1.1 ~ 1.5x）';
       }
     }
 
@@ -4009,7 +4010,7 @@
       text += `📏 路線規格: ${dist} km | 爬升 ↑${ascent} m | 下降 ↓${descent} m\n`;
       text += `💪 體能難度: ${eph}\n`;
       text += `🎒 起登負重: ${packKg} kg (${dom.displayPenaltyFactorText.innerText})\n`;
-      text += `⏱️ 個人上河係數: ${state.paceRatio.toFixed(2)}x\n`;
+      text += `⏱️ 個人配速係數: ${state.paceRatio.toFixed(2)}x\n`;
       text += `🌅 起登時間: ${startT} ➔ ${eta}\n`;
       text += `⏳ 預估完登時間: ${adjTime}\n`;
       text += `─────────────────\n由《山岳馱獸包包》精準配速計算，安全入山！`;
