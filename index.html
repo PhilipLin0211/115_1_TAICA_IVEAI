@@ -9,7 +9,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Flaticon UIcons Font (https://www.flaticon.com/icon-fonts-most-downloaded) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flaticon/flaticon-uicons@3.3.1/css/all/all.min.css">
   <style>
+    i[class^="fi-rr-"], i[class*=" fi-rr-"] {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      vertical-align: -0.1em;
+    }
+
     :root {
       /* Base Theme Colors - Solid Light Brown & Warm Tan Palette */
       --bg-primary: #f5efe6;          /* Clean natural light brown / linen sand */
@@ -464,6 +474,171 @@
 
     .btn-preset.active .preset-desc {
       color: #f5ede4;
+    }
+
+    /* Preset Action Modes (Dual Option: Recommend vs Import from Locker) */
+    .preset-action-modes {
+      margin-top: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .preset-mode-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .mode-header-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mode-header-hint {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .preset-mode-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 680px) {
+      .preset-mode-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .btn-preset-mode {
+      background: var(--bg-card-subtle);
+      border: 1.5px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+      transition: var(--transition-fast);
+      position: relative;
+    }
+
+    .btn-preset-mode:hover {
+      background: #f0e7dd;
+      border-color: var(--border-accent);
+      transform: translateY(-1px);
+    }
+
+    .btn-preset-mode.active.btn-mode-recommend {
+      background: #fbf7f2;
+      border-color: var(--brand-brown);
+      color: var(--brand-brown-hover);
+      box-shadow: 0 2px 8px rgba(140, 94, 55, 0.12);
+    }
+
+    .btn-preset-mode.active.btn-mode-import {
+      background: #f3f7fa;
+      border-color: var(--blue-accent);
+      color: var(--blue-accent);
+      box-shadow: 0 2px 8px rgba(44, 110, 167, 0.12);
+    }
+
+    .btn-mode-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      background: #ffffff;
+      border: 1px solid var(--border-card);
+      color: var(--brand-brown);
+    }
+
+    .btn-mode-import .btn-mode-icon {
+      color: var(--blue-accent);
+    }
+
+    .btn-preset-mode.active .btn-mode-icon {
+      border-color: currentColor;
+    }
+
+    .btn-mode-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .btn-mode-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-mode-subtitle {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    /* Preset Mode Alert Banner */
+    .preset-mode-alert {
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      transition: var(--transition-fast);
+    }
+
+    .preset-mode-alert.alert-safe {
+      background: var(--status-safe-bg);
+      border: 1px solid var(--status-safe-border);
+      color: var(--status-safe);
+    }
+
+    .preset-mode-alert.alert-warning {
+      background: var(--amber-warning-bg);
+      border: 1px solid var(--amber-warning-border);
+      color: var(--amber-warning);
+    }
+
+    .preset-mode-alert.alert-danger {
+      background: var(--red-danger-bg);
+      border: 1px solid var(--red-danger-border);
+      color: var(--red-danger);
+    }
+
+    .preset-mode-alert .alert-icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .preset-mode-alert .alert-body {
+      flex: 1;
     }
 
     /* Dashboard Grid */
@@ -1183,6 +1358,57 @@
       border-radius: var(--radius-sm);
     }
 
+    /* Status Badges for Item Rows (Requirement 2) */
+    .badge-status-owned {
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: var(--status-safe-bg);
+      color: var(--status-safe);
+      border: 1px solid var(--status-safe-border);
+      padding: 1px 6px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .badge-status-needprep {
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: var(--amber-warning-bg);
+      color: var(--amber-warning);
+      border: 1px solid var(--amber-warning-border);
+      padding: 1px 6px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .badge-status-missing {
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: var(--red-danger-bg);
+      color: var(--red-danger);
+      border: 1px solid var(--red-danger-border);
+      padding: 1px 6px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .gear-item-row.row-item-needprep {
+      background: #fdfaf4;
+      border-left: 3px solid var(--amber-warning);
+    }
+
+    .gear-item-row.row-item-missing {
+      background: #fdf4f3;
+      border: 1.5px dashed var(--red-danger-border);
+      border-left: 4px solid var(--red-danger);
+    }
+
     .item-action-col {
       display: flex;
       align-items: center;
@@ -1859,13 +2085,13 @@
 
       <div class="header-actions">
         <button id="btnSoundToggle" class="btn-header-tool" title="音效提示開關">
-          <span id="soundIcon">🔔</span> 音效開
+          <span id="soundIcon"><i class="fi fi-rr-bell"></i></span> 音效開
         </button>
         <button id="btnShareList" class="btn-header-tool" title="複製裝備清單摘要">
-          📋 複製裝備摘要
+          <i class="fi fi-rr-copy"></i> 複製裝備摘要
         </button>
         <button id="btnResetPreset" class="btn-header-tool" title="還原預設裝備">
-          🔄 重設打包清單
+          <i class="fi fi-rr-refresh"></i> 重設打包清單
         </button>
       </div>
     </header>
@@ -1873,11 +2099,11 @@
     <!-- Navigation Tabs -->
     <nav class="nav-tabs-bar" role="tablist">
       <button class="nav-tab-btn active" data-tab="tabPackCheck" role="tab" aria-selected="true">
-        <span>🎒 打包負重檢核</span>
+        <span><i class="fi fi-rr-backpack"></i> 打包負重檢核</span>
         <span class="tab-badge" id="tabBadgeWeight">0.0 kg</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabGearLocker" role="tab" aria-selected="false">
-        <span>🗄️ 我的裝備資產庫</span>
+        <span><i class="fi fi-rr-boxes"></i> 我的裝備資產庫</span>
         <span class="tab-badge" id="tabBadgeLockerCount">0 件</span>
       </button>
     </nav>
@@ -1910,27 +2136,54 @@
 
         <div class="presets-box">
           <div class="box-label">
-            <span>行程型態推薦預設（Trip Preset）</span>
-            <span style="font-size:0.75rem; color:var(--text-muted);">一鍵自動帶入</span>
+            <span><i class="fi fi-rr-mountain"></i> 行程型態推薦預設（Trip Preset）</span>
+            <span style="font-size:0.75rem; color:var(--text-muted);">選擇行程 <i class="fi fi-rr-arrow-right"></i> 帶入裝備</span>
           </div>
           <div class="preset-buttons">
-            <button class="btn-preset" data-preset="day_hike" id="presetDayHike">
-              <span class="preset-name">⚡ 單日單攻</span>
-              <span class="preset-desc">輕量速登 / 避難保暖</span>
-            </button>
             <button class="btn-preset active" data-preset="cabin_overnight" id="presetCabin">
-              <span class="preset-name">🏕️ 兩天一夜山屋</span>
+              <span class="preset-name"><i class="fi fi-rr-bed"></i> 兩天一夜山屋</span>
               <span class="preset-desc">免自備帳篷 / 睡袋炊具</span>
             </button>
+            <button class="btn-preset" data-preset="day_hike" id="presetDayHike">
+              <span class="preset-name"><i class="fi fi-rr-mountain"></i> 單日單攻</span>
+              <span class="preset-desc">輕量速登 / 避難保暖</span>
+            </button>
             <button class="btn-preset" data-preset="camp_multi" id="presetCampMulti">
-              <span class="preset-name">🎒 多日重裝露營</span>
+              <span class="preset-name"><i class="fi fi-rr-tent"></i> 多日重裝露營</span>
               <span class="preset-desc">全自理野營 / 帳篷睡墊</span>
             </button>
             <button class="btn-preset" data-preset="trail_run" id="presetTrailRun">
-              <span class="preset-name">🏃 越野跑 / 跑山</span>
+              <span class="preset-name"><i class="fi fi-rr-running"></i> 越野跑 / 跑山</span>
               <span class="preset-desc">輕裝速行 / 賽事強制裝備</span>
             </button>
           </div>
+
+          <!-- 模式切換按鈕區：新手推薦 vs 老手自備個人裝備庫匯入 (Requirement 2) -->
+          <div class="preset-action-modes">
+            <div class="preset-mode-header">
+              <span class="mode-header-label"><i class="fi fi-rr-list-check"></i> 請選擇清單帶入模式：</span>
+              <span class="mode-header-hint">（支援未在庫或缺少必備裝備之色標提醒）</span>
+            </div>
+            <div class="preset-mode-buttons">
+              <button class="btn-preset-mode btn-mode-recommend active" id="btnModeRecommend" type="button" title="適合新手或需要標準裝備參考的使用者">
+                <div class="btn-mode-icon"><i class="fi fi-rr-sparkles"></i></div>
+                <div class="btn-mode-text">
+                  <div class="btn-mode-title">推薦使用裝備（新手標準包）</div>
+                  <div class="btn-mode-subtitle">自動帶入官方推薦清單 • 標記未在庫需準備項目</div>
+                </div>
+              </button>
+              <button class="btn-preset-mode btn-mode-import" id="btnModeImport" type="button" title="適合已有個人裝備資產庫的戶外好手">
+                <div class="btn-mode-icon"><i class="fi fi-rr-boxes"></i></div>
+                <div class="btn-mode-text">
+                  <div class="btn-mode-title">由我的裝備中匯入（老手自備匹配）</div>
+                  <div class="btn-mode-subtitle">直接從個人資產庫組裝 • 標記缺少必備之核心裝備</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 狀態提示摘要橫幅 -->
+          <div id="presetModeAlert" class="preset-mode-alert" style="display:none;"></div>
         </div>
       </section>
 
@@ -1940,7 +2193,7 @@
           <div class="dual-pointers-row">
             <div class="pointer-card highlight" id="cardBaseWeight">
               <div class="pointer-header">
-                <span class="pointer-title">🎒 基礎重量 (BW)</span>
+                <span class="pointer-title"><i class="fi fi-rr-backpack"></i> 基礎重量 (BW)</span>
                 <span class="badge-pill bw">輕量核心</span>
               </div>
               <div class="pointer-value">
@@ -1952,7 +2205,7 @@
 
             <div class="pointer-card" id="cardTotalWeight">
               <div class="pointer-header">
-                <span class="pointer-title">⚖️ 行進總重 (TPW)</span>
+                <span class="pointer-title"><i class="fi fi-rr-scale"></i> 行進總重 (TPW)</span>
                 <span class="badge-pill tpw">起登全負重</span>
               </div>
               <div class="pointer-value">
@@ -1967,7 +2220,7 @@
             <div class="ratio-header">
               <div class="ratio-title-wrap">
                 <span class="ratio-title">負重體重佔比 (Total / Body Weight)</span>
-                <span class="ratio-status-badge status-safe" id="ratioStatusBadge">🟢 舒適安全區</span>
+                <span class="ratio-status-badge status-safe" id="ratioStatusBadge"><i class="fi fi-rr-check-circle"></i> 舒適安全區</span>
               </div>
               <span class="ratio-pct-display" id="displayRatioPct">0.0%</span>
             </div>
@@ -2052,7 +2305,7 @@
           <div class="speech-bubble" id="speechBubble">
             <span class="mascot-emoji" id="mascotEmoji">(・∀・)</span>
             <p class="mascot-dialogue" id="mascotDialogue">重量剛剛好！小精靈陪你翻山越嶺，膝蓋很安心。</p>
-            <div class="mascot-meta-tip" id="mascotTip">💡 建議將基礎重量控制在體重 15% 以內，長程縱走更能享受風景！</div>
+            <div class="mascot-meta-tip" id="mascotTip"><i class="fi fi-rr-bulb"></i> 建議將基礎重量控制在體重 15% 以內，長程縱走更能享受風景！</div>
           </div>
         </div>
       </section>
@@ -2061,15 +2314,15 @@
       <section class="checklist-section">
         <div class="section-header-bar">
           <div class="section-title">
-            <span>📦 五大系統裝備檢核清單</span>
+            <span><i class="fi fi-rr-list-check"></i> 五大系統裝備檢核清單</span>
             <span class="count-badge" id="checkedCountBadge">18 / 22 項攜帶中</span>
           </div>
           <div class="checklist-controls">
             <button id="btnPickFromLocker" class="btn-secondary-pill" title="從個人裝備庫勾選裝備帶入">
-              <span>🗄️ 從裝備庫挑選</span>
+              <span><i class="fi fi-rr-boxes"></i> 從裝備庫挑選</span>
             </button>
             <button id="btnOpenAddModal" class="btn-quick-add">
-              <span>➕ 快速新增裝備</span>
+              <span><i class="fi fi-rr-plus"></i> 快速新增裝備</span>
             </button>
           </div>
         </div>
@@ -2107,7 +2360,7 @@
       <!-- Toolbar -->
       <section class="locker-toolbar">
         <div class="locker-search-wrap">
-          <input type="text" id="lockerSearchInput" class="search-input-field" placeholder="🔍 搜尋品牌或裝備型號（例：Montbell, Osprey...）">
+          <input type="text" id="lockerSearchInput" class="search-input-field" placeholder="搜尋品牌或裝備型號（例：Montbell, Osprey...）">
           <select id="lockerCatFilter" class="select-category-filter">
             <option value="all">所有系統分類</option>
             <option value="sleep">【睡眠與收納】</option>
@@ -2117,22 +2370,22 @@
             <option value="gear">【個人配件】</option>
           </select>
           <button id="btnOpenSpecSearchFromLocker" class="btn-secondary-pill" title="直接查詢 130+ 款常見戶外、越野跑與迪卡儂裝備規格庫" style="white-space:nowrap;">
-            <span>🌐 查詢規格庫</span>
+            <span><i class="fi fi-rr-globe"></i> 查詢規格庫</span>
           </button>
         </div>
 
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <button id="btnOpenAddLockerModal" class="btn-action-glow">
-            <span>➕ 登記新裝備</span>
+            <span><i class="fi fi-rr-plus"></i> 登記新裝備</span>
           </button>
           <button id="btnLoadSampleLocker" class="btn-secondary-pill" title="載入常見熱門百岳裝備庫作為範本">
-            <span>🌟 載入精選範本</span>
+            <span><i class="fi fi-rr-sparkles"></i> 載入精選範本</span>
           </button>
           <button id="btnExportLockerJson" class="btn-secondary-pill" title="備份裝備庫至檔案">
-            <span>💾 匯出備份</span>
+            <span><i class="fi fi-rr-file-download"></i> 匯出備份</span>
           </button>
           <button id="btnImportLockerJson" class="btn-secondary-pill" title="從備份檔案還原">
-            <span>📥 匯入</span>
+            <span><i class="fi fi-rr-file-upload"></i> 匯入</span>
           </button>
           <input type="file" id="fileImportLocker" accept=".json" style="display:none;">
         </div>
@@ -2193,7 +2446,7 @@
               <span style="font-size:0.75rem; color:var(--text-muted);">1.5x (休閒慢速)</span>
             </div>
             <div style="display:flex; justify-content:space-between; margin-top:6px; font-size:0.74rem; color:var(--text-secondary);">
-              <span id="pacePillDesc">⚡ 健腳快腿水準（約 0.8~0.9x）</span>
+              <span id="pacePillDesc"><i class="fi fi-rr-running"></i> 健腳快腿水準（約 0.8~0.9x）</span>
               <span>1.0x = 標準山徑地圖時間</span>
             </div>
           </div>
@@ -2207,7 +2460,7 @@
             <div class="input-field-group">
               <label>日落撤退安全線</label>
               <div style="padding:9px; background:var(--amber-warning-bg); border:1px solid var(--amber-warning-border); border-radius:var(--radius-sm); font-size:0.85rem; color:var(--amber-warning); font-family:'JetBrains Mono';">
-                🌅 建議 17:30 前返抵
+                <i class="fi fi-rr-sunset"></i> 建議 17:30 前返抵
               </div>
             </div>
           </div>
@@ -2236,13 +2489,13 @@
                 <span style="font-size:0.75rem; color:var(--text-muted);">體能等效步程時 (EPH)</span>
                 <span style="font-size:1.3rem; font-family:'JetBrains Mono'; color:#ffffff; font-weight:800;" id="displayEphValue">39.8 EPH</span>
               </div>
-              <span class="ratio-status-badge status-warning" id="ephDifficultyBadge">🟠 高強度挑戰縱走</span>
+              <span class="ratio-status-badge status-warning" id="ephDifficultyBadge"><i class="fi fi-rr-flame"></i> 高強度挑戰縱走</span>
             </div>
 
             <!-- Backpack Weight Penalty Integration -->
             <div class="penalty-info-box" id="packPenaltyBox">
               <div style="display:flex; align-items:center; gap:6px; font-weight:700; margin-bottom:4px;">
-                <span>🎒 馱獸包包負重加權修正：</span>
+                <span><i class="fi fi-rr-backpack"></i> 馱獸包包負重加權修正：</span>
                 <span id="displayPenaltyFactorText">1.03x 延遲率</span>
               </div>
               <div style="font-size:0.78rem; opacity:0.9;" id="displayPenaltyDetailText">
@@ -2257,7 +2510,7 @@
                 <div style="font-family:'JetBrains Mono'; font-size:1.2rem; font-weight:800; color:var(--blue-accent);" id="displayCaloriesBurned">~ 3,250 kcal</div>
               </div>
               <button id="btnCopyRoutePlan" class="btn-secondary-pill" style="font-size:0.78rem;">
-                📋 複製配速規劃表
+                <i class="fi fi-rr-copy"></i> 複製配速規劃表
               </button>
             </div>
           </div>
@@ -2268,10 +2521,7 @@
     <!-- Footer -->
     <footer class="app-footer">
       <div class="footer-left">
-        <span>🐾 <strong>山岳馱獸包包 PackBeast Pro</strong> — 輕量化負重 • 裝備履歷庫 • 規格搜尋助手</span>
-      </div>
-      <div class="footer-links">
-        <span>純前端單一靜態架構 • LocalStorage 本地儲存 • 隱私優先</span>
+        <span><i class="fi fi-rr-mountain" style="color:var(--brand-brown); margin-right:4px;"></i> <strong>山岳馱獸包包 PackBeast Pro</strong> — 輕量化負重 • 裝備履歷庫 • 規格搜尋助手</span>
       </div>
     </footer>
   </div>
@@ -2279,13 +2529,13 @@
   <!-- Safety Guardian Banner -->
   <aside id="safetyGuardianBanner" class="safety-guardian-banner" aria-live="assertive">
     <div class="safety-banner-content">
-      <span class="safety-banner-icon">⚠️</span>
+      <span class="safety-banner-icon"><i class="fi fi-rr-triangle-warning"></i></span>
       <div class="safety-banner-text" id="safetyBannerText">
         <strong>安全警示：</strong>偵測到您尚未攜帶「雨衣雨褲」或「頭燈」！請勿為了極致偷輕犧牲生命安全。
       </div>
     </div>
     <button id="btnFixSafetyItems" class="btn-fix-safety">
-      ⚡ 立即補上一鍵勾選
+      <i class="fi fi-rr-bolt"></i> 立即補上一鍵勾選
     </button>
   </aside>
 
@@ -2295,14 +2545,14 @@
   <div id="addModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalAddTitle">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="modalAddTitle" class="modal-title">➕ 補充打包裝備</h3>
-        <button id="btnCloseModal" class="btn-close-modal" aria-label="關閉視窗">✕</button>
+        <h3 id="modalAddTitle" class="modal-title"><i class="fi fi-rr-plus"></i> 補充打包裝備</h3>
+        <button id="btnCloseModal" class="btn-close-modal" aria-label="關閉視窗"><i class="fi fi-rr-cross"></i></button>
       </div>
       <form id="addGearForm">
         <div class="form-group">
           <label for="inputGearName">
             <span>裝備品項名稱</span>
-            <button type="button" class="btn-search-spec-trigger" id="btnAutoSearchSpec1">🔍 規格自動上網查詢</button>
+            <button type="button" class="btn-search-spec-trigger" id="btnAutoSearchSpec1"><i class="fi fi-rr-search"></i> 規格自動上網查詢</button>
           </label>
           <input type="text" id="inputGearName" class="form-control" placeholder="輸入品牌或型號（如：Montbell Versalite, Soto 爐頭...）" autocomplete="off" required autofocus>
           <div id="autocompleteList1" class="autocomplete-list"></div>
@@ -2349,8 +2599,8 @@
   <div id="addLockerModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalLockerTitle">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="modalLockerTitle" class="modal-title">🗄️ 登記裝備至個人資產庫</h3>
-        <button id="btnCloseLockerModal" class="btn-close-modal" aria-label="關閉視窗">✕</button>
+        <h3 id="modalLockerTitle" class="modal-title"><i class="fi fi-rr-boxes"></i> 登記裝備至個人資產庫</h3>
+        <button id="btnCloseLockerModal" class="btn-close-modal" aria-label="關閉視窗"><i class="fi fi-rr-cross"></i></button>
       </div>
       <form id="addLockerForm">
         <div class="form-group">
@@ -2362,7 +2612,7 @@
         <div class="form-group">
           <label for="lockerInputName">
             <span>品項與型號名稱（Model）</span>
-            <button type="button" class="btn-search-spec-trigger" id="btnAutoSearchSpec2">🔍 規格自動上網查詢</button>
+            <button type="button" class="btn-search-spec-trigger" id="btnAutoSearchSpec2"><i class="fi fi-rr-search"></i> 規格自動上網查詢</button>
           </label>
           <input type="text" id="lockerInputName" class="form-control" placeholder="例：Beta LT 風雨衣、Windmaster 攻頂爐..." autocomplete="off" required>
           <div id="autocompleteList2" class="autocomplete-list"></div>
@@ -2415,8 +2665,8 @@
   <div id="pickFromLockerModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalPickTitle">
     <div class="modal-card" style="max-width: 600px;">
       <div class="modal-header">
-        <h3 id="modalPickTitle" class="modal-title">🗄️ 從個人裝備庫勾選帶入</h3>
-        <button id="btnClosePickModal" class="btn-close-modal" aria-label="關閉視窗">✕</button>
+        <h3 id="modalPickTitle" class="modal-title"><i class="fi fi-rr-boxes"></i> 從個人裝備庫勾選帶入</h3>
+        <button id="btnClosePickModal" class="btn-close-modal" aria-label="關閉視窗"><i class="fi fi-rr-cross"></i></button>
       </div>
       <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:12px;">
         勾選您要納入本次行程背包的裝備，將自動載入至打包檢核清單：
@@ -2437,8 +2687,8 @@
   <div id="specSearchModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalSearchTitle">
     <div class="modal-card" style="max-width: 560px;">
       <div class="modal-header">
-        <h3 id="modalSearchTitle" class="modal-title">🔍 裝備規格智慧搜尋助手</h3>
-        <button id="btnCloseSearchModal" class="btn-close-modal" aria-label="關閉視窗">✕</button>
+        <h3 id="modalSearchTitle" class="modal-title"><i class="fi fi-rr-search"></i> 裝備規格智慧搜尋助手</h3>
+        <button id="btnCloseSearchModal" class="btn-close-modal" aria-label="關閉視窗"><i class="fi fi-rr-cross"></i></button>
       </div>
       <div style="margin-bottom:16px;">
         <div style="display:flex; gap:8px;">
@@ -2451,11 +2701,11 @@
         <!-- Dynamic suggestions rendered here -->
       </div>
 
-      <div style="margin-top:16px; padding:12px; background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); border-radius:var(--radius-sm); font-size:0.78rem; color:#bae6fd;">
-        💡 <strong>線上即時查詢捷徑：</strong>若為超冷門裝備，可一鍵開啟：
+      <div style="margin-top:16px; padding:12px; background:var(--blue-accent-bg); border:1px solid var(--blue-accent-border); border-radius:var(--radius-sm); font-size:0.78rem; color:var(--blue-accent);">
+        <i class="fi fi-rr-bulb"></i> <strong>線上即時查詢捷徑：</strong>若為超冷門裝備，可一鍵開啟：
         <div style="display:flex; gap:8px; margin-top:8px;">
-          <a id="linkGoogleSpec" href="#" target="_blank" class="btn-secondary-pill" style="font-size:0.75rem;">🌐 Google 規格重量查詢</a>
-          <a id="linkGearLab" href="#" target="_blank" class="btn-secondary-pill" style="font-size:0.75rem;">🏔️ OutdoorGearLab 評測</a>
+          <a id="linkGoogleSpec" href="#" target="_blank" class="btn-secondary-pill" style="font-size:0.75rem;"><i class="fi fi-rr-globe"></i> Google 規格重量查詢</a>
+          <a id="linkGearLab" href="#" target="_blank" class="btn-secondary-pill" style="font-size:0.75rem;"><i class="fi fi-rr-mountain"></i> OutdoorGearLab 評測</a>
         </div>
       </div>
     </div>
@@ -2463,7 +2713,7 @@
 
   <!-- Toast Notice -->
   <div id="toastNotice" class="toast-notice" role="alert">
-    <span id="toastIcon">✨</span>
+    <span id="toastIcon"><i class="fi fi-rr-sparkles"></i></span>
     <span id="toastMessage">已更新</span>
   </div>
 
@@ -2547,7 +2797,7 @@
       { brand: "Leki", model: "Makaralu FX Carbon 碳纖登山杖", grams: 508, cat: "gear", consumable: false, vital: false },
       { brand: "TheTentLab", model: "The Deuce #2 超輕鋁合金貓鏟", grams: 17, cat: "gear", consumable: false, vital: false },
 
-      // ====== 🏃 越野跑 (TRAIL RUNNING) 專屬裝備 ======
+      // ====== 越野跑 (TRAIL RUNNING) 專屬裝備 ======
       // 越野跑水袋背心與腰帶
       { brand: "Salomon 所羅門", model: "Adv Skin 12 越野跑水袋背心 (12L)", grams: 293, cat: "gear", consumable: false, vital: false },
       { brand: "Salomon 所羅門", model: "Active Skin 8 越野跑背心 (8L)", grams: 210, cat: "gear", consumable: false, vital: false },
@@ -2590,7 +2840,7 @@
       { brand: "能量補給", model: "能量膠 Energy Gel 40g (單包)", grams: 40, cat: "cook", consumable: true, vital: false },
       { brand: "能量補給", model: "電解質水溶發泡錠/鹽糖", grams: 30, cat: "cook", consumable: true, vital: false },
 
-      // ====== 🏕️ 迪卡儂 DECATHLON (FORCLAZ / QUECHUA / EVADICT / KIPRUN) ======
+      // ====== 迪卡儂 DECATHLON (FORCLAZ / QUECHUA / EVADICT / KIPRUN) ======
       // 迪卡儂 越野跑與跑步系列 (Evadict / Kiprun)
       { brand: "Decathlon 迪卡儂 (Evadict)", model: "15L 越野跑多功能背包 (含水袋夾層)", grams: 360, cat: "gear", consumable: false, vital: false },
       { brand: "Decathlon 迪卡儂 (Evadict)", model: "10L 越野跑水袋背心 (含雙胸前軟水袋位)", grams: 240, cat: "gear", consumable: false, vital: false },
@@ -2719,11 +2969,11 @@
 
     // --- 3. 裝備分類字典 ---
     const CATEGORIES = {
-      sleep: { id: 'sleep', name: '【睡眠與收納系統】', icon: '⛺', tagClass: 'tag-sleep', desc: '帳篷、睡袋、睡墊、登山包' },
-      warm:  { id: 'warm',  name: '【保暖與防護系統】', icon: '🧥', tagClass: 'tag-warm',  desc: '雨衣雨褲、羽絨中層、風衣、羊毛底層' },
-      cook:  { id: 'cook',  name: '【炊事與水糧系統】', icon: '🍳', tagClass: 'tag-cook',  desc: '爐頭、套鍋、濾水器、行動水、備用乾糧' },
-      safe:  { id: 'safe',  name: '【安全與導航系統】', icon: '🧭', tagClass: 'tag-safe',  desc: '頭燈、急救包、求生毯、離線地圖手機' },
-      gear:  { id: 'gear',  name: '【個人配件與衛生】', icon: '🦯', tagClass: 'tag-gear',  desc: '登山杖、衛生紙、防曬用品' }
+      sleep: { id: 'sleep', name: '【睡眠與收納系統】', icon: '<i class="fi fi-rr-tent"></i>', tagClass: 'tag-sleep', desc: '帳篷、睡袋、睡墊、登山包' },
+      warm:  { id: 'warm',  name: '【保暖與防護系統】', icon: '<i class="fi fi-rr-shield"></i>', tagClass: 'tag-warm',  desc: '雨衣雨褲、羽絨中層、風衣、羊毛底層' },
+      cook:  { id: 'cook',  name: '【炊事與水糧系統】', icon: '<i class="fi fi-rr-flame"></i>', tagClass: 'tag-cook',  desc: '爐頭、套鍋、濾水器、行動水、備用乾糧' },
+      safe:  { id: 'safe',  name: '【安全與導航系統】', icon: '<i class="fi fi-rr-compass"></i>', tagClass: 'tag-safe',  desc: '頭燈、急救包、求生毯、離線地圖手機' },
+      gear:  { id: 'gear',  name: '【個人配件與衛生】', icon: '<i class="fi fi-rr-tool-box"></i>', tagClass: 'tag-gear',  desc: '登山杖、衛生紙、防曬用品' }
     };
 
     // --- 4. 行程推薦裝備預設範本 ---
@@ -2800,10 +3050,75 @@
       ]
     };
 
+    // --- 4.1 行程核心裝備需求標準 (供老手由個人裝備庫智能匯入與缺少提醒) ---
+    const TRIP_REQUIREMENTS = {
+      day_hike: [
+        { role: '輕量單攻背包', cat: 'sleep', match: ['包', 'pack', 'talon', 'daypack', '背包'], required: true, fallbackWeight: 870 },
+        { role: '透氣防風雨衣', cat: 'warm', match: ['雨衣', 'versalite', 'beta', 'torrentshell', '外套', 'bonatti'], vital: true, vitalType: 'rain', required: true, fallbackWeight: 180 },
+        { role: '輕量防風雨褲', cat: 'warm', match: ['雨褲', 'thunder pass', 'rain pants'], vital: true, vitalType: 'rain', required: true, fallbackWeight: 242 },
+        { role: '防風保暖外套/風衣', cat: 'warm', match: ['風衣', 'houdini', 'atom', '化纖', '中層', '外套'], required: false, fallbackWeight: 105 },
+        { role: '行動水壺或水袋 (1.5L)', cat: 'cook', match: ['水壺', '水袋', 'flask', 'cnoc', '水'], required: true, fallbackWeight: 1500, isConsumable: true },
+        { role: '單攻行動能量乾糧', cat: 'cook', match: ['糧', '能量', '乾糧', '能量膠'], required: true, fallbackWeight: 650, isConsumable: true },
+        { role: '安全照明頭燈', cat: 'safe', match: ['頭燈', 'petzl', 'actik', 'spot', 'swift', 'headlamp'], vital: true, vitalType: 'headlamp', required: true, fallbackWeight: 88 },
+        { role: '離線導航手機/GPX', cat: 'safe', match: ['手機', '離線地圖', '導航', 'garmin'], required: true, fallbackWeight: 230 },
+        { role: '急救求生毯/包', cat: 'safe', match: ['求生毯', '避難毯', '急救', 'sol', '繃帶'], vital: true, required: true, fallbackWeight: 108 },
+        { role: '輕量登山杖', cat: 'gear', match: ['杖', 'pole', 'distance', 'carbon'], required: true, fallbackWeight: 280 }
+      ],
+      cabin_overnight: [
+        { role: '中型登山包 (40-50L)', cat: 'sleep', match: ['exos', '48', '50', '背包', '登山包', 'pack', 'baltoro'], required: true, fallbackWeight: 1260 },
+        { role: '高山保暖睡袋', cat: 'sleep', match: ['睡袋', 'down hugger', 'spark', 'sleeping bag'], required: true, fallbackWeight: 531 },
+        { role: '充氣露營枕頭', cat: 'sleep', match: ['枕', '枕頭', 'pillow', 'aeros'], required: false, fallbackWeight: 60 },
+        { role: '高山防風雨衣', cat: 'warm', match: ['雨衣', 'versalite', 'beta', 'torrentshell', '外套'], vital: true, vitalType: 'rain', required: true, fallbackWeight: 134 },
+        { role: '高山防風雨褲', cat: 'warm', match: ['雨褲', 'thunder pass', 'rain pants'], vital: true, vitalType: 'rain', required: true, fallbackWeight: 242 },
+        { role: '化纖/羽絨保暖中層', cat: 'warm', match: ['保暖', '化纖', '羽絨', 'atom', 'cerium', '中層'], required: true, fallbackWeight: 375 },
+        { role: '羊毛保暖備用底層', cat: 'warm', match: ['羊毛', '底層', 'merino', 'oasis'], required: false, fallbackWeight: 210 },
+        { role: '高山攻頂爐頭', cat: 'cook', match: ['爐', 'soto', 'windmaster', 'burner'], required: true, fallbackWeight: 67 },
+        { role: '個人登山鈦鍋', cat: 'cook', match: ['鍋', 'titanium', 'pot', 'cookware'], required: true, fallbackWeight: 95 },
+        { role: '高山瓦斯罐 110g', cat: 'cook', match: ['瓦斯', 'gas'], required: true, fallbackWeight: 210, isConsumable: true },
+        { role: '兩日飲用水與煮水儲備 (2000ml)', cat: 'cook', match: ['水', 'water', '壺', '袋'], required: true, fallbackWeight: 2000, isConsumable: true },
+        { role: '兩日乾燥飯與備用路糧', cat: 'cook', match: ['糧', '乾燥飯', '食物'], required: true, fallbackWeight: 950, isConsumable: true },
+        { role: '快速濾水器', cat: 'cook', match: ['濾水', 'befree', 'sawyer', 'filter'], required: false, fallbackWeight: 63 },
+        { role: '高山頭燈 (含備用電)', cat: 'safe', match: ['頭燈', 'actik', 'spot', 'swift'], vital: true, vitalType: 'headlamp', required: true, fallbackWeight: 88 },
+        { role: '輕量行動電源', cat: 'safe', match: ['行動電源', '電源', 'nb10000', 'power bank'], required: true, fallbackWeight: 150 },
+        { role: '個人綜合急救包與常備藥', cat: 'safe', match: ['急救', '藥品', 'first aid', '求生毯'], vital: true, required: true, fallbackWeight: 160 },
+        { role: '輕量登山杖 (一對)', cat: 'gear', match: ['杖', 'pole', 'distance', 'carbon'], required: true, fallbackWeight: 280 }
+      ],
+      camp_multi: [
+        { role: '重裝登山包 (55-70L)', cat: 'sleep', match: ['baltoro', 'exos', '背包', '登山包', 'pack', '65'], required: true, fallbackWeight: 2230 },
+        { role: '雙人/單人野營帳篷', cat: 'sleep', match: ['帳', '帳篷', 'tent', 'copper spur', 'hubba'], required: true, fallbackWeight: 1420 },
+        { role: '高R值防潮充氣睡墊', cat: 'sleep', match: ['睡墊', 'pad', 'neoair', 'xlite', 'tensor'], required: true, fallbackWeight: 354 },
+        { role: '高山抗寒羽絨睡袋', cat: 'sleep', match: ['睡袋', 'down hugger', 'spark', 'sleeping bag'], required: true, fallbackWeight: 490 },
+        { role: '硬殼耐磨風雨衣', cat: 'warm', match: ['雨衣', 'beta', 'versalite', 'torrentshell', '外套'], vital: true, vitalType: 'rain', required: true, fallbackWeight: 395 },
+        { role: '高山防風雨褲', cat: 'warm', match: ['雨褲', 'thunder pass', 'rain pants'], vital: true, vitalType: 'rain', required: true, fallbackWeight: 242 },
+        { role: '營地防寒羽絨外套', cat: 'warm', match: ['羽絨', 'cerium', 'atom', '化纖', '中層'], required: true, fallbackWeight: 305 },
+        { role: '高山攻頂爐具與套鍋', cat: 'cook', match: ['爐', '鍋', 'soto', 'cookware'], required: true, fallbackWeight: 347 },
+        { role: '戶外快速濾水器', cat: 'cook', match: ['濾水', 'sawyer', 'befree', 'filter'], required: true, fallbackWeight: 85 },
+        { role: '高山瓦斯與三日水糧', cat: 'cook', match: ['瓦斯', '水', '糧', 'gas'], required: true, fallbackWeight: 6060, isConsumable: true },
+        { role: '高亮度登山頭燈', cat: 'safe', match: ['頭燈', 'actik', 'spot'], vital: true, vitalType: 'headlamp', required: true, fallbackWeight: 88 },
+        { role: '大容量行動電源 20000mAh', cat: 'safe', match: ['行動電源', '電源', '20000', 'nb10000'], required: true, fallbackWeight: 320 },
+        { role: '排遺貓鏟與環保袋', cat: 'gear', match: ['鏟', '貓鏟', '排遺', 'deuce', 'trowel'], required: true, fallbackWeight: 50 },
+        { role: '重裝登山杖 (一對)', cat: 'gear', match: ['杖', 'pole', 'trail pro'], required: true, fallbackWeight: 530 }
+      ],
+      trail_run: [
+        { role: '越野跑水袋背心', cat: 'gear', match: ['背心', 'adv skin', 'vest', '水袋包'], required: true, fallbackWeight: 293 },
+        { role: '軟水壺 500ml 雙壺', cat: 'cook', match: ['軟水壺', 'soft flask', 'flask', '水壺'], required: true, fallbackWeight: 76 },
+        { role: '越野行進補給水 (1L)', cat: 'cook', match: ['水', 'water'], required: true, fallbackWeight: 1000, isConsumable: true },
+        { role: '賽事能量膠與電解質', cat: 'cook', match: ['能量', '膠', '電解質', '能量棒'], required: true, fallbackWeight: 350, isConsumable: true },
+        { role: '越野防水透氣外套', cat: 'warm', match: ['bonatti', '雨衣', '外套', '防水', 'versalite'], vital: true, vitalType: 'rain', required: true, fallbackWeight: 195 },
+        { role: '越野高流明智慧頭燈', cat: 'safe', match: ['頭燈', 'swift rl', 'actik', 'headlamp'], vital: true, vitalType: 'headlamp', required: true, fallbackWeight: 100 },
+        { role: '鋁箔急救求生毯 (賽事強制)', cat: 'safe', match: ['求生毯', '避難毯', '急救毯', 'sol'], vital: true, required: true, fallbackWeight: 50 },
+        { role: '高音無珠急救哨 (賽事強制)', cat: 'safe', match: ['哨', 'whistle'], required: true, fallbackWeight: 8 },
+        { role: '自黏加壓彈性繃帶', cat: 'safe', match: ['繃帶', '藥品', '急救'], required: true, fallbackWeight: 45 },
+        { role: '離線GPX導航手機', cat: 'safe', match: ['手機', '導航', 'apple', 'garmin'], required: true, fallbackWeight: 220 },
+        { role: '碳纖越野跑折疊杖', cat: 'gear', match: ['杖', 'carbon z', 'pole'], required: false, fallbackWeight: 280 }
+      ]
+    };
+
     // --- 5. 系統全域狀態管理 ---
     const state = {
       bodyWeight: 65,
       currentPreset: 'cabin_overnight',
+      presetMode: 'recommend',   // 'recommend' (新手推薦) 或 'import_locker' (老手自備個人裝備庫匯入)
       gearList: [],              // 本次打包檢核清單
       gearLocker: [],            // 個人裝備資產庫
       currentRoute: TAIWAN_ROUTES_DATABASE[0], // 當前選擇的路線
@@ -2864,6 +3179,7 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
           bodyWeight: state.bodyWeight,
           currentPreset: state.currentPreset,
+          presetMode: state.presetMode,
           gearList: state.gearList,
           gearLocker: state.gearLocker,
           currentRoute: state.currentRoute,
@@ -2884,6 +3200,7 @@
           if (parsed) {
             state.bodyWeight = Number(parsed.bodyWeight) || 65;
             state.currentPreset = parsed.currentPreset || 'cabin_overnight';
+            state.presetMode = parsed.presetMode || 'recommend';
             if (Array.isArray(parsed.gearList) && parsed.gearList.length > 0) state.gearList = parsed.gearList;
             if (Array.isArray(parsed.gearLocker)) state.gearLocker = parsed.gearLocker;
             if (parsed.currentRoute) state.currentRoute = parsed.currentRoute;
@@ -2917,6 +3234,9 @@
       presetCabin: document.getElementById('presetCabin'),
       presetCampMulti: document.getElementById('presetCampMulti'),
       presetTrailRun: document.getElementById('presetTrailRun'),
+      btnModeRecommend: document.getElementById('btnModeRecommend'),
+      btnModeImport: document.getElementById('btnModeImport'),
+      presetModeAlert: document.getElementById('presetModeAlert'),
       displayBaseWeightGrams: document.getElementById('displayBaseWeightGrams'),
       displayBaseWeightKg: document.getElementById('displayBaseWeightKg'),
       displayTotalWeightGrams: document.getElementById('displayTotalWeightGrams'),
@@ -3049,23 +3369,193 @@
       }
     }
 
-    // --- 10. TAB 1 打包檢核渲染與計算 ---
-    function loadPreset(presetKey, isUserAction = false) {
+    // --- 10. 行程預設與雙模式帶入 (推薦使用裝備 vs 由個人裝備庫匯入) ---
+    function applyPresetTrip(presetKey, mode = 'recommend', isUserAction = false) {
       state.currentPreset = presetKey;
-      const template = PRESETS[presetKey] || PRESETS.cabin_overnight;
-      state.gearList = JSON.parse(JSON.stringify(template));
+      state.presetMode = mode || 'recommend';
 
+      // 更新行程按鈕選取外觀
       document.querySelectorAll('.btn-preset').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.preset === presetKey);
       });
 
+      // 更新模式按鈕外觀
+      if (dom.btnModeRecommend) dom.btnModeRecommend.classList.toggle('active', state.presetMode === 'recommend');
+      if (dom.btnModeImport) dom.btnModeImport.classList.toggle('active', state.presetMode === 'import_locker');
+
+      if (state.presetMode === 'recommend') {
+        applyRecommendedPreset(presetKey, isUserAction);
+      } else {
+        applyImportFromLockerPreset(presetKey, isUserAction);
+      }
+    }
+
+    function loadPreset(presetKey, isUserAction = false) {
+      applyPresetTrip(presetKey, state.presetMode || 'recommend', isUserAction);
+    }
+
+    function applyRecommendedPreset(presetKey, isUserAction = false) {
+      const template = PRESETS[presetKey] || PRESETS.cabin_overnight;
+      const list = JSON.parse(JSON.stringify(template));
+
+      let ownedCount = 0;
+      let needPrepCount = 0;
+
+      list.forEach(item => {
+        // 比對個人裝備庫
+        const itemWords = item.name.toLowerCase().replace(/[()（）#\-_/]/g, ' ').split(/\s+/).filter(w => w.length > 1);
+        const matchInLocker = state.gearLocker.find(l => {
+          if (l.name.toLowerCase() === item.name.toLowerCase()) return true;
+          if (item.brand && l.brand && l.brand.toLowerCase() === item.brand.toLowerCase() && l.cat === item.cat) {
+            return itemWords.some(w => l.name.toLowerCase().includes(w));
+          }
+          if (item.vital && l.vital && item.vitalType && l.vitalType === item.vitalType) return true;
+          return false;
+        });
+
+        if (matchInLocker) {
+          item.prepStatus = 'owned';
+          item.lockerMatchName = `${matchInLocker.brand ? matchInLocker.brand + ' ' : ''}${matchInLocker.name}`;
+          ownedCount++;
+        } else {
+          item.prepStatus = 'need_prep';
+          needPrepCount++;
+        }
+      });
+
+      state.gearList = list;
       renderChecklist();
       recalculate();
       saveToStorage();
 
+      renderPresetModeAlert('recommend', presetKey, ownedCount, needPrepCount, 0);
+
       if (isUserAction) {
         sound.playSuccess();
-        showToast('已載入推薦清單！', '🎒');
+        showToast('已載入推薦使用裝備清單！', '<i class="fi fi-rr-sparkles"></i>');
+      }
+    }
+
+    function applyImportFromLockerPreset(presetKey, isUserAction = false) {
+      const requirements = TRIP_REQUIREMENTS[presetKey] || TRIP_REQUIREMENTS.cabin_overnight;
+      const importedList = [];
+      const usedLockerIds = new Set();
+      let importedCount = 0;
+      let missingCount = 0;
+
+      requirements.forEach((req, idx) => {
+        const match = state.gearLocker.find(l => {
+          if (usedLockerIds.has(l.id)) return false;
+          const lText = ((l.brand || '') + ' ' + l.name).toLowerCase();
+          const keywordHit = req.match.some(m => lText.includes(m.toLowerCase()));
+          const vitalHit = req.vital && l.vital && req.vitalType && l.vitalType === req.vitalType;
+          return (l.cat === req.cat && keywordHit) || vitalHit;
+        });
+
+        if (match) {
+          usedLockerIds.add(match.id);
+          importedList.push({
+            id: 'imp_' + match.id + '_' + idx,
+            cat: match.cat,
+            brand: match.brand,
+            name: match.name,
+            grams: Number(match.grams) || 0,
+            checked: true,
+            isConsumable: !!match.isConsumable,
+            vital: !!match.vital,
+            vitalType: match.vitalType,
+            prepStatus: 'owned',
+            lockerMatchName: match.name
+          });
+          importedCount++;
+        } else if (req.required) {
+          importedList.push({
+            id: 'missing_' + presetKey + '_' + idx,
+            cat: req.cat,
+            brand: '個人庫缺少',
+            name: `【缺少必備】${req.role}（出發前需租借或購買）`,
+            grams: req.fallbackWeight || 250,
+            checked: false,
+            isConsumable: !!req.isConsumable,
+            vital: !!req.vital,
+            vitalType: req.vitalType,
+            prepStatus: 'missing'
+          });
+          missingCount++;
+        }
+      });
+
+      state.gearList = importedList;
+      renderChecklist();
+      recalculate();
+      saveToStorage();
+
+      renderPresetModeAlert('import_locker', presetKey, importedCount, 0, missingCount);
+
+      if (isUserAction) {
+        sound.playSuccess();
+        if (missingCount > 0) {
+          showToast(`已匯入 ${importedCount} 件自備裝備，有 ${missingCount} 件核心裝備缺少！`, '<i class="fi fi-rr-triangle-warning"></i>');
+        } else {
+          showToast(`已自備匯入 ${importedCount} 件個人庫裝備！`, '<i class="fi fi-rr-boxes"></i>');
+        }
+      }
+    }
+
+    function renderPresetModeAlert(mode, presetKey, ownedCount, needPrepCount, missingCount) {
+      if (!dom.presetModeAlert) return;
+      dom.presetModeAlert.style.display = 'flex';
+
+      const tripNames = {
+        day_hike: '單日單攻',
+        cabin_overnight: '兩天一夜山屋',
+        camp_multi: '多日重裝露營',
+        trail_run: '越野跑/跑山'
+      };
+      const tripName = tripNames[presetKey] || '推薦行程';
+
+      if (mode === 'recommend') {
+        if (needPrepCount > 0) {
+          dom.presetModeAlert.className = 'preset-mode-alert alert-warning';
+          dom.presetModeAlert.innerHTML = `
+            <div class="alert-icon"><i class="fi fi-rr-exclamation"></i></div>
+            <div class="alert-body">
+              <strong>【推薦使用裝備】模式已就緒：</strong>
+              本次「${tripName}」推薦清單中，共有 <strong>${ownedCount} 項</strong>已在您的裝備庫中自備，
+              <strong style="color:var(--amber-warning);"><i class="fi fi-rr-triangle-warning"></i> ${needPrepCount} 項未在庫（以黃褐色標記需準備）</strong>，出發前請確認準備或採購！
+            </div>
+          `;
+        } else {
+          dom.presetModeAlert.className = 'preset-mode-alert alert-safe';
+          dom.presetModeAlert.innerHTML = `
+            <div class="alert-icon"><i class="fi fi-rr-check-circle"></i></div>
+            <div class="alert-body">
+              <strong>【推薦使用裝備】模式已就緒：</strong>
+              太棒了！本次「${tripName}」推薦的所有 <strong>${ownedCount} 項推薦裝備</strong>皆已在您的個人資產庫中齊備！
+            </div>
+          `;
+        }
+      } else {
+        if (missingCount > 0) {
+          dom.presetModeAlert.className = 'preset-mode-alert alert-danger';
+          dom.presetModeAlert.innerHTML = `
+            <div class="alert-icon"><i class="fi fi-rr-cross-circle"></i></div>
+            <div class="alert-body">
+              <strong>【由我的裝備中匯入】完成：</strong>
+              已由個人裝備庫精準匹配帶入 <strong>${ownedCount} 項自備裝備</strong>。
+              <strong style="color:var(--red-danger);"><i class="fi fi-rr-cross-circle"></i> 發現有 ${missingCount} 項核心裝備在個人庫中缺少（已以磚紅色醒目標記）</strong>，請及時向山友租借或採購！
+            </div>
+          `;
+        } else {
+          dom.presetModeAlert.className = 'preset-mode-alert alert-safe';
+          dom.presetModeAlert.innerHTML = `
+            <div class="alert-icon"><i class="fi fi-rr-check-circle"></i></div>
+            <div class="alert-body">
+              <strong>【由我的裝備中匯入】完成：</strong>
+              裝備在庫率 100%！您的個人資產庫已完整涵蓋「${tripName}」所需之全部 <strong>${ownedCount} 項核心裝備</strong>！
+            </div>
+          `;
+        }
       }
     }
 
@@ -3112,14 +3602,29 @@
           listContainer.innerHTML = `<div style="padding:12px; font-size:0.8rem; color:var(--text-muted); text-align:center;">此分類尚無裝備</div>`;
         } else {
           items.forEach(item => {
+            const status = item.prepStatus || (state.gearLocker.some(l => l.name === item.name) ? 'owned' : 'need_prep');
+
             const row = document.createElement('div');
-            row.className = `gear-item-row ${item.checked ? '' : 'is-unchecked'}`;
+            let rowClasses = ['gear-item-row'];
+            if (!item.checked) rowClasses.push('is-unchecked');
+            if (status === 'missing') rowClasses.push('row-item-missing');
+            else if (status === 'need_prep') rowClasses.push('row-item-needprep');
+            row.className = rowClasses.join(' ');
             row.id = `item_row_${item.id}`;
 
             let tagsHtml = '';
             if (item.brand) tagsHtml += `<span class="badge-brand-tag">${escapeHtml(item.brand)}</span>`;
-            if (item.vital) tagsHtml += `<span class="badge-vital">⚠️ 保命必備</span>`;
-            if (item.isConsumable) tagsHtml += `<span class="badge-consumable">💧 消耗品</span>`;
+            if (item.vital) tagsHtml += `<span class="badge-vital"><i class="fi fi-rr-triangle-warning"></i> 保命必備</span>`;
+            if (item.isConsumable) tagsHtml += `<span class="badge-consumable"><i class="fi fi-rr-tint"></i> 消耗品</span>`;
+
+            // 狀態提醒色標 (Requirement 2)
+            if (status === 'owned') {
+              tagsHtml += `<span class="badge-status-owned" title="個人裝備庫中已擁有此裝備"><i class="fi fi-rr-check"></i> 自備已在庫</span>`;
+            } else if (status === 'need_prep') {
+              tagsHtml += `<span class="badge-status-needprep" title="個人裝備庫中未登記，需額外準備"><i class="fi fi-rr-exclamation"></i> 未在庫需準備</span>`;
+            } else if (status === 'missing') {
+              tagsHtml += `<span class="badge-status-missing" title="個人裝備庫缺少此必要裝備！需租借或購買"><i class="fi fi-rr-cross-circle"></i> 裝備庫缺此項（需準備）</span>`;
+            }
 
             row.innerHTML = `
               <div class="item-main-col">
@@ -3168,7 +3673,7 @@
               renderChecklist();
               recalculate();
               saveToStorage();
-              showToast(`已移除「${item.name}」`, '🗑️');
+              showToast(`已移除「${item.name}」`, '<i class="fi fi-rr-trash"></i>');
             });
 
             listContainer.appendChild(row);
@@ -3244,33 +3749,33 @@
 
       if (ratio < 12) {
         dom.ratioStatusBadge.className = 'ratio-status-badge status-safe';
-        dom.ratioStatusBadge.innerHTML = '🟢 羽量舒適區 (超輕)';
+        dom.ratioStatusBadge.innerHTML = '<i class="fi fi-rr-check-circle"></i> 羽量舒適區 (超輕)';
         dom.displayRatioPct.style.color = 'var(--status-safe)';
         dom.mascotCard.classList.add('mood-light');
         dom.breezeEffect.style.display = 'block';
         dom.mascotEmoji.innerText = '(≧◡≦)';
         dom.mascotDialogue.innerText = '輕盈如風！你是要出發去越野跑嗎？步步輕快！';
-        dom.mascotTip.innerText = '💡 極致輕量能大幅降低雙膝衝擊，陡上就像散步一樣輕盈！';
+        dom.mascotTip.innerHTML = '<i class="fi fi-rr-bulb"></i> 極致輕量能大幅降低雙膝衝擊，陡上就像散步一樣輕盈！';
       } else if (ratio >= 12 && ratio <= 18) {
         dom.ratioStatusBadge.className = 'ratio-status-badge status-safe';
-        dom.ratioStatusBadge.innerHTML = '🟢 舒適安全區';
+        dom.ratioStatusBadge.innerHTML = '<i class="fi fi-rr-check-circle"></i> 舒適安全區';
         dom.displayRatioPct.style.color = 'var(--status-safe)';
         dom.mascotCard.classList.add('mood-safe');
         dom.mascotEmoji.innerText = '(・∀・)';
         dom.mascotDialogue.innerText = '重量剛剛好！小精靈陪你翻山越嶺，膝蓋很安心。';
-        dom.mascotTip.innerText = '💡 目前負重比例非常均衡，在保暖安全與行進節奏之間取得絕佳平衡！';
+        dom.mascotTip.innerHTML = '<i class="fi fi-rr-bulb"></i> 目前負重比例非常均衡，在保暖安全與行進節奏之間取得絕佳平衡！';
       } else if (ratio > 18 && ratio <= 20) {
         dom.ratioStatusBadge.className = 'ratio-status-badge status-warning';
-        dom.ratioStatusBadge.innerHTML = '🟡 警戒臨界區';
+        dom.ratioStatusBadge.innerHTML = '<i class="fi fi-rr-triangle-warning"></i> 警戒臨界區';
         dom.displayRatioPct.style.color = 'var(--amber-warning)';
         dom.progressFill.classList.add('fill-warning');
         dom.mascotCard.classList.add('mood-warning');
         dom.mascotEmoji.innerText = '(・_・;)';
         dom.mascotDialogue.innerText = '稍微有點沉甸甸囉！已經逼近 20% 安全上限，爬長陡坡請調節呼吸。';
-        dom.mascotTip.innerText = '💡 檢查一下背包裡是否有重複功能的備用衣物或多餘乾糧，可適度斷捨離。';
+        dom.mascotTip.innerHTML = '<i class="fi fi-rr-bulb"></i> 檢查一下背包裡是否有重複功能的備用衣物或多餘乾糧，可適度斷捨離。';
       } else {
         dom.ratioStatusBadge.className = 'ratio-status-badge status-danger';
-        dom.ratioStatusBadge.innerHTML = '🔴 超重危險區';
+        dom.ratioStatusBadge.innerHTML = '<i class="fi fi-rr-cross-circle"></i> 超重危險區';
         dom.displayRatioPct.style.color = 'var(--red-danger)';
         dom.progressFill.classList.add('fill-danger');
         dom.mascotCard.classList.add('mood-danger', 'state-danger');
@@ -3278,7 +3783,7 @@
         dom.sweatDrops.style.display = 'block';
         dom.mascotEmoji.innerText = '(＞﹏＜)';
         dom.mascotDialogue.innerText = '嗶嗶！包包在哀嚎、膝蓋在發抖！總重已經超標，快執行斷捨離！';
-        dom.mascotTip.innerText = '🚨 負重超過體重 20% 會急遽增加滑倒、膝蓋滑囊炎與力竭風險，強烈建議精簡裝備！';
+        dom.mascotTip.innerHTML = '<i class="fi fi-rr-triangle-warning"></i> 負重超過體重 20% 會急遽增加滑倒、膝蓋滑囊炎與力竭風險，強烈建議精簡裝備！';
       }
     }
 
@@ -3337,7 +3842,7 @@
       renderChecklist();
       recalculate();
       saveToStorage();
-      showToast('已為您補齊雨衣與頭燈！安全第一！', '🛡️');
+      showToast('已為您補齊雨衣與頭燈！安全第一！', '<i class="fi fi-rr-shield-check"></i>');
     }
 
     // --- 11. TAB 2 個人裝備庫管理 (GEAR LOCKER) ---
@@ -3406,14 +3911,14 @@
       if (items.length === 0) {
         let noMatchHtml = `
           <div style="grid-column:1/-1; text-align:center; padding:36px 20px; color:var(--text-muted); background:var(--bg-card-subtle); border-radius:var(--radius-lg); border:1px dashed var(--border-card);">
-            <div style="font-size:2rem; margin-bottom:8px;">🔍</div>
+            <div style="font-size:2rem; margin-bottom:8px;"><i class="fi fi-rr-search"></i></div>
             <div style="font-size:1.05rem; font-weight:700; color:var(--text-secondary);">${searchKey ? `個人裝備庫中找不到「${escapeHtml(searchKey)}」` : '尚無符合條件的個人裝備'}</div>
             <div style="font-size:0.85rem; margin-top:6px; color:var(--text-muted);">
               ${dbMatches.length > 0 ? '但在【130+ 款裝備資料庫】找到以下相符規格，點擊即可一鍵登記存入！' : '點選下方按鈕線上查詢官方克數規格，或手動登記新裝備！'}
             </div>
             <div style="margin-top:14px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
-              <button class="btn-primary" id="btnSearchOnlineFallback">🌐 自動上網查詢「${escapeHtml(searchKey || '裝備')}」規格</button>
-              <button class="btn-secondary" id="btnAddManualFallback">➕ 手動登記新裝備</button>
+              <button class="btn-primary" id="btnSearchOnlineFallback"><i class="fi fi-rr-globe"></i> 自動上網查詢「${escapeHtml(searchKey || '裝備')}」規格</button>
+              <button class="btn-secondary" id="btnAddManualFallback"><i class="fi fi-rr-plus"></i> 手動登記新裝備</button>
             </div>
           </div>
         `;
@@ -3463,14 +3968,14 @@
             <div class="locker-meta-row" style="margin-top:8px;">
               <span class="service-age-pill"><span class="${statusClass}">●</span> ${ageText} (${item.startDate || '未記錄'})</span>
               <span style="font-size:0.75rem; color:var(--text-muted);">${CATEGORIES[item.cat]?.name || ''}</span>
-              ${item.isConsumable ? '<span class="badge-consumable">💧 消耗品</span>' : ''}
-              ${item.vital ? '<span class="badge-vital">⚠️ 保命裝備</span>' : ''}
+              ${item.isConsumable ? '<span class="badge-consumable"><i class="fi fi-rr-tint"></i> 消耗品</span>' : ''}
+              ${item.vital ? '<span class="badge-vital"><i class="fi fi-rr-triangle-warning"></i> 保命裝備</span>' : ''}
             </div>
           </div>
 
           <div class="locker-card-actions">
             <button class="btn-add-to-pack btn-pack-action" data-id="${item.id}">
-              ${isPacked ? '✓ 已在本次打包' : '🎒 加入本次打包'}
+              ${isPacked ? '<i class="fi fi-rr-check"></i> 已在本次打包' : '<i class="fi fi-rr-backpack"></i> 加入本次打包'}
             </button>
             <button class="btn-delete-item btn-del-locker" data-id="${item.id}" title="從裝備庫刪除">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3489,7 +3994,7 @@
           renderGearLocker();
           saveToStorage();
           sound.playPop();
-          showToast(`已從裝備庫移除「${item.name}」`, '🗑️');
+          showToast(`已從裝備庫移除「${item.name}」`, '<i class="fi fi-rr-trash"></i>');
         });
 
         dom.lockerGridContainer.appendChild(card);
@@ -3499,7 +4004,7 @@
       if (dbMatches && dbMatches.length > 0) {
         const divider = document.createElement('div');
         divider.style.cssText = "grid-column:1/-1; margin-top:20px; margin-bottom:4px; padding-bottom:8px; border-bottom:1px solid var(--border-card); display:flex; justify-content:space-between; align-items:center;";
-        divider.innerHTML = `<span style="font-size:0.88rem; font-weight:700; color:var(--brand-brown);">🌟 130+ 款裝備資料庫相符規格（含越野跑與迪卡儂，點擊 ➕ 立即存入個人庫）：</span>`;
+        divider.innerHTML = `<span style="font-size:0.88rem; font-weight:700; color:var(--brand-brown);"><i class="fi fi-rr-sparkles"></i> 130+ 款裝備資料庫相符規格（含越野跑與迪卡儂，點擊 <i class="fi fi-rr-plus"></i> 立即存入個人庫）：</span>`;
         dom.lockerGridContainer.appendChild(divider);
 
         dbMatches.forEach(dbItem => {
@@ -3517,12 +4022,12 @@
               <div class="locker-meta-row" style="margin-top:8px;">
                 <span class="service-age-pill"><span class="service-status-green">●</span> 官方標準規格</span>
                 <span style="font-size:0.75rem; color:var(--text-muted);">${CATEGORIES[dbItem.cat]?.name || ''}</span>
-                ${dbItem.consumable ? '<span class="badge-consumable">💧 消耗品</span>' : ''}
+                ${dbItem.consumable ? '<span class="badge-consumable"><i class="fi fi-rr-tint"></i> 消耗品</span>' : ''}
               </div>
             </div>
             <div class="locker-card-actions">
               <button class="btn-add-to-pack btn-save-db-item">
-                ➕ 登記存入裝備庫
+                <i class="fi fi-rr-plus"></i> 登記存入裝備庫
               </button>
             </div>
           `;
@@ -3542,7 +4047,7 @@
             renderGearLocker();
             saveToStorage();
             sound.playSuccess();
-            showToast(`已登記「${dbItem.brand} ${dbItem.model}」至個人裝備庫！`, '🗄️');
+            showToast(`已登記「${dbItem.brand} ${dbItem.model}」至個人裝備庫！`, '<i class="fi fi-rr-boxes"></i>');
           });
           dom.lockerGridContainer.appendChild(dbCard);
         });
@@ -3554,7 +4059,7 @@
       const exists = state.gearList.find(it => it.name === lockerItem.name && it.brand === lockerItem.brand);
       if (exists) {
         exists.checked = true;
-        showToast(`「${lockerItem.name}」已重新在清單中勾選！`, '✓');
+        showToast(`「${lockerItem.name}」已重新在清單中勾選！`, '<i class="fi fi-rr-check"></i>');
       } else {
         const newItem = {
           id: 'pack_' + Date.now(),
@@ -3565,10 +4070,11 @@
           checked: true,
           isConsumable: lockerItem.isConsumable,
           vital: lockerItem.vital,
-          vitalType: lockerItem.vitalType
+          vitalType: lockerItem.vitalType,
+          prepStatus: 'owned'
         };
         state.gearList.unshift(newItem);
-        showToast(`已將「${lockerItem.name}」加入本次打包！`, '🎒');
+        showToast(`已將「${lockerItem.name}」加入本次打包！`, '<i class="fi fi-rr-backpack"></i>');
       }
       sound.playSuccess();
       renderChecklist();
@@ -3605,7 +4111,7 @@
         renderGearLocker();
         saveToStorage();
         sound.playSuccess();
-        showToast('已成功載入精選裝備庫範本！', '🌟');
+        showToast('已成功載入精選裝備庫範本！', '<i class="fi fi-rr-sparkles"></i>');
       }
     }
 
@@ -3618,7 +4124,7 @@
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       downloadAnchor.remove();
-      showToast('已匯出裝備庫 JSON 備份檔！', '💾');
+      showToast('已匯出裝備庫 JSON 備份檔！', '<i class="fi fi-rr-file-download"></i>');
     }
 
     // 匯入 JSON
@@ -3632,7 +4138,7 @@
             renderGearLocker();
             saveToStorage();
             sound.playSuccess();
-            showToast(`成功匯入 ${imported.length} 件裝備！`, '📥');
+            showToast(`成功匯入 ${imported.length} 件裝備！`, '<i class="fi fi-rr-file-upload"></i>');
           } else {
             alert('檔案格式錯誤，必須為裝備庫 JSON 陣列');
           }
@@ -3711,7 +4217,7 @@
       recalculate();
       saveToStorage();
       sound.playSuccess();
-      showToast(`已同步挑選之裝備至打包清單！`, '🎒');
+      showToast('已同步挑選之裝備至打包清單！', '<i class="fi fi-rr-backpack"></i>');
     }
 
     // --- 12. TAB 3 路線規格、步程與 EPH 體能計算 (ROUTE & PACE) ---
@@ -3759,16 +4265,16 @@
       // 難度分級
       if (eph <= 12) {
         dom.ephDifficultyBadge.className = 'ratio-status-badge status-safe';
-        dom.ephDifficultyBadge.innerText = '🟢 愜意郊山 / 入門路線';
+        dom.ephDifficultyBadge.innerHTML = '<i class="fi fi-rr-smile"></i> 愜意郊山 / 入門路線';
       } else if (eph <= 22) {
         dom.ephDifficultyBadge.className = 'ratio-status-badge status-safe';
-        dom.ephDifficultyBadge.innerText = '🟡 中度健行 / 標準百岳單日';
+        dom.ephDifficultyBadge.innerHTML = '<i class="fi fi-rr-mountain"></i> 中度健行 / 標準百岳單日';
       } else if (eph <= 35) {
         dom.ephDifficultyBadge.className = 'ratio-status-badge status-warning';
-        dom.ephDifficultyBadge.innerText = '🟠 高強度挑戰 / 考驗心肺耐力';
+        dom.ephDifficultyBadge.innerHTML = '<i class="fi fi-rr-flame"></i> 高強度挑戰 / 考驗心肺耐力';
       } else {
         dom.ephDifficultyBadge.className = 'ratio-status-badge status-danger';
-        dom.ephDifficultyBadge.innerText = '🔴 極限縱走 / 鐵人級考驗';
+        dom.ephDifficultyBadge.innerHTML = '<i class="fi fi-rr-triangle-warning"></i> 極限縱走 / 鐵人級考驗';
       }
 
       // (B) 標準步程基準時間 (Standard Baseline Hours)
@@ -3809,7 +4315,7 @@
         // 超過 20%：大幅減速
         const overRatio = weightRatioPct - 20;
         penaltyFactor = 1.10 + (overRatio * 0.025);
-        penaltyDesc = `⚠️ 背包超重 ${totalPackKg.toFixed(1)} kg（佔體重 ${weightRatioPct.toFixed(1)}%）！包包過重將顯著減慢陡坡步速並增加膝蓋耗損，步程預估延遲 ${( (penaltyFactor-1)*100 ).toFixed(0)}%！`;
+        penaltyDesc = `背包超重 ${totalPackKg.toFixed(1)} kg（佔體重 ${weightRatioPct.toFixed(1)}%）！包包過重將顯著減慢陡坡步速並增加膝蓋耗損，步程預估延遲 ${( (penaltyFactor-1)*100 ).toFixed(0)}%！`;
         dom.displayPenaltyFactorText.innerText = `${penaltyFactor.toFixed(2)}x 超重延遲`;
         dom.displayPenaltyFactorText.style.color = "var(--red-danger)";
       }
@@ -3849,13 +4355,13 @@
       // 係數說明標籤
       dom.displayPaceRatioVal.innerText = `${paceRatio.toFixed(2)}x`;
       if (paceRatio < 0.75) {
-        dom.pacePillDesc.innerText = '⚡ 極速越野跑者 / 野獸神腿級（0.6 ~ 0.7x）';
+        dom.pacePillDesc.innerHTML = '<i class="fi fi-rr-bolt"></i> 極速越野跑者 / 野獸神腿級（0.6 ~ 0.7x）';
       } else if (paceRatio <= 0.95) {
-        dom.pacePillDesc.innerText = '🏃 健腳高手步調（快步 0.8 ~ 0.9x）';
+        dom.pacePillDesc.innerHTML = '<i class="fi fi-rr-running"></i> 健腳高手步調（快步 0.8 ~ 0.9x）';
       } else if (paceRatio <= 1.05) {
-        dom.pacePillDesc.innerText = '🚶 1.0x 標準山徑地圖步程時間';
+        dom.pacePillDesc.innerHTML = '<i class="fi fi-rr-hiking"></i> 1.0x 標準山徑地圖步程時間';
       } else {
-        dom.pacePillDesc.innerText = '📸 悠閒賞景照相 / 慢活隊伍（1.1 ~ 1.5x）';
+        dom.pacePillDesc.innerHTML = '<i class="fi fi-rr-camera"></i> 悠閒賞景照相 / 慢活隊伍（1.1 ~ 1.5x）';
       }
     }
 
@@ -3871,20 +4377,20 @@
       const packKg = (state.gearList.filter(it => it.checked).reduce((sum, it) => sum + (Number(it.grams) || 0), 0) / 1000).toFixed(1);
 
       let text = `【山岳馱獸包包 PackBeast 登山行程配速規劃表】\n`;
-      text += `🏔️ 行程路線: ${rName}\n`;
-      text += `📏 路線規格: ${dist} km | 爬升 ↑${ascent} m | 下降 ↓${descent} m\n`;
-      text += `💪 體能難度: ${eph}\n`;
-      text += `🎒 起登負重: ${packKg} kg (${dom.displayPenaltyFactorText.innerText})\n`;
-      text += `⏱️ 個人配速係數: ${state.paceRatio.toFixed(2)}x\n`;
-      text += `🌅 起登時間: ${startT} ➔ ${eta}\n`;
-      text += `⏳ 預估完登時間: ${adjTime}\n`;
+      text += `行程路線: ${rName}\n`;
+      text += `路線規格: ${dist} km | 爬升 ↑${ascent} m | 下降 ↓${descent} m\n`;
+      text += `體能難度: ${eph}\n`;
+      text += `起登負重: ${packKg} kg (${dom.displayPenaltyFactorText.innerText})\n`;
+      text += `個人配速係數: ${state.paceRatio.toFixed(2)}x\n`;
+      text += `起登時間: ${startT} -> ${eta}\n`;
+      text += `預估完登時間: ${adjTime}\n`;
       text += `─────────────────\n由《山岳馱獸包包》精準配速計算，安全入山！`;
 
       navigator.clipboard.writeText(text).then(() => {
         sound.playSuccess();
-        showToast('已複製配速規劃表至剪貼簿！可貼到登山群組', '📋');
+        showToast('已複製配速規劃表至剪貼簿！可貼到登山群組', '<i class="fi fi-rr-copy"></i>');
       }).catch(() => {
-        showToast('複製完成！', '📋');
+        showToast('複製完成！', '<i class="fi fi-rr-check"></i>');
       });
     }
 
@@ -3964,7 +4470,7 @@
       if (results.length === 0) {
         dom.specSearchResultsArea.innerHTML = `
           <div style="padding:18px; text-align:center; color:var(--text-secondary); background:var(--bg-card-subtle); border:1px dashed var(--border-card); border-radius:var(--radius-sm);">
-            <div>🔍 未在內建離線資料庫找到「<strong>${escapeHtml(q)}</strong>」精準匹配</div>
+            <div><i class="fi fi-rr-search"></i> 未在內建離線資料庫找到「<strong>${escapeHtml(q)}</strong>」精準匹配</div>
             <div style="font-size:0.8rem; color:var(--text-muted); margin-top:6px;">
               可點擊下方按鈕「Google 規格重量查詢」直接檢視官方公克數！
             </div>
@@ -3996,7 +4502,7 @@
             dom.checkIsConsumable.checked = !!item.consumable;
             dom.specSearchModal.classList.remove('open');
             sound.playSuccess();
-            showToast(`已帶入「${item.model}」(${item.grams}g) 規格！`, '✨');
+            showToast(`已帶入「${item.model}」(${item.grams}g) 規格！`, '<i class="fi fi-rr-sparkles"></i>');
           } else if (dom.addLockerModal.classList.contains('open')) {
             dom.lockerInputBrand.value = item.brand;
             dom.lockerInputName.value = item.model;
@@ -4005,7 +4511,7 @@
             dom.lockerCheckConsumable.checked = !!item.consumable;
             dom.specSearchModal.classList.remove('open');
             sound.playSuccess();
-            showToast(`已帶入「${item.model}」(${item.grams}g) 規格！`, '✨');
+            showToast(`已帶入「${item.model}」(${item.grams}g) 規格！`, '<i class="fi fi-rr-sparkles"></i>');
           } else {
             const newLockerItem = {
               id: 'locker_' + Date.now(),
@@ -4023,7 +4529,7 @@
             saveToStorage();
             dom.specSearchModal.classList.remove('open');
             sound.playSuccess();
-            showToast(`已登記「${item.brand} ${item.model}」(${item.grams}g) 至個人裝備庫！`, '🗄️');
+            showToast(`已登記「${item.brand} ${item.model}」(${item.grams}g) 至個人裝備庫！`, '<i class="fi fi-rr-boxes"></i>');
           }
         });
         dom.specSearchResultsArea.appendChild(row);
@@ -4032,8 +4538,12 @@
 
     // --- 14. 吐司提示 (Toast Notice) ---
     let toastTimer = null;
-    function showToast(message, icon = '✨') {
-      dom.toastIcon.innerText = icon;
+    function showToast(message, icon = '<i class="fi fi-rr-sparkles"></i>') {
+      if (typeof icon === 'string' && icon.trim().startsWith('<')) {
+        dom.toastIcon.innerHTML = icon;
+      } else {
+        dom.toastIcon.innerText = icon;
+      }
       dom.toastMessage.innerText = message;
       dom.toastNotice.classList.add('show');
       if (toastTimer) clearTimeout(toastTimer);
@@ -4077,10 +4587,18 @@
       });
 
       // 行程預設切換
-      dom.presetDayHike.addEventListener('click', () => loadPreset('day_hike', true));
-      dom.presetCabin.addEventListener('click', () => loadPreset('cabin_overnight', true));
-      dom.presetCampMulti.addEventListener('click', () => loadPreset('camp_multi', true));
-      dom.presetTrailRun?.addEventListener('click', () => loadPreset('trail_run', true));
+      dom.presetDayHike.addEventListener('click', () => applyPresetTrip('day_hike', state.presetMode, true));
+      dom.presetCabin.addEventListener('click', () => applyPresetTrip('cabin_overnight', state.presetMode, true));
+      dom.presetCampMulti.addEventListener('click', () => applyPresetTrip('camp_multi', state.presetMode, true));
+      dom.presetTrailRun?.addEventListener('click', () => applyPresetTrip('trail_run', state.presetMode, true));
+
+      // 雙模式切換按鈕 (推薦使用裝備 vs 由個人裝備庫匯入)
+      dom.btnModeRecommend?.addEventListener('click', () => {
+        applyPresetTrip(state.currentPreset, 'recommend', true);
+      });
+      dom.btnModeImport?.addEventListener('click', () => {
+        applyPresetTrip(state.currentPreset, 'import_locker', true);
+      });
 
       // 補齊安全裝備
       dom.btnFixSafetyItems.addEventListener('click', fixSafetyItems);
@@ -4122,7 +4640,7 @@
         renderChecklist();
         recalculate();
         saveToStorage();
-        showToast(`已新增「${name}」(${weight}g)`, '✨');
+        showToast(`已新增「${name}」(${weight}g)`, '<i class="fi fi-rr-plus"></i>');
       });
 
       // 新增裝備至裝備庫彈窗 2 (Tab 2)
@@ -4166,7 +4684,7 @@
         sound.playSuccess();
         renderGearLocker();
         saveToStorage();
-        showToast(`已登記「${brand} ${name}」至個人裝備庫！`, '🗄️');
+        showToast(`已登記「${brand} ${name}」至個人裝備庫！`, '<i class="fi fi-rr-boxes"></i>');
       });
 
       // 裝備庫工具列事件
@@ -4241,10 +4759,10 @@
       // 音效切換
       dom.btnSoundToggle.addEventListener('click', () => {
         state.soundEnabled = !state.soundEnabled;
-        dom.soundIcon.innerText = state.soundEnabled ? '🔔' : '🔕';
-        dom.btnSoundToggle.innerHTML = `<span id="soundIcon">${dom.soundIcon.innerText}</span> 音效${state.soundEnabled ? '開' : '靜音'}`;
+        const iconHtml = state.soundEnabled ? '<i class="fi fi-rr-bell"></i>' : '<i class="fi fi-rr-bell-slash"></i>';
+        dom.btnSoundToggle.innerHTML = `<span id="soundIcon">${iconHtml}</span> 音效${state.soundEnabled ? '開' : '靜音'}`;
         if (state.soundEnabled) sound.playPop();
-        showToast(state.soundEnabled ? '已開啟音效提示' : '已關閉音效提示', state.soundEnabled ? '🔔' : '🔕');
+        showToast(state.soundEnabled ? '已開啟音效提示' : '已關閉音效提示', iconHtml);
         saveToStorage();
       });
 
@@ -4254,7 +4772,7 @@
       // 重設清單按鈕
       dom.btnResetPreset.addEventListener('click', () => {
         if (confirm('確定要還原為此行程的預設裝備清單嗎？（自訂項目將會重置）')) {
-          loadPreset(state.currentPreset, true);
+          applyPresetTrip(state.currentPreset, state.presetMode, true);
         }
       });
 
@@ -4274,9 +4792,9 @@
 
       let text = `【山岳馱獸包包 PackBeast 裝備檢核摘要】\n`;
       text += `登山者體重: ${state.bodyWeight} kg\n`;
-      text += `🎒 基礎重量 (BW): ${baseKg} kg\n`;
-      text += `⚖️ 行進總重 (TPW): ${totalKg} kg\n`;
-      text += `📊 負重佔比: ${ratio}%\n`;
+      text += `基礎重量 (BW): ${baseKg} kg\n`;
+      text += `行進總重 (TPW): ${totalKg} kg\n`;
+      text += `負重佔比: ${ratio}%\n`;
       text += `─────────────────\n`;
 
       Object.keys(CATEGORIES).forEach(catKey => {
@@ -4294,9 +4812,9 @@
 
       navigator.clipboard.writeText(text).then(() => {
         sound.playSuccess();
-        showToast('已複製清單摘要至剪貼簿！可貼到 LINE 群組', '📋');
+        showToast('已複製清單摘要至剪貼簿！可貼到 LINE 群組', '<i class="fi fi-rr-copy"></i>');
       }).catch(() => {
-        showToast('已複製清單摘要！', '📋');
+        showToast('已複製清單摘要！', '<i class="fi fi-rr-check"></i>');
       });
     }
 
@@ -4304,7 +4822,6 @@
     function initApp() {
       const hasSaved = loadFromStorage();
       if (!hasSaved) {
-        loadPreset('cabin_overnight', false);
         // 初始化精選裝備庫
         state.gearLocker = [
           { id: 'l_1', brand: 'Arc\'teryx', name: 'Beta LT 防水風雨衣', cat: 'warm', grams: 395, startDate: '2023-05-10', isConsumable: false, vital: true, vitalType: 'rain' },
@@ -4315,15 +4832,18 @@
           { id: 'l_6', brand: 'Soto', name: 'Windmaster SOD-310 攻頂爐', cat: 'cook', grams: 67, startDate: '2022-04-15', isConsumable: false, vital: false },
           { id: 'l_7', brand: 'Petzl', name: 'Actik Core 450流明 頭燈', cat: 'safe', grams: 88, startDate: '2023-09-01', isConsumable: false, vital: true, vitalType: 'headlamp' }
         ];
+        applyPresetTrip('cabin_overnight', 'recommend', false);
       } else {
         dom.inputBodyWeight.value = state.bodyWeight;
         dom.sliderBodyWeight.value = state.bodyWeight;
         if (!state.soundEnabled) {
-          dom.btnSoundToggle.innerHTML = `<span id="soundIcon">🔕</span> 音效靜音`;
+          dom.btnSoundToggle.innerHTML = `<span id="soundIcon"><i class="fi fi-rr-bell-slash"></i></span> 音效靜音`;
         }
         document.querySelectorAll('.btn-preset').forEach(btn => {
           btn.classList.toggle('active', btn.dataset.preset === state.currentPreset);
         });
+        if (dom.btnModeRecommend) dom.btnModeRecommend.classList.toggle('active', state.presetMode === 'recommend');
+        if (dom.btnModeImport) dom.btnModeImport.classList.toggle('active', state.presetMode === 'import_locker');
         renderChecklist();
         recalculate();
       }
