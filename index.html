@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>山岳馱獸包包 PackBeast | 輕量化負重、個人裝備庫與 EPH 路線體能計算</title>
-  <meta name="description" content="全方位登山神隊友：輕量化負重檢核、個人裝備資產庫（品牌/規格/啟用日期）、智慧規格搜尋、路線步程時間與個人 EPH 體能計算機。">
+  <title>山岳馱獸包包 PackBeast | 輕量化負重檢核與個人裝備資產庫</title>
+  <meta name="description" content="全方位登山神隊友：輕量化負重檢核、個人裝備資產庫（品牌/規格/啟用日期）、130+款熱門經典裝備規格搜尋。">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1986,7 +1986,7 @@
         </div>
         <div class="brand-text">
           <h1>山岳馱獸包包 <span style="font-size: 0.85rem; font-weight: 600; padding: 2px 8px; background: rgba(52,211,153,0.15); border: 1px solid rgba(52,211,153,0.3); border-radius: 99px; -webkit-text-fill-color: #34d399;">PackBeast Pro</span></h1>
-          <div class="brand-tagline">登山輕量化負重 • 個人裝備資產庫 • 路線步程與 EPH 體能計算機</div>
+          <div class="brand-tagline">登山輕量化負重 • 個人裝備資產庫 • 規格智慧搜尋</div>
         </div>
       </div>
 
@@ -2012,10 +2012,6 @@
       <button class="nav-tab-btn" data-tab="tabGearLocker" role="tab" aria-selected="false">
         <span>🗄️ 我的裝備資產庫</span>
         <span class="tab-badge" id="tabBadgeLockerCount">0 件</span>
-      </button>
-      <button class="nav-tab-btn" data-tab="tabRoutePace" role="tab" aria-selected="false">
-        <span>🧭 路線規格與 EPH 步程計算</span>
-        <span class="tab-badge" id="tabBadgeEph">EPH -</span>
       </button>
     </nav>
 
@@ -2282,9 +2278,9 @@
     </main>
 
     <!-- ========================================================
-         TAB 3: 路線規格與 EPH 體能計算 (ROUTE & PACE)
+         TAB 3: 路線規格與 EPH 體能計算 (暫時隱藏)
          ======================================================== -->
-    <main id="tabRoutePace" class="tab-content-panel">
+    <main id="tabRoutePace" class="tab-content-panel" style="display:none !important;" aria-hidden="true">
       <div class="route-planner-grid">
         <!-- Left: Route Preset & Settings -->
         <section class="route-card">
@@ -2405,7 +2401,7 @@
     <!-- Footer -->
     <footer class="app-footer">
       <div class="footer-left">
-        <span>🐾 <strong>山岳馱獸包包 PackBeast Pro</strong> — 輕量化負重 • 裝備履歷庫 • 路線與 EPH 體能計算</span>
+        <span>🐾 <strong>山岳馱獸包包 PackBeast Pro</strong> — 輕量化負重 • 裝備履歷庫 • 規格搜尋助手</span>
       </div>
       <div class="footer-links">
         <span>純前端單一靜態架構 • LocalStorage 本地儲存 • 隱私優先</span>
@@ -3855,6 +3851,7 @@
 
     // --- 12. TAB 3 路線規格、步程與 EPH 體能計算 (ROUTE & PACE) ---
     function renderRoutePresets() {
+      if (!dom.routePresetsContainer) return;
       dom.routePresetsContainer.innerHTML = '';
       TAIWAN_ROUTES_DATABASE.forEach(r => {
         const btn = document.createElement('button');
@@ -3879,6 +3876,9 @@
     }
 
     function calculateRoutePace() {
+      if (!dom.inputRouteDist || !dom.tabBadgeEph || !dom.displayEphValue) {
+        return;
+      }
       const distKm = parseFloat(dom.inputRouteDist.value) || 0;
       const ascentM = parseFloat(dom.inputRouteAscent.value) || 0;
       const descentM = parseFloat(dom.inputRouteDescent.value) || 0;
@@ -4359,17 +4359,19 @@
         dom.lockerCheckConsumable.checked = !!item.consumable;
       });
 
-      // Tab 3 路線輸入事件
-      [dom.inputRouteDist, dom.inputRouteAscent, dom.inputRouteDescent].forEach(input => {
-        input.addEventListener('input', () => {
-          if (state.currentRoute) state.currentRoute.id = 'custom';
-          document.querySelectorAll('.btn-route-chip').forEach(c => c.classList.remove('active'));
-          calculateRoutePace();
+      // Tab 3 路線輸入事件 (安全保護)
+      if (dom.inputRouteDist && dom.sliderPaceRatio) {
+        [dom.inputRouteDist, dom.inputRouteAscent, dom.inputRouteDescent].forEach(input => {
+          input?.addEventListener('input', () => {
+            if (state.currentRoute) state.currentRoute.id = 'custom';
+            document.querySelectorAll('.btn-route-chip').forEach(c => c.classList.remove('active'));
+            calculateRoutePace();
+          });
         });
-      });
-      dom.sliderPaceRatio.addEventListener('input', calculateRoutePace);
-      dom.inputStartTime.addEventListener('change', calculateRoutePace);
-      dom.btnCopyRoutePlan.addEventListener('click', copyRoutePlan);
+        dom.sliderPaceRatio?.addEventListener('input', calculateRoutePace);
+        dom.inputStartTime?.addEventListener('change', calculateRoutePace);
+        dom.btnCopyRoutePlan?.addEventListener('click', copyRoutePlan);
+      }
 
       // 音效切換
       dom.btnSoundToggle.addEventListener('click', () => {
@@ -4463,8 +4465,6 @@
 
       // 初始化各模組
       renderGearLocker();
-      renderRoutePresets();
-      calculateRoutePace();
       setupEventListeners();
     }
 

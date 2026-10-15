@@ -1,49 +1,40 @@
 # 《山岳馱獸包包 PackBeast Pro》系統架構與運作流程圖說明書
 
-本文件詳細闡述《山岳馱獸包包 PackBeast Pro》的軟體系統架構、元件分層、模組交互關係以及四大核心功能的運作流程圖（採用 Mermaid 語法繪製）。
+本文件詳細闡述《山岳馱獸包包 PackBeast Pro》的軟體系統架構、元件分層、模組交互關係以及核心功能的運作流程圖（採用 Mermaid 語法繪製）。
 
 ---
 
 ## 🏗️ 一、系統總體分層架構圖 (System Architecture)
 
-《山岳馱獸包包》採用**純前端單一靜態架構（Single Static SPA）**，無需任何伺服器端或構建工具即可在瀏覽器獨立運作，所有資料與運算皆在客戶端完成，兼具隱私優先、離線可用與零延遲反應特性。
+《山岳馱獸包包》採用**純前端單一靜態架構（Single Static SPA）**，無需任何後端伺服器或建置工具即可在瀏覽器獨立運作，所有運算與資料儲存皆在使用者客戶端完成，具備離線可用、極速響應與隱私安全特性。
 
 ```mermaid
 graph TB
     subgraph Client_UI ["前端視圖展示層 (Presentation Tier)"]
         Nav["導航切換列 (Navigation Tabs)"]
-        Header["頂部工具列 (音效開關 / 複製摘要 / 範本重設)"]
+        Header["頂部工具列 (音效開關 / 複製裝備摘要 / 範本重設)"]
         
-        subgraph Tab1 ["Tab 1: 打包負重檢核"]
-            T1_Input["體重調整 (數字 / 滑桿)"]
+        subgraph Tab1 ["Tab 1: 打包負重檢核 (Pack Check)"]
+            T1_Input["體重參數調整 (數字輸入 / 滑桿連動)"]
             T1_Presets["4大行程推薦預設 (單攻/山屋/露營/越野跑)"]
-            T1_Dash["動態負重儀表板 (BW / TPW / 負重比)"]
-            T1_Mascot["馱獸動態狀態反饋卡"]
-            T1_Guardian["守護小精靈 (保命裝備雙重掃描)"]
-            T1_Checklist["5大分類裝備檢核清單 (勾選/編輯/刪除)"]
+            T1_Dash["動態負重儀表板 (Base Weight / TPW / 負重比)"]
+            T1_Mascot["馱獸動態狀態反饋卡 (羽量神獸/穩健馱獸/膝蓋火葬場)"]
+            T1_Guardian["守護小精靈 (頭燈/雨衣保命裝備雙重掃描)"]
+            T1_Checklist["5大分類裝備檢核清單 (即時勾選/編輯/自訂新增)"]
         end
 
-        subgraph Tab2 ["Tab 2: 個人裝備資產庫"]
+        subgraph Tab2 ["Tab 2: 個人裝備資產庫 (Gear Locker)"]
             T2_Stats["裝備庫資產統計 (總重 / 總件數 / 平均服役年資)"]
-            T2_Toolbar["搜尋過濾列 / 規格庫查詢 / 登記新裝備"]
-            T2_Grid["個人裝備卡片 (年資狀態燈 / 一鍵加入打包)"]
-            T2_Backup["JSON 備份匯出與檔案還原"]
+            T2_Toolbar["即時搜尋過濾列 / 規格庫查詢 / 登記新裝備"]
+            T2_Grid["個人裝備卡片 (服役年資燈號 / 一鍵加入打包)"]
+            T2_Backup["JSON 備份匯出與本機檔案還原"]
         end
 
-        subgraph Tab3 ["Tab 3: 路線規格與 EPH 體能計算"]
-            T3_RouteChips["台灣熱門路線庫晶片 (玉山/雪山/奇萊等 9 條)"]
-            T3_Inputs["自訂路線參數 (里程 / 爬升 / 下降)"]
-            T3_Pace["個人配速係數滑桿 (0.6x ~ 1.5x)"]
-            T3_EPH["EPH 體能等效步程難度 Banner"]
-            T3_Penalty["馱獸包包負重減速加權修正卡"]
-            T3_ETA["完登預估時間 / 起登 ETA / 日落警戒"]
-        end
-
-        subgraph Global_Modals ["全域輔助彈窗與互動回饋"]
-            M_AddGear["新增/編輯裝備 Modal"]
-            M_SpecSearch["智慧規格搜尋助手 Modal"]
-            M_Toast["Toast 即時通知反饋"]
-            M_Audio["Web Audio API 合成音效引擎"]
+        subgraph Global_Modals ["全域輔助彈窗與互動反饋"]
+            M_AddGear["登記/編輯裝備 Modal (支援即時自動補全)"]
+            M_SpecSearch["智慧規格搜尋助手 Modal (內建規格庫 + 外部評測捷徑)"]
+            M_Toast["Toast 即時通知反饋系統"]
+            M_Audio["Web Audio API 合成音效引擎 (無外部音檔依賴)"]
         end
     end
 
@@ -51,29 +42,25 @@ graph TB
         E_Weight["負重計算引擎 (Base Weight & TPW Calculator)"]
         E_Safety["安全防護檢測引擎 (Safety Guardian Scanner)"]
         E_Spec["規格模糊比對與自動補全引擎 (Spec Matching Engine)"]
-        E_Route["EPH 難度與負重減速演算引擎 (Pace & Penalty Engine)"]
         E_Sound["Web Audio 振盪器音效引擎 (Oscillator Synthesizer)"]
     end
 
     subgraph Data_Tier ["資料儲存與持久化層 (Data & Persistence Tier)"]
-        S_State["全域響應式狀態 (Global App State)"]
-        DB_Specs["內建 130+ 款主流裝備規格資料庫 (登山/越野跑/迪卡儂)"]
-        DB_Routes["內建台灣經典百岳與中級山路線庫"]
+        S_State["全域響應式狀態 (Global App State: gearList, gearLocker, bodyWeight)"]
+        DB_Specs["內建 130+ 款主流裝備規格資料庫 (經典登山/越野跑/迪卡儂)"]
         Local_Storage["瀏覽器 LocalStorage (Key: packbeast_pro_state_v2)"]
         JSON_File["本機 JSON 備份檔案"]
     end
 
     %% 連接關係
     Header --> S_State
-    Nav --> Tab1 & Tab2 & Tab3
+    Nav --> Tab1 & Tab2
     Tab1 --> E_Weight & E_Safety
     Tab2 --> E_Spec
-    Tab3 --> E_Route
     Global_Modals --> E_Sound
 
-    E_Weight & E_Safety & E_Spec & E_Route <--> S_State
+    E_Weight & E_Safety & E_Spec <--> S_State
     E_Spec <--> DB_Specs
-    E_Route <--> DB_Routes
     S_State <--> Local_Storage
     T2_Backup <--> JSON_File
 ```
@@ -84,7 +71,7 @@ graph TB
 
 ### 1. 打包負重檢核與動態儀表板運作流程 (Pack Check & Dynamic Dashboard)
 
-此流程涵蓋登山者輸入體重、選擇行程型態範本、即時計算基礎重量（BW）與起登總重（TPW），並連動守護小精靈進行保命裝備掃描。
+此流程涵蓋登山者設定體重、選取行程型態預設範本、即時計算基礎重量（Base Weight）與起登總重（Total Packed Weight），並連動守護小精靈進行保命裝備即時掃描。
 
 ```mermaid
 sequenceDiagram
@@ -122,7 +109,7 @@ sequenceDiagram
         UI->>Audio: 播放 Pop / Click 音效
         UI->>State: 增刪裝備陣列元素
         UI->>Engine: 重新計算負重指標
-        UI->>Storage: saveToStorage() 保存最新狀態
+        UI->>Storage: saveToStorage() 保存最新狀態至 LocalStorage
     end
 ```
 
@@ -130,7 +117,7 @@ sequenceDiagram
 
 ### 2. 裝備資產庫搜尋、規格庫智慧檢索與一鍵入庫流程 (Gear Locker & Spec Search)
 
-本模組支援**離線毫秒級檢索**與**個人裝備壽命管理**，當使用者在裝備庫搜尋時，系統會同時比對個人既有裝備與 130+ 款官方規格庫。
+本模組支援**離線毫秒級雙向檢索**與**個人裝備壽命管理**，當使用者在裝備庫搜尋時，系統會同時檢索個人既有裝備與 130+ 款官方規格庫。
 
 ```mermaid
 flowchart TD
@@ -152,7 +139,7 @@ flowchart TD
     RenderUI --> HasDBMatch{官方規格庫有相符?}
     HasDBMatch -- 有 --> DisplayDBRecommendations[下方渲染 🌟 官方資料庫推薦區塊<br>標示品牌、官方淨重與分類]
     DisplayDBRecommendations --> ClickAdd[使用者點擊 ➕ 登記存入裝備庫]
-    ClickAdd --> AutoFill[自動提取規格參數 (品牌/品名/克數/分類/當前啟用日期)]
+    ClickAdd --> AutoFill[自動提取規格參數 (品牌/品名/克數/分類/啟用日期)]
     AutoFill --> SaveLocker[存入個人裝備庫 State.gearLocker]
     SaveLocker --> PlaySound[播放 Success 成功提示音效]
     PlaySound --> RefreshView[即時重新渲染裝備庫並持久化儲存]
@@ -163,67 +150,21 @@ flowchart TD
 
 ---
 
-### 3. 登山路線規格、EPH 體能指標與負重減速加權演算流程 (Route, EPH & Pack Penalty)
+### 3. 資料持久化、匯出備份與無痛轉移機制 (State Persistence & Backup)
 
-本功能整合路線地形指標與**打包總重（TPW）**，透過動態聯動演算法，真實模擬登山重裝對步速的減速影響。
-
-```mermaid
-flowchart LR
-    subgraph Inputs ["輸入參數層"]
-        R_Select["選取 9 條經典路線<br>或自訂里程/爬升/下降"]
-        R_Pace["設定個人步速係數<br>(0.6x 神腿 ~ 1.5x 慢行)"]
-        R_Start["設定預計起登時間<br>(預設 04:30)"]
-        R_PackWeight["讀取 Tab 1 之起登總重 TPW<br>與個人體重負重佔比 %"]
-    end
-
-    subgraph Calculation ["核心演算邏輯"]
-        Calc_EPH["計算 EPH 體能等效步程時<br>EPH = 里程 + (爬升/100) + (下降/300)"]
-        Calc_Difficulty["評定體能難度等級<br>🟢 愜意郊山 (≤12)<br>🟡 中度百岳 (12-22)<br>🟠 高強度挑戰 (22-35)<br>🔴 極限縱走 (>35)"]
-        
-        Calc_Base["計算標準山徑步程時間 (Base Time)<br>自訂模式：(里程/3.8) + (爬升/400) + (下降/1200)"]
-        Calc_Personal["計算個人無負重預估時間<br>Personal Hours = Base Time * Pace Ratio"]
-        
-        Calc_Penalty["馱獸包包獨創：背包負重減速加權<br>• 負重 ≤ 15%: 懲罰率 1.00x (無延遲)<br>• 負重 15~20%: 懲罰率 1.0 + (超額% * 0.018)<br>• 負重 > 20%: 懲罰率 1.10 + (超額% * 0.025)"]
-        
-        Calc_Final["計算負重修正後之最終完登時間<br>Final Hours = Personal Hours * 懲罰率"]
-        Calc_ETA["推算抵達時間 (ETA) 與日落撤退警戒<br>起登時間 + 最終步程時間"]
-    end
-
-    subgraph Outputs ["即時視覺呈現與群組分享"]
-        Out_Banner["EPH 難度勳章與數值卡"]
-        Out_Time["完登預估時間 (小時 / 分鐘)"]
-        Out_PenaltyCard["負重減速加權卡與膝蓋耗損提醒"]
-        Out_ETA["ETA 抵達標籤 (若超過 17:30 觸發摸黑警戒)"]
-        Out_Share["📋 一鍵複製配速計畫至 LINE 群組"]
-    end
-
-    Inputs --> Calculation
-    Calc_EPH --> Calc_Difficulty
-    Calc_Base & R_Pace --> Calc_Personal
-    R_PackWeight --> Calc_Penalty
-    Calc_Personal & Calc_Penalty --> Calc_Final
-    Calc_Final & R_Start --> Calc_ETA
-    
-    Calculation --> Outputs
-```
-
----
-
-### 4. 資料持久化、匯出備份與無痛轉移機制 (State Persistence & Backup)
-
-保證使用者在離線、重新整理網頁或更換裝置時，裝備與計算狀態絕不遺失。
+確保使用者在離線、重新整理網頁或更換不同裝置時，個人裝備資產與打包狀態安全無虞。
 
 ```mermaid
 flowchart TD
     subgraph Browser_Runtime ["瀏覽器運行時 (Runtime)"]
         AppStart([網頁載入 DOMContentLoaded]) --> CheckStorage{LocalStorage 是否有存檔?}
         CheckStorage -- 存在有效資料 --> ParseJSON[解析 packbeast_pro_state_v2 JSON]
-        ParseJSON --> HydrateState[還原裝備清單、個人裝備櫃與配速設定]
+        ParseJSON --> HydrateState[還原裝備清單、個人裝備資產庫與體重設定]
         CheckStorage -- 首次訪問 / 空白 --> InitDefault[載入預設 65kg、兩天一夜範本]
         
-        HydrateState & InitDefault --> RenderApp[全面渲染 Tab 1, Tab 2, Tab 3 畫面]
+        HydrateState & InitDefault --> RenderApp[全面渲染 Tab 1 與 Tab 2 畫面]
         
-        UserAction[使用者進行任何互動<br>增刪裝備 / 勾選 / 修改路線 / 調整體重] --> UpdateState[更新記憶體內之 state 物件]
+        UserAction[使用者進行任何互動<br>增刪裝備 / 勾選 / 登記新裝備 / 調整體重] --> UpdateState[更新記憶體內之 state 物件]
         UpdateState --> SaveStorage[(寫入 window.localStorage)]
     end
 
@@ -245,7 +186,7 @@ flowchart TD
 
 ## 📊 三、核心資料結構規範 (Data Schema Reference)
 
-### 1. 裝備項目物件（Gear Item Schema）
+### 裝備項目物件（Gear Item Schema）
 ```typescript
 interface GearItem {
   id: string;             // 唯一識別代碼 (如 "dh_1", "locker_1697...")
@@ -262,24 +203,11 @@ interface GearItem {
 }
 ```
 
-### 2. 路線參數物件（Route Parameter Schema）
-```typescript
-interface RouteItem {
-  id: string;             // 路線代碼 (如 "yushan_main", "custom")
-  name: string;           // 路線名稱 (如 "玉山主峰線 (塔塔加往返)")
-  distKm: number;         // 總單程或往返里程 (公里 km)
-  ascentM: number;        // 累計爬升高度 (公尺 m)
-  descentM: number;       // 累計下降高度 (公尺 m)
-  standardHours: number;  // 路線標準地圖步程基準時間 (小時 hr)
-  desc: string;           // 路線地形特徵與安全提示說明
-}
-```
-
 ---
 
 ## 💡 四、架構特點與工程優勢總結
 
-1. **零外部框架依賴（Zero Dependencies）**：純原生 HTML5、CSS3 與現代 ES6+ JavaScript，整套系統打包於單一檔案，無 npm 套件龐大體積與供應鏈漏洞風險。
-2. **高響應式與流暢體驗（60 FPS Animation）**：採用 CSS 變數系統、彈性格線（Flexbox/Grid）與硬體加速過渡效果，支援手機、平板至桌上型螢幕無縫適配。
-3. **離線優先設計（Offline-First & Local-First）**：內建 130+ 款裝備與 9 條路線資料，在無行動網路的山區仍可完整運行所有檢核、搜尋與計算功能。
-4. **模組化演算法解耦（Decoupled Calculation Engines）**：負重引擎、守護掃描器、規格檢索器與配速引擎各自獨立，便於未來擴充 GPS GPX 軌跡匯入或天氣預報 API 串接。
+1. **聚焦核心體驗**：全面專注於「輕量化負重控制」與「個人裝備生命週期管理」兩大核心價值，介面直覺乾淨，無冗餘干擾。
+2. **零外部框架依賴（Zero Dependencies）**：純原生 HTML5、CSS3 與現代 JavaScript（ES6+），單一靜態檔案架構，可直接部署於 GitHub Pages。
+3. **離線優先設計（Offline-First & Local-First）**：內建 130+ 款主流裝備規格資料庫，在無行動網路的山區仍可完整運行所有檢核、搜尋與裝備管理功能。
+4. **流暢動態回饋（60 FPS Animation）**：CSS 變數系統、彈性感應格線與硬體加速過渡動畫，在手機、平板與桌機上均能享有極致體驗。
