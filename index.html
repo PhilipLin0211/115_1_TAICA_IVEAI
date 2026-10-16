@@ -3352,11 +3352,80 @@
         panel.classList.toggle('active', panel.id === targetTabId);
       });
 
-      if (targetTabId === 'tabGearLocker') {
+      if (targetTabId === 'tabPackCheck') {
+        renderChecklist();
+        recalculate();
+      } else if (targetTabId === 'tabGearLocker') {
         renderGearLocker();
       } else if (targetTabId === 'tabRoutePace') {
         calculateRoutePace();
       }
+    }
+
+    // --- 9.1 裝備比對與在庫/準備狀態動態檢查 ---
+    function isMatchingGear(a, b) {
+      if (!a || !b) return false;
+      if (a.cat !== b.cat) return false;
+
+      const nameA = (a.name || '').trim().toLowerCase();
+      const nameB = (b.name || '').trim().toLowerCase();
+      if (nameA === nameB) return true;
+
+      // 比對五大系統智慧子分類 (如：防水風雨衣、防風雨褲、攻頂爐具、高山睡袋、照明頭燈、登山背包等)
+      const subA = getItemSubcategory(a);
+      const subB = getItemSubcategory(b);
+      if (subA && subB && subA === subB) return true;
+
+      // 比對保命裝備類型
+      if (a.vital && b.vital && a.vitalType && b.vitalType && a.vitalType === b.vitalType) return true;
+
+      // 同品牌且品名關鍵字吻合
+      if (a.brand && b.brand && a.brand.toLowerCase() === b.brand.toLowerCase()) {
+        const wordsA = nameA.replace(/[()（）#\-_/【】]/g, ' ').split(/\s+/).filter(w => w.length > 1);
+        if (wordsA.some(w => nameB.includes(w))) return true;
+      }
+
+      // 核心關鍵字重疊比對
+      const wordsA = nameA.replace(/[()（）#\-_/【】]/g, ' ').split(/\s+/).filter(w => w.length > 1);
+      const wordsB = nameB.replace(/[()（）#\-_/【】]/g, ' ').split(/\s+/).filter(w => w.length > 1);
+      const shared = wordsA.filter(w => wordsB.some(wb => wb.includes(w) || w.includes(wb)));
+      if (shared.length > 0) return true;
+
+      return false;
+    }
+
+    function checkItemIsOwned(item) {
+      if (!item) return false;
+
+      // 1. 使用者自訂新增或由裝備庫挑選帶入的裝備，代表使用者已自備/已準備
+      if (item.id && (item.id.startsWith('user_') || item.id.startsWith('pack_') || item.id.startsWith('fix_') || item.id.startsWith('imp_'))) {
+        return true;
+      }
+      if (item.prepStatus === 'owned') return true;
+
+      // 2. 個人裝備資產庫中是否有相符之裝備
+      if (state.gearLocker && state.gearLocker.some(l => isMatchingGear(item, l))) {
+        return true;
+      }
+
+      // 3. 本次打包清單中是否已有勾選之同子分類/同保命功能裝備（代表此項需求已被自備裝備滿足）
+      if (state.gearList && state.gearList.some(other => {
+        if (other.id === item.id) return false;
+        if (!other.checked) return false;
+        if (other.cat === item.cat) {
+          const s1 = getItemSubcategory(item);
+          const s2 = getItemSubcategory(other);
+          if (s1 && s2 && s1 === s2) return true;
+        }
+        if (item.vital && other.vital && item.vitalType && other.vitalType === item.vitalType) {
+          return true;
+        }
+        return false;
+      })) {
+        return true;
+      }
+
+      return false;
     }
 
     // --- 10. 行程型態推薦預設套用 ---
@@ -3375,17 +3444,7 @@
       let needPrepCount = 0;
 
       list.forEach(item => {
-        // 比對個人裝備庫
-        const itemWords = item.name.toLowerCase().replace(/[()（）#\-_/]/g, ' ').split(/\s+/).filter(w => w.length > 1);
-        const matchInLocker = state.gearLocker.find(l => {
-          if (l.name.toLowerCase() === item.name.toLowerCase()) return true;
-          if (item.brand && l.brand && l.brand.toLowerCase() === item.brand.toLowerCase() && l.cat === item.cat) {
-            return itemWords.some(w => l.name.toLowerCase().includes(w));
-          }
-          if (item.vital && l.vital && item.vitalType && l.vitalType === item.vitalType) return true;
-          return false;
-        });
-
+        const matchInLocker = state.gearLocker.find(l => isMatchingGear(item, l));
         if (matchInLocker) {
           item.prepStatus = 'owned';
           item.lockerMatchName = `${matchInLocker.brand ? matchInLocker.brand + ' ' : ''}${matchInLocker.name}`;
@@ -3461,13 +3520,12 @@
           listContainer.innerHTML = `<div style="padding:12px; font-size:0.8rem; color:var(--text-muted); text-align:center;">此分類尚無裝備</div>`;
         } else {
           items.forEach(item => {
-            const status = item.prepStatus || (state.gearLocker.some(l => l.name === item.name) ? 'owned' : 'need_prep');
+            const isOwned = checkItemIsOwned(item);
 
             const row = document.createElement('div');
             let rowClasses = ['gear-item-row'];
             if (!item.checked) rowClasses.push('is-unchecked');
-            if (status === 'missing') rowClasses.push('row-item-missing');
-            else if (status === 'need_prep') rowClasses.push('row-item-needprep');
+            if (!isOwned) rowClasses.push('row-item-needprep');
             row.className = rowClasses.join(' ');
             row.id = `item_row_${item.id}`;
 
@@ -3476,13 +3534,9 @@
             if (item.brand) tagsHtml += `<span class="badge-brand-tag">${escapeHtml(item.brand)}</span>`;
             if (subcat) tagsHtml += `<span class="badge-subcat-tag">${escapeHtml(subcat)}</span>`;
 
-            // 狀態提醒色標
-            if (status === 'owned') {
-              tagsHtml += `<span class="badge-status-owned" title="個人裝備庫中已擁有此裝備"><i class="fi fi-rr-check"></i> 自備已在庫</span>`;
-            } else if (status === 'need_prep') {
-              tagsHtml += `<span class="badge-status-needprep" title="個人裝備庫中未登記，需額外準備"><i class="fi fi-rr-exclamation"></i> 未在庫需準備</span>`;
-            } else if (status === 'missing') {
-              tagsHtml += `<span class="badge-status-missing" title="個人裝備庫缺少此必要裝備！需租借或購買"><i class="fi fi-rr-cross-circle"></i> 缺此項需準備</span>`;
+            // 狀態提醒色標：僅未在庫需準備時標註提醒；一旦已加入或在裝備庫中自備，提示標籤自動消失
+            if (!isOwned) {
+              tagsHtml += `<span class="badge-status-needprep" title="個人裝備庫中未登記，出發前需額外準備"><i class="fi fi-rr-exclamation"></i> 未在庫需準備</span>`;
             }
 
             row.innerHTML = `
@@ -3916,6 +3970,8 @@
               e.stopPropagation();
               state.gearLocker = state.gearLocker.filter(l => l.id !== item.id);
               renderGearLocker();
+              renderChecklist();
+              recalculate();
               saveToStorage();
               sound.playPop();
               showToast(`已從裝備庫移除「${item.name}」`, '<i class="fi fi-rr-trash"></i>');
@@ -3986,6 +4042,8 @@
             };
             state.gearLocker.unshift(newLockerItem);
             renderGearLocker();
+            renderChecklist();
+            recalculate();
             saveToStorage();
             sound.playSuccess();
             showToast(`已登記「${dbItem.brand} ${dbItem.model}」至個人裝備庫！`, '<i class="fi fi-rr-boxes"></i>');
@@ -4063,6 +4121,8 @@
         });
 
         renderGearLocker();
+        renderChecklist();
+        recalculate();
         saveToStorage();
         sound.playSuccess();
         showToast('已成功載入精選裝備庫範本！', '<i class="fi fi-rr-sparkles"></i>');
@@ -4090,6 +4150,8 @@
           if (Array.isArray(imported)) {
             state.gearLocker = imported;
             renderGearLocker();
+            renderChecklist();
+            recalculate();
             saveToStorage();
             sound.playSuccess();
             showToast(`成功匯入 ${imported.length} 件裝備！`, '<i class="fi fi-rr-file-upload"></i>');
@@ -4480,6 +4542,8 @@
             };
             state.gearLocker.unshift(newLockerItem);
             renderGearLocker();
+            renderChecklist();
+            recalculate();
             saveToStorage();
             dom.specSearchModal.classList.remove('open');
             sound.playSuccess();
@@ -4578,13 +4642,15 @@
           checked: true,
           isConsumable: isConsumable,
           vital: isRain || isLamp,
-          vitalType: isRain ? 'rain' : (isLamp ? 'headlamp' : null)
+          vitalType: isRain ? 'rain' : (isLamp ? 'headlamp' : null),
+          prepStatus: 'owned'
         };
         state.gearList.unshift(newItem);
         dom.addModal.classList.remove('open');
         sound.playSuccess();
         renderChecklist();
         recalculate();
+        renderGearLocker();
         saveToStorage();
         showToast(`已新增「${name}」(${weight}g)`, '<i class="fi fi-rr-plus"></i>');
       });
@@ -4629,6 +4695,8 @@
         dom.addLockerModal.classList.remove('open');
         sound.playSuccess();
         renderGearLocker();
+        renderChecklist();
+        recalculate();
         saveToStorage();
         showToast(`已登記「${brand} ${name}」至個人裝備庫！`, '<i class="fi fi-rr-boxes"></i>');
       });
