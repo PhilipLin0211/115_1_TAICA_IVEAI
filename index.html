@@ -3362,36 +3362,134 @@
       }
     }
 
-    // --- 9.1 裝備比對與在庫/準備狀態動態檢查 ---
+    // --- 9.1 裝備比對、推薦款式管理與自動替換機制 ---
+    const GENERIC_SUBCATS = new Set(['睡眠收納', '防風保暖', '炊事水糧', '安全求生裝備', '登山個人配件']);
+
     function isMatchingGear(a, b) {
       if (!a || !b) return false;
       if (a.cat !== b.cat) return false;
 
+      const subA = getItemSubcategory(a);
+      const subB = getItemSubcategory(b);
+
+      // 如果兩者各自屬於不同且明確的具體子分類（例如：防風雨褲 vs 防水風雨衣、登山背包 vs 高山睡袋），絕不能混為同一項裝備
+      const isSpecificA = subA && !GENERIC_SUBCATS.has(subA);
+      const isSpecificB = subB && !GENERIC_SUBCATS.has(subB);
+      if (isSpecificA && isSpecificB && subA !== subB) {
+        return false;
+      }
+
+      // 1. 完全相同品名
       const nameA = (a.name || '').trim().toLowerCase();
       const nameB = (b.name || '').trim().toLowerCase();
       if (nameA === nameB) return true;
 
-      // 比對五大系統智慧子分類 (如：防水風雨衣、防風雨褲、攻頂爐具、高山睡袋、照明頭燈、登山背包等)
-      const subA = getItemSubcategory(a);
-      const subB = getItemSubcategory(b);
-      if (subA && subB && subA === subB) return true;
+      // 2. 屬於相同的具體子分類 (例如：兩者皆為「防風雨褲」、「防水風雨衣」、「攻頂爐具」、「高山睡袋」、「照明頭燈」等)
+      if (isSpecificA && isSpecificB && subA === subB) {
+        return true;
+      }
 
-      // 比對保命裝備類型
-      if (a.vital && b.vital && a.vitalType && b.vitalType && a.vitalType === b.vitalType) return true;
+      // 3. 相同保命裝備類型（若子分類無法細分時，但需排除雨衣雨褲互斥）
+      if (a.vital && b.vital && a.vitalType && b.vitalType && a.vitalType === b.vitalType) {
+        if (a.vitalType === 'rain') {
+          const isJacketA = /衣|jacket|衝鋒|外套/.test(nameA);
+          const isPantsA = /褲|pants/.test(nameA);
+          const isJacketB = /衣|jacket|衝鋒|外套/.test(nameB);
+          const isPantsB = /褲|pants/.test(nameB);
+          if ((isJacketA && isPantsB) || (isPantsA && isJacketB)) return false;
+        }
+        return true;
+      }
 
-      // 同品牌且品名關鍵字吻合
+      // 4. 同品牌且品名關鍵字吻合
+      const STOP_WORDS = new Set(['輕量', '超輕', '登山', '戶外', '高山', '專業', '透氣', '防風', '個人', '便攜', '專用', '標準', '裝備', '必備', '一對', '雙杖', '含電池', '組', '套']);
+      const getKeywords = (name) => name.replace(/[()（）#\-_/【】]/g, ' ').split(/\s+/).filter(w => w.length > 1 && !STOP_WORDS.has(w));
+
       if (a.brand && b.brand && a.brand.toLowerCase() === b.brand.toLowerCase()) {
-        const wordsA = nameA.replace(/[()（）#\-_/【】]/g, ' ').split(/\s+/).filter(w => w.length > 1);
+        const wordsA = getKeywords(nameA);
         if (wordsA.some(w => nameB.includes(w))) return true;
       }
 
-      // 核心關鍵字重疊比對
-      const wordsA = nameA.replace(/[()（）#\-_/【】]/g, ' ').split(/\s+/).filter(w => w.length > 1);
-      const wordsB = nameB.replace(/[()（）#\-_/【】]/g, ' ').split(/\s+/).filter(w => w.length > 1);
+      // 5. 核心關鍵字重疊比對
+      const wordsA = getKeywords(nameA);
+      const wordsB = getKeywords(nameB);
       const shared = wordsA.filter(w => wordsB.some(wb => wb.includes(w) || w.includes(wb)));
       if (shared.length > 0) return true;
 
       return false;
+    }
+
+    // 判斷是否為系統推薦/範本預設裝備（非使用者自己登記或自備之真實品項）
+    function isRecommendedGear(item) {
+      if (!item) return false;
+      if (item.isRecommended) return true;
+      if (item.prepStatus === 'need_prep') return true;
+      if (item.id && /^(dh|co|cm|tr)_\d+$/.test(item.id)) return true;
+      return false;
+    }
+
+    // 檢查清單中是否有對應的推薦裝備，若有則自動將推薦裝備移除（讓使用者真實裝備替代之）
+    function replaceRecommendedGearWithUserGear(userGear) {
+      if (!state.gearList || state.gearList.length === 0) return null;
+      const recIndex = state.gearList.findIndex(it => isRecommendedGear(it) && isMatchingGear(userGear, it));
+      if (recIndex !== -1) {
+        const removedRec = state.gearList[recIndex];
+        state.gearList.splice(recIndex, 1);
+        return removedRec;
+      }
+      return null;
+    }
+
+    // 清理清單中已被使用者自備裝備取代的重複推薦項目
+    function cleanupDuplicateRecommendedGear() {
+      if (!state.gearList || state.gearList.length === 0) return;
+      const userGears = state.gearList.filter(it => !isRecommendedGear(it));
+      if (userGears.length === 0) return;
+
+      const toRemoveIds = new Set();
+      state.gearList.forEach(item => {
+        if (isRecommendedGear(item)) {
+          const hasUserReplacement = userGears.some(u => isMatchingGear(u, item));
+          if (hasUserReplacement) {
+            toRemoveIds.add(item.id);
+          }
+        }
+      });
+
+      if (toRemoveIds.size > 0) {
+        state.gearList = state.gearList.filter(it => !toRemoveIds.has(it.id));
+      }
+    }
+
+    // 將裝備庫中的自備裝備同步至打包清單，自動替換對應的推薦款式
+    function syncLockerToRecommendedGear() {
+      if (!state.gearLocker || !state.gearList) return;
+      let replacedCount = 0;
+      state.gearLocker.forEach(lItem => {
+        const recIndex = state.gearList.findIndex(it => isRecommendedGear(it) && isMatchingGear(lItem, it));
+        if (recIndex !== -1) {
+          const packItem = {
+            id: 'pack_' + lItem.id,
+            cat: lItem.cat,
+            brand: lItem.brand,
+            name: lItem.name,
+            grams: Number(lItem.grams) || 0,
+            checked: true,
+            isConsumable: !!lItem.isConsumable,
+            vital: !!lItem.vital,
+            vitalType: lItem.vitalType || null,
+            prepStatus: 'owned',
+            isRecommended: false
+          };
+          state.gearList.splice(recIndex, 1, packItem);
+          replacedCount++;
+        }
+      });
+      if (replacedCount > 0) {
+        renderChecklist();
+        recalculate();
+        saveToStorage();
+      }
     }
 
     function checkItemIsOwned(item) {
@@ -3408,18 +3506,11 @@
         return true;
       }
 
-      // 3. 本次打包清單中是否已有勾選之同子分類/同保命功能裝備（代表此項需求已被自備裝備滿足）
+      // 3. 本次打包清單中是否已有勾選之同類裝備
       if (state.gearList && state.gearList.some(other => {
         if (other.id === item.id) return false;
         if (!other.checked) return false;
-        if (other.cat === item.cat) {
-          const s1 = getItemSubcategory(item);
-          const s2 = getItemSubcategory(other);
-          if (s1 && s2 && s1 === s2) return true;
-        }
-        if (item.vital && other.vital && item.vitalType && other.vitalType === item.vitalType) {
-          return true;
-        }
+        if (isMatchingGear(item, other)) return true;
         return false;
       })) {
         return true;
@@ -3438,19 +3529,35 @@
       });
 
       const template = PRESETS[presetKey] || PRESETS.cabin_overnight;
-      const list = JSON.parse(JSON.stringify(template));
+      const list = [];
 
       let ownedCount = 0;
       let needPrepCount = 0;
 
-      list.forEach(item => {
-        const matchInLocker = state.gearLocker.find(l => isMatchingGear(item, l));
+      template.forEach(tItem => {
+        const item = JSON.parse(JSON.stringify(tItem));
+        const matchInLocker = state.gearLocker && state.gearLocker.find(l => isMatchingGear(item, l));
         if (matchInLocker) {
-          item.prepStatus = 'owned';
-          item.lockerMatchName = `${matchInLocker.brand ? matchInLocker.brand + ' ' : ''}${matchInLocker.name}`;
+          // 使用者在庫已有此裝備！直接帶入使用者真實裝備，不放置推薦款式！
+          list.push({
+            id: 'pack_' + matchInLocker.id,
+            cat: matchInLocker.cat,
+            brand: matchInLocker.brand,
+            name: matchInLocker.name,
+            grams: Number(matchInLocker.grams) || 0,
+            checked: true,
+            isConsumable: !!matchInLocker.isConsumable,
+            vital: !!matchInLocker.vital,
+            vitalType: matchInLocker.vitalType || null,
+            prepStatus: 'owned',
+            isRecommended: false
+          });
           ownedCount++;
         } else {
+          // 使用者尚未擁有，使用官方推薦預設作為檢核參考
+          item.isRecommended = true;
           item.prepStatus = 'need_prep';
+          list.push(item);
           needPrepCount++;
         }
       });
@@ -3469,7 +3576,7 @@
           trail_run: '越野跑/跑山'
         };
         const tripName = tripNames[presetKey] || '推薦行程';
-        showToast(`已載入「${tripName}」推薦使用裝備清單！`, '<i class="fi fi-rr-sparkles"></i>');
+        showToast(`已載入「${tripName}」行程清單 (已自動匹配個人裝備庫)！`, '<i class="fi fi-rr-sparkles"></i>');
       }
     }
 
@@ -3478,6 +3585,7 @@
     }
 
     function renderChecklist() {
+      cleanupDuplicateRecommendedGear();
       dom.categoriesContainer.innerHTML = '';
       const groups = { sleep: [], warm: [], cook: [], safe: [], gear: [] };
       state.gearList.forEach(item => {
@@ -4079,11 +4187,17 @@
           isConsumable: !!lockerItem.isConsumable,
           vital: !!lockerItem.vital,
           vitalType: lockerItem.vitalType || null,
-          prepStatus: 'owned'
+          prepStatus: 'owned',
+          isRecommended: false
         };
+        const replaced = replaceRecommendedGearWithUserGear(newItem);
         state.gearList.unshift(newItem);
         sound.playSuccess();
-        showToast(`已將「${lockerItem.name}」加入本次打包！`, '<i class="fi fi-rr-backpack"></i>');
+        if (replaced) {
+          showToast(`已將「${lockerItem.name}」帶入打包，並自動移除原推薦的「${replaced.name}」！`, '<i class="fi fi-rr-backpack"></i>');
+        } else {
+          showToast(`已將「${lockerItem.name}」加入本次打包！`, '<i class="fi fi-rr-backpack"></i>');
+        }
       }
       renderChecklist();
       recalculate();
@@ -4120,12 +4234,13 @@
           }
         });
 
+        syncLockerToRecommendedGear();
         renderGearLocker();
         renderChecklist();
         recalculate();
         saveToStorage();
         sound.playSuccess();
-        showToast('已成功載入精選裝備庫範本！', '<i class="fi fi-rr-sparkles"></i>');
+        showToast('已成功載入精選裝備庫範本並自動匹配清單！', '<i class="fi fi-rr-sparkles"></i>');
       }
     }
 
@@ -4149,12 +4264,13 @@
           const imported = JSON.parse(e.target.result);
           if (Array.isArray(imported)) {
             state.gearLocker = imported;
+            syncLockerToRecommendedGear();
             renderGearLocker();
             renderChecklist();
             recalculate();
             saveToStorage();
             sound.playSuccess();
-            showToast(`成功匯入 ${imported.length} 件裝備！`, '<i class="fi fi-rr-file-upload"></i>');
+            showToast(`成功匯入 ${imported.length} 件裝備並自動同步打包清單！`, '<i class="fi fi-rr-file-upload"></i>');
           } else {
             alert('檔案格式錯誤，必須為裝備庫 JSON 陣列');
           }
@@ -4203,6 +4319,7 @@
     function confirmPickFromLocker() {
       const checkboxes = dom.pickLockerListContainer.querySelectorAll('.pick-locker-checkbox');
       let addedCount = 0;
+      let replacedCount = 0;
       checkboxes.forEach(cb => {
         if (cb.checked) {
           const item = state.gearLocker.find(l => l.id === cb.dataset.id);
@@ -4211,7 +4328,7 @@
             if (exists) {
               exists.checked = true;
             } else {
-              state.gearList.unshift({
+              const newItem = {
                 id: 'pack_' + Date.now() + Math.random().toString(36).substr(2, 4),
                 cat: item.cat,
                 brand: item.brand,
@@ -4220,8 +4337,13 @@
                 checked: true,
                 isConsumable: item.isConsumable,
                 vital: item.vital,
-                vitalType: item.vitalType
-              });
+                vitalType: item.vitalType,
+                prepStatus: 'owned',
+                isRecommended: false
+              };
+              const replaced = replaceRecommendedGearWithUserGear(newItem);
+              if (replaced) replacedCount++;
+              state.gearList.unshift(newItem);
               addedCount++;
             }
           }
@@ -4231,9 +4353,14 @@
       dom.pickFromLockerModal.classList.remove('open');
       renderChecklist();
       recalculate();
+      renderGearLocker();
       saveToStorage();
       sound.playSuccess();
-      showToast('已同步挑選之裝備至打包清單！', '<i class="fi fi-rr-backpack"></i>');
+      if (replacedCount > 0) {
+        showToast(`已帶入 ${addedCount} 項裝備，並自動移除 ${replacedCount} 項原推薦款式！`, '<i class="fi fi-rr-backpack"></i>');
+      } else {
+        showToast(`已帶入 ${addedCount} 項裝備至打包清單！`, '<i class="fi fi-rr-backpack"></i>');
+      }
     }
 
     // --- 12. TAB 3 路線規格、步程與 EPH 體能計算 (ROUTE & PACE) ---
@@ -4541,13 +4668,36 @@
               vitalType: item.vitalType || null
             };
             state.gearLocker.unshift(newLockerItem);
+
+            const packItem = {
+              id: 'pack_' + newLockerItem.id,
+              cat: newLockerItem.cat,
+              brand: newLockerItem.brand,
+              name: newLockerItem.name,
+              grams: Number(newLockerItem.grams) || 0,
+              checked: true,
+              isConsumable: !!newLockerItem.isConsumable,
+              vital: !!newLockerItem.vital,
+              vitalType: newLockerItem.vitalType || null,
+              prepStatus: 'owned',
+              isRecommended: false
+            };
+            const replaced = replaceRecommendedGearWithUserGear(packItem);
+            if (replaced) {
+              state.gearList.unshift(packItem);
+            }
+
             renderGearLocker();
             renderChecklist();
             recalculate();
             saveToStorage();
             dom.specSearchModal.classList.remove('open');
             sound.playSuccess();
-            showToast(`已登記「${item.brand} ${item.model}」(${item.grams}g) 至個人裝備庫！`, '<i class="fi fi-rr-boxes"></i>');
+            if (replaced) {
+              showToast(`已登記入庫，並自動替換打包清單中的推薦項目「${replaced.name}」！`, '<i class="fi fi-rr-check"></i>');
+            } else {
+              showToast(`已登記「${item.brand} ${item.model}」(${item.grams}g) 至個人裝備庫！`, '<i class="fi fi-rr-boxes"></i>');
+            }
           }
         });
         dom.specSearchResultsArea.appendChild(row);
@@ -4643,16 +4793,26 @@
           isConsumable: isConsumable,
           vital: isRain || isLamp,
           vitalType: isRain ? 'rain' : (isLamp ? 'headlamp' : null),
-          prepStatus: 'owned'
+          prepStatus: 'owned',
+          isRecommended: false
         };
+
+        const replaced = replaceRecommendedGearWithUserGear(newItem);
+
         state.gearList.unshift(newItem);
         dom.addModal.classList.remove('open');
+        dom.addGearForm.reset();
         sound.playSuccess();
         renderChecklist();
         recalculate();
         renderGearLocker();
         saveToStorage();
-        showToast(`已新增「${name}」(${weight}g)`, '<i class="fi fi-rr-plus"></i>');
+
+        if (replaced) {
+          showToast(`已加入「${name}」，並自動移除原推薦的「${replaced.name}」！`, '<i class="fi fi-rr-check"></i>');
+        } else {
+          showToast(`已新增「${name}」(${weight}g)`, '<i class="fi fi-rr-plus"></i>');
+        }
       });
 
       // 新增裝備至裝備庫彈窗 2 (Tab 2)
@@ -4693,12 +4853,36 @@
 
         state.gearLocker.unshift(newLockerItem);
         dom.addLockerModal.classList.remove('open');
+
+        const packItem = {
+          id: 'pack_' + newLockerItem.id,
+          cat: newLockerItem.cat,
+          brand: newLockerItem.brand,
+          name: newLockerItem.name,
+          grams: Number(newLockerItem.grams) || 0,
+          checked: true,
+          isConsumable: !!newLockerItem.isConsumable,
+          vital: !!newLockerItem.vital,
+          vitalType: newLockerItem.vitalType || null,
+          prepStatus: 'owned',
+          isRecommended: false
+        };
+        const replaced = replaceRecommendedGearWithUserGear(packItem);
+        if (replaced) {
+          state.gearList.unshift(packItem);
+        }
+
         sound.playSuccess();
         renderGearLocker();
         renderChecklist();
         recalculate();
         saveToStorage();
-        showToast(`已登記「${brand} ${name}」至個人裝備庫！`, '<i class="fi fi-rr-boxes"></i>');
+
+        if (replaced) {
+          showToast(`已登記入庫，並自動將打包清單中推薦的「${replaced.name}」替換為您的裝備！`, '<i class="fi fi-rr-check"></i>');
+        } else {
+          showToast(`已登記「${brand ? brand + ' ' : ''}${name}」至個人裝備庫！`, '<i class="fi fi-rr-boxes"></i>');
+        }
       });
 
       // 裝備庫工具列事件
