@@ -1,11 +1,11 @@
 # 《山岳馱獸包包 PackBeast Pro》
 
-> 登山輕量化負重 • 個人裝備資產庫 • 規格智慧搜尋 • 上河步程與 EPH 體能計算機
+> 登山輕量化負重 • 個人裝備資產庫 • 規格智慧搜尋 • 路線步程與 EPH 體能計算機
 > （純前端單一靜態架構，GitHub Pages Ready）
 
 ![PackBeast Banner](https://img.shields.io/badge/%E5%B1%B1%E5%B2%B3%E9%A7%84%E7%8 animal-%E8%BC%95%E9%87%8F%E5%8C%96%E7%A5%9E%E9%9A%8A%E5%8F%8B-10b981?style=for-the-badge)
 ![Status](https://img.shields.io/badge/%E6%9E%B6%E6%A7%8B-Vanilla%20HTML%2FCSS%2FJS-blue?style=for-the-badge)
-![License](https://img.shields.io/badge/%E9%9B%B6%E4%BE%9D%E8%B3%B4-%E5%8D%B3%E9%96%8B%E5%8D%B3%E7%94%A8-orange?style=for-the-badge)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/run_on_colab.ipynb)
 
 ---
 
@@ -13,7 +13,7 @@
 
 **《山岳馱獸包包 PackBeast Pro》** 是一套專為台灣百岳、中級山與縱走山友量身打造的全方位行前裝備與體能管理工具。
 
-出發打包時，山友往往因擔憂失溫或物資不足而過度打包壓垮膝蓋，或盲目偷輕漏帶保命裝備；在行程規劃時，往往難以精準預估重裝對步程的減速影響。本工具融合**克數輕量化檢核**、**個人裝備履歷庫**、**智慧規格搜尋**與**上河文化／EPH 體能步程計算機**，協助山友兼顧負重安全、裝備壽命管理與路線時程掌控。
+出發打包時，山友往往因擔憂失溫或物資不足而過度打包壓垮膝蓋，或盲目偷輕漏帶保命裝備；在行程規劃時，往往難以精準預估重裝對步程的減速影響。本工具融合**克數輕量化檢核**、**個人裝備履歷庫**、**智慧規格搜尋**與**登山路線規格／EPH 體能步程計算機**，協助山友兼顧負重安全、裝備壽命管理與路線時程掌控。
 
 ---
 
@@ -52,36 +52,12 @@
 ---
 
 ### 🔍 模組三：裝備規格智慧搜尋（Smart Spec Lookup）
-* **內建 80+ 款熱門戶外裝備規格大資料庫**：
+* **內建 130+ 款熱門裝備規格大資料庫（涵蓋經典百岳、越野跑與迪卡儂全系列）**：
   * 在輸入裝備名稱時，提供**即時 Auto-Complete 自動補全下拉清單**，點選一秒自動填入品牌、型號、官方克數與分類。
 * **網頁規格智慧搜尋助手（線上查詢與推薦）**：
   * 當使用者忘記裝備重量或無法提供詳細資訊時，點擊 **「🔍 規格自動上網查詢」**：
   * 系統進行模糊比對並列出相符規格，點擊「採用此規格」自動回填。
   * 支援 **Google 官方規格搜尋** 與 **OutdoorGearLab 深度評測** 一鍵直達捷徑，任何冷門裝備都能秒查官方公克數！
-
----
-
-### 🧭 模組四：路線與個人上河 / EPH 體能計算機（Route & Pace）
-1. **台灣熱門路線庫（內建 9 條經典路線）**：
-   * 玉山主峰線、雪山主東峰、嘉明湖三叉向陽、奇萊南華、合歡北西單攻、北大武山、武陵桃山、劍龍稜茶壺山、水漾森林。
-   * 支援自訂路線輸入：里程 (km)、累計爬升 (m)、累計下降 (m)。
-2. **EPH（Equivalent Performance Hours / 體能等效步程時）**：
-   * 依據台灣山岳通用公式：
-     $$EPH = \text{距離 (km)} + \frac{\text{累計爬升 (m)}}{100} + \frac{\text{累計下降 (m)}}{300}$$
-   * 即時評級：🟢 愜意郊山（$\le 12$）、🟡 中度百岳單日（$12 \sim 22$）、🟠 高強度挑戰（$22 \sim 35$）、🔴 極限縱走（$> 35$）。
-3. **個人上河步程時間（SunRiver Pace Ratio）**：
-   * 基準：上河文化出版之百岳步程地圖（標準體能 = 1.0x）。
-   * 個人係數可調（0.6x 越野神腿 $\sim$ 1.5x 愜意慢活隊），計算個人無負重預估時間。
-4. **獨家：背包負重聯動修正（Backpack Weight Penalty）**：
-   * 自動連線打包清單算出的起登總重（TPW）與負重體重比：
-     * 負重 $\le 15\%$：零延遲（1.00x）。
-     * 負重 $15\% \sim 20\%$：耗氧增加，動態延遲 $1.02 \sim 1.10\times$。
-     * 負重 $> 20\%$：超重警報！膝蓋負擔加劇，動態延遲 $1.15 \sim 1.30\times$！
-   * 產出**負重修正後之真實完登時間**。
-5. **起登時間、抵達時間（ETA）與安全日落撤退警戒**：
-   * 輸入出發時間（如 04:30），推算預計下山時間。若超過 17:30，自動觸發摸黑安全警示。
-   * 估算行進總熱量消耗（kcal）。
-   * 📋 **一鍵複製配速規劃表**，直接發送至 LINE 登山隊伍群組。
 
 ---
 
@@ -103,7 +79,27 @@ python3 -m http.server 8080
 # 開啟瀏覽器訪問 http://localhost:8080
 ```
 
+### Google Colab 一鍵雲端執行
+點擊專屬按鈕 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/run_on_colab.ipynb) 直接進入 Colab，或在 Colab 儲存格貼上以下代碼執行：
+
+```python
+# 下載專案並啟動雲端伺服器
+import os, subprocess, time
+from google.colab.output import serve_kernel_port_as_window
+
+if not os.path.exists("/content/115_1_TAICA_IVEAI"):
+    !git clone https://github.com/PhilipLin0211/115_1_TAICA_IVEAI.git /content/115_1_TAICA_IVEAI
+%cd /content/115_1_TAICA_IVEAI
+
+subprocess.Popen(["python3", "-m", "http.server", "8080"])
+time.sleep(1)
+
+# 在新分頁全螢幕開啟網頁
+serve_kernel_port_as_window(8080, anchor_text="👉 點擊此處在新分頁開啟《山岳馱獸包包》")
+```
+
 ### GitHub Pages 發布
 1. 將專案推送到 GitHub Repository。
 2. 進入 Repository 的 **Settings** $\to$ **Pages**。
 3. 在 **Branch** 選取 `main`，資料夾選取 `/ (root)` 並按 **Save** 即可發布！
+

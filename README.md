@@ -5,7 +5,7 @@
 
 ![PackBeast Banner](https://img.shields.io/badge/%E5%B1%B1%E5%B2%B3%E9%A7%84%E7%8 animal-%E8%BC%95%E9%87%8F%E5%8C%96%E7%A5%9E%E9%9A%8A%E5%8F%8B-10b981?style=for-the-badge)
 ![Status](https://img.shields.io/badge/%E6%9E%B6%E6%A7%8B-Vanilla%20HTML%2FCSS%2FJS-blue?style=for-the-badge)
-![License](https://img.shields.io/badge/%E9%9B%B6%E4%BE%9D%E8%B3%B4-%E5%8D%B3%E9%96%8B%E5%8D%B3%E7%94%A8-orange?style=for-the-badge)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/run_on_colab.ipynb)
 
 ---
 
@@ -79,7 +79,27 @@ python3 -m http.server 8080
 # 開啟瀏覽器訪問 http://localhost:8080
 ```
 
+### Google Colab 一鍵雲端執行
+點擊專屬按鈕 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/run_on_colab.ipynb) 直接進入 Colab，或在 Colab 儲存格貼上以下代碼執行：
+
+```python
+# 下載專案並啟動雲端伺服器
+import os, subprocess, time
+from google.colab.output import serve_kernel_port_as_window
+
+if not os.path.exists("/content/115_1_TAICA_IVEAI"):
+    !git clone https://github.com/PhilipLin0211/115_1_TAICA_IVEAI.git /content/115_1_TAICA_IVEAI
+%cd /content/115_1_TAICA_IVEAI
+
+subprocess.Popen(["python3", "-m", "http.server", "8080"])
+time.sleep(1)
+
+# 在新分頁全螢幕開啟網頁
+serve_kernel_port_as_window(8080, anchor_text="👉 點擊此處在新分頁開啟《山岳馱獸包包》")
+```
+
 ### GitHub Pages 發布
 1. 將專案推送到 GitHub Repository。
 2. 進入 Repository 的 **Settings** $\to$ **Pages**。
 3. 在 **Branch** 選取 `main`，資料夾選取 `/ (root)` 並按 **Save** 即可發布！
+
