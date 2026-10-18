@@ -1242,8 +1242,7 @@
     }
 
     .gear-item-row.is-unchecked {
-      opacity: 0.55;
-      background: #f7f3ee;
+      opacity: 1;
     }
 
     .item-main-col {
@@ -1321,8 +1320,8 @@
     }
 
     .gear-item-row.is-unchecked .item-name-text {
-      text-decoration: line-through;
-      color: var(--text-muted);
+      text-decoration: none;
+      color: var(--text-main);
     }
 
     .badge-vital {
@@ -2985,74 +2984,74 @@
     // --- 4. 行程推薦裝備預設範本 ---
     const PRESETS = {
       day_hike: [
-        { id: 'dh_1', cat: 'sleep', brand: 'Osprey', name: '輕量單攻背包 Talon 22L', grams: 870, checked: true, isConsumable: false, vital: false },
-        { id: 'dh_2', cat: 'sleep', brand: 'SOL', name: '輕量急救避難毯/袋', grams: 108, checked: true, isConsumable: false, vital: false },
-        { id: 'dh_3', cat: 'warm', brand: 'Montbell', name: 'Versalite 透氣防水雨衣', grams: 134, checked: true, isConsumable: false, vital: true, vitalType: 'rain' },
-        { id: 'dh_4', cat: 'warm', brand: 'Montbell', name: 'Thunder Pass 輕量防風雨褲', grams: 242, checked: true, isConsumable: false, vital: true, vitalType: 'rain' },
-        { id: 'dh_5', cat: 'warm', brand: 'Patagonia', name: 'Houdini 超輕抗風風衣', grams: 105, checked: true, isConsumable: false, vital: false },
-        { id: 'dh_6', cat: 'cook', brand: 'CNOC', name: '軟水壺 1500ml 行動水', grams: 1500, checked: true, isConsumable: true, vital: false },
-        { id: 'dh_7', cat: 'cook', brand: '能量補給', name: '單攻能量膠與行動乾糧', grams: 650, checked: true, isConsumable: true, vital: false },
-        { id: 'dh_8', cat: 'cook', brand: 'Sawyer', name: 'Sawyer Squeeze 濾水器', grams: 85, checked: true, isConsumable: false, vital: false },
-        { id: 'dh_9', cat: 'safe', brand: 'Petzl', name: 'Actik Core 登山頭燈與電池', grams: 88, checked: true, isConsumable: false, vital: true, vitalType: 'headlamp' },
-        { id: 'dh_10', cat: 'safe', brand: 'Apple', name: '離線地圖手機與防水套', grams: 230, checked: true, isConsumable: false, vital: false },
-        { id: 'dh_11', cat: 'safe', brand: 'Nitecore', name: 'NB10000 行動電源', grams: 150, checked: true, isConsumable: false, vital: false },
-        { id: 'dh_12', cat: 'gear', brand: 'Black Diamond', name: 'Distance Carbon Z 登山杖', grams: 280, checked: true, isConsumable: false, vital: false },
-        { id: 'dh_13', cat: 'gear', brand: '衛生清潔', name: '環保衛生紙與夾鏈排遺袋', grams: 40, checked: true, isConsumable: false, vital: false }
+        { id: 'dh_1', cat: 'sleep', brand: 'Osprey', name: '輕量單攻背包 Talon 22L', grams: 870, checked: false, isConsumable: false, vital: false },
+        { id: 'dh_2', cat: 'sleep', brand: 'SOL', name: '輕量急救避難毯/袋', grams: 108, checked: false, isConsumable: false, vital: false },
+        { id: 'dh_3', cat: 'warm', brand: 'Montbell', name: 'Versalite 透氣防水雨衣', grams: 134, checked: false, isConsumable: false, vital: true, vitalType: 'rain' },
+        { id: 'dh_4', cat: 'warm', brand: 'Montbell', name: 'Thunder Pass 輕量防風雨褲', grams: 242, checked: false, isConsumable: false, vital: true, vitalType: 'rain' },
+        { id: 'dh_5', cat: 'warm', brand: 'Patagonia', name: 'Houdini 超輕抗風風衣', grams: 105, checked: false, isConsumable: false, vital: false },
+        { id: 'dh_6', cat: 'cook', brand: 'CNOC', name: '軟水壺 1500ml 行動水', grams: 1500, checked: false, isConsumable: true, vital: false },
+        { id: 'dh_7', cat: 'cook', brand: '能量補給', name: '單攻能量膠與行動乾糧', grams: 650, checked: false, isConsumable: true, vital: false },
+        { id: 'dh_8', cat: 'cook', brand: 'Sawyer', name: 'Sawyer Squeeze 濾水器', grams: 85, checked: false, isConsumable: false, vital: false },
+        { id: 'dh_9', cat: 'safe', brand: 'Petzl', name: 'Actik Core 登山頭燈與電池', grams: 88, checked: false, isConsumable: false, vital: true, vitalType: 'headlamp' },
+        { id: 'dh_10', cat: 'safe', brand: 'Apple', name: '離線地圖手機與防水套', grams: 230, checked: false, isConsumable: false, vital: false },
+        { id: 'dh_11', cat: 'safe', brand: 'Nitecore', name: 'NB10000 行動電源', grams: 150, checked: false, isConsumable: false, vital: false },
+        { id: 'dh_12', cat: 'gear', brand: 'Black Diamond', name: 'Distance Carbon Z 登山杖', grams: 280, checked: false, isConsumable: false, vital: false },
+        { id: 'dh_13', cat: 'gear', brand: '衛生清潔', name: '環保衛生紙與夾鏈排遺袋', grams: 40, checked: false, isConsumable: false, vital: false }
       ],
       cabin_overnight: [
-        { id: 'co_1', cat: 'sleep', brand: 'Osprey', name: 'Exos 48 輕量登山包', grams: 1260, checked: true, isConsumable: false, vital: false },
-        { id: 'co_2', cat: 'sleep', brand: 'Montbell', name: 'Seamless Down Hugger 800 #3 睡袋', grams: 531, checked: true, isConsumable: false, vital: false },
-        { id: 'co_3', cat: 'sleep', brand: 'Sea to Summit', name: 'Aeros 充氣露營枕頭', grams: 60, checked: true, isConsumable: false, vital: false },
-        { id: 'co_4', cat: 'warm', brand: 'Montbell', name: 'Versalite 透氣防水雨衣', grams: 134, checked: true, isConsumable: false, vital: true, vitalType: 'rain' },
-        { id: 'co_5', cat: 'warm', brand: 'Montbell', name: 'Thunder Pass 防風雨褲', grams: 242, checked: true, isConsumable: false, vital: true, vitalType: 'rain' },
-        { id: 'co_6', cat: 'warm', brand: 'Arc\'teryx', name: 'Atom LT 化纖保暖中層外套', grams: 375, checked: true, isConsumable: false, vital: false },
-        { id: 'co_7', cat: 'warm', brand: 'Icebreaker', name: 'Oasis 200 美麗諾羊毛備用底層', grams: 210, checked: true, isConsumable: false, vital: false },
-        { id: 'co_8', cat: 'cook', brand: 'Soto', name: 'Windmaster SOD-310 攻頂爐頭', grams: 67, checked: true, isConsumable: false, vital: false },
-        { id: 'co_9', cat: 'cook', brand: 'Evernew', name: 'Titanium 750ml 個人鈦鍋', grams: 95, checked: true, isConsumable: false, vital: false },
-        { id: 'co_10', cat: 'cook', brand: '高山瓦斯', name: '高山瓦斯罐 110g', grams: 210, checked: true, isConsumable: true, vital: false },
-        { id: 'co_11', cat: 'cook', brand: '飲用水', name: '兩日飲水與煮水儲備 (2000ml)', grams: 2000, checked: true, isConsumable: true, vital: false },
-        { id: 'co_12', cat: 'cook', brand: '糧食', name: '兩日乾燥飯與備用路糧', grams: 950, checked: true, isConsumable: true, vital: false },
-        { id: 'co_13', cat: 'cook', brand: 'Katadyn', name: 'BeFree 1.0L 快速濾水壺', grams: 63, checked: true, isConsumable: false, vital: false },
-        { id: 'co_14', cat: 'safe', brand: 'Petzl', name: 'Actik Core 登山頭燈 (含電池)', grams: 88, checked: true, isConsumable: false, vital: true, vitalType: 'headlamp' },
-        { id: 'co_15', cat: 'safe', brand: 'Nitecore', name: 'NB10000 行動電源', grams: 150, checked: true, isConsumable: false, vital: false },
-        { id: 'co_16', cat: 'safe', brand: '急救包', name: '個人綜合急救包與常備藥品', grams: 160, checked: true, isConsumable: false, vital: false },
-        { id: 'co_17', cat: 'safe', brand: 'SOL', name: '輕量急救求生毯', grams: 55, checked: true, isConsumable: false, vital: false },
-        { id: 'co_18', cat: 'gear', brand: 'Black Diamond', name: 'Distance Carbon 登山杖 (一對)', grams: 280, checked: true, isConsumable: false, vital: false },
-        { id: 'co_19', cat: 'gear', brand: '衛生用品', name: '環保衛生紙與垃圾袋', grams: 50, checked: true, isConsumable: false, vital: false }
+        { id: 'co_1', cat: 'sleep', brand: 'Osprey', name: 'Exos 48 輕量登山包', grams: 1260, checked: false, isConsumable: false, vital: false },
+        { id: 'co_2', cat: 'sleep', brand: 'Montbell', name: 'Seamless Down Hugger 800 #3 睡袋', grams: 531, checked: false, isConsumable: false, vital: false },
+        { id: 'co_3', cat: 'sleep', brand: 'Sea to Summit', name: 'Aeros 充氣露營枕頭', grams: 60, checked: false, isConsumable: false, vital: false },
+        { id: 'co_4', cat: 'warm', brand: 'Montbell', name: 'Versalite 透氣防水雨衣', grams: 134, checked: false, isConsumable: false, vital: true, vitalType: 'rain' },
+        { id: 'co_5', cat: 'warm', brand: 'Montbell', name: 'Thunder Pass 防風雨褲', grams: 242, checked: false, isConsumable: false, vital: true, vitalType: 'rain' },
+        { id: 'co_6', cat: 'warm', brand: 'Arc\'teryx', name: 'Atom LT 化纖保暖中層外套', grams: 375, checked: false, isConsumable: false, vital: false },
+        { id: 'co_7', cat: 'warm', brand: 'Icebreaker', name: 'Oasis 200 美麗諾羊毛備用底層', grams: 210, checked: false, isConsumable: false, vital: false },
+        { id: 'co_8', cat: 'cook', brand: 'Soto', name: 'Windmaster SOD-310 攻頂爐頭', grams: 67, checked: false, isConsumable: false, vital: false },
+        { id: 'co_9', cat: 'cook', brand: 'Evernew', name: 'Titanium 750ml 個人鈦鍋', grams: 95, checked: false, isConsumable: false, vital: false },
+        { id: 'co_10', cat: 'cook', brand: '高山瓦斯', name: '高山瓦斯罐 110g', grams: 210, checked: false, isConsumable: true, vital: false },
+        { id: 'co_11', cat: 'cook', brand: '飲用水', name: '兩日飲水與煮水儲備 (2000ml)', grams: 2000, checked: false, isConsumable: true, vital: false },
+        { id: 'co_12', cat: 'cook', brand: '糧食', name: '兩日乾燥飯與備用路糧', grams: 950, checked: false, isConsumable: true, vital: false },
+        { id: 'co_13', cat: 'cook', brand: 'Katadyn', name: 'BeFree 1.0L 快速濾水壺', grams: 63, checked: false, isConsumable: false, vital: false },
+        { id: 'co_14', cat: 'safe', brand: 'Petzl', name: 'Actik Core 登山頭燈 (含電池)', grams: 88, checked: false, isConsumable: false, vital: true, vitalType: 'headlamp' },
+        { id: 'co_15', cat: 'safe', brand: 'Nitecore', name: 'NB10000 行動電源', grams: 150, checked: false, isConsumable: false, vital: false },
+        { id: 'co_16', cat: 'safe', brand: '急救包', name: '個人綜合急救包與常備藥品', grams: 160, checked: false, isConsumable: false, vital: false },
+        { id: 'co_17', cat: 'safe', brand: 'SOL', name: '輕量急救求生毯', grams: 55, checked: false, isConsumable: false, vital: false },
+        { id: 'co_18', cat: 'gear', brand: 'Black Diamond', name: 'Distance Carbon 登山杖 (一對)', grams: 280, checked: false, isConsumable: false, vital: false },
+        { id: 'co_19', cat: 'gear', brand: '衛生用品', name: '環保衛生紙與垃圾袋', grams: 50, checked: false, isConsumable: false, vital: false }
       ],
       camp_multi: [
-        { id: 'cm_1', cat: 'sleep', brand: 'Gregory', name: 'Baltoro 65 重裝登山包', grams: 2230, checked: true, isConsumable: false, vital: false },
-        { id: 'cm_2', cat: 'sleep', brand: 'Big Agnes', name: 'Copper Spur HV UL2 雙人帳篷', grams: 1420, checked: true, isConsumable: false, vital: false },
-        { id: 'cm_3', cat: 'sleep', brand: 'Therm-a-Rest', name: 'NeoAir XLite NXT 充氣睡墊', grams: 354, checked: true, isConsumable: false, vital: false },
-        { id: 'cm_4', cat: 'sleep', brand: 'Sea to Summit', name: 'Spark SpII 850FP 羽絨睡袋', grams: 490, checked: true, isConsumable: false, vital: false },
-        { id: 'cm_5', cat: 'warm', brand: 'Arc\'teryx', name: 'Beta LT 硬殼風雨衣', grams: 395, checked: true, isConsumable: false, vital: true, vitalType: 'rain' },
-        { id: 'cm_6', cat: 'warm', brand: 'Montbell', name: 'Thunder Pass 防風雨褲', grams: 242, checked: true, isConsumable: false, vital: true, vitalType: 'rain' },
-        { id: 'cm_7', cat: 'warm', brand: 'Arc\'teryx', name: 'Cerium LT 營地保暖羽絨衣', grams: 305, checked: true, isConsumable: false, vital: false },
-        { id: 'cm_8', cat: 'warm', brand: 'Smartwool', name: 'Classic 250 羊毛保暖衣褲', grams: 420, checked: true, isConsumable: false, vital: false },
-        { id: 'cm_9', cat: 'cook', brand: 'Soto', name: 'Windmaster SOD-310 爐頭', grams: 67, checked: true, isConsumable: false, vital: false },
-        { id: 'cm_10', cat: 'cook', brand: 'Evernew', name: '雙人陽極氧化鍋具組', grams: 280, checked: true, isConsumable: false, vital: false },
-        { id: 'cm_11', cat: 'cook', brand: '高山瓦斯', name: '高山瓦斯 230g x 2', grams: 760, checked: true, isConsumable: true, vital: false },
-        { id: 'cm_12', cat: 'cook', brand: '飲用水', name: '起登行進水 (2.5L)', grams: 2500, checked: true, isConsumable: true, vital: false },
-        { id: 'cm_13', cat: 'cook', brand: '糧食', name: '三日主食乾燥飯與高熱量糧', grams: 2800, checked: true, isConsumable: true, vital: false },
-        { id: 'cm_14', cat: 'safe', brand: 'Petzl', name: 'Actik Core 頭燈', grams: 88, checked: true, isConsumable: false, vital: true, vitalType: 'headlamp' },
-        { id: 'cm_15', cat: 'safe', brand: 'Black Diamond', name: 'Spot 400 備用頭燈', grams: 77, checked: true, isConsumable: false, vital: false },
-        { id: 'cm_16', cat: 'safe', brand: 'Nitecore', name: '20000mAh 行動電源', grams: 320, checked: true, isConsumable: false, vital: false },
-        { id: 'cm_17', cat: 'gear', brand: 'Black Diamond', name: 'Trail Pro 登山杖', grams: 530, checked: true, isConsumable: false, vital: false },
-        { id: 'cm_18', cat: 'gear', brand: 'TheTentLab', name: 'The Deuce #2 貓鏟與排遺包', grams: 50, checked: true, isConsumable: false, vital: false }
+        { id: 'cm_1', cat: 'sleep', brand: 'Gregory', name: 'Baltoro 65 重裝登山包', grams: 2230, checked: false, isConsumable: false, vital: false },
+        { id: 'cm_2', cat: 'sleep', brand: 'Big Agnes', name: 'Copper Spur HV UL2 雙人帳篷', grams: 1420, checked: false, isConsumable: false, vital: false },
+        { id: 'cm_3', cat: 'sleep', brand: 'Therm-a-Rest', name: 'NeoAir XLite NXT 充氣睡墊', grams: 354, checked: false, isConsumable: false, vital: false },
+        { id: 'cm_4', cat: 'sleep', brand: 'Sea to Summit', name: 'Spark SpII 850FP 羽絨睡袋', grams: 490, checked: false, isConsumable: false, vital: false },
+        { id: 'cm_5', cat: 'warm', brand: 'Arc\'teryx', name: 'Beta LT 硬殼風雨衣', grams: 395, checked: false, isConsumable: false, vital: true, vitalType: 'rain' },
+        { id: 'cm_6', cat: 'warm', brand: 'Montbell', name: 'Thunder Pass 防風雨褲', grams: 242, checked: false, isConsumable: false, vital: true, vitalType: 'rain' },
+        { id: 'cm_7', cat: 'warm', brand: 'Arc\'teryx', name: 'Cerium LT 營地保暖羽絨衣', grams: 305, checked: false, isConsumable: false, vital: false },
+        { id: 'cm_8', cat: 'warm', brand: 'Smartwool', name: 'Classic 250 羊毛保暖衣褲', grams: 420, checked: false, isConsumable: false, vital: false },
+        { id: 'cm_9', cat: 'cook', brand: 'Soto', name: 'Windmaster SOD-310 爐頭', grams: 67, checked: false, isConsumable: false, vital: false },
+        { id: 'cm_10', cat: 'cook', brand: 'Evernew', name: '雙人陽極氧化鍋具組', grams: 280, checked: false, isConsumable: false, vital: false },
+        { id: 'cm_11', cat: 'cook', brand: '高山瓦斯', name: '高山瓦斯 230g x 2', grams: 760, checked: false, isConsumable: true, vital: false },
+        { id: 'cm_12', cat: 'cook', brand: '飲用水', name: '起登行進水 (2.5L)', grams: 2500, checked: false, isConsumable: true, vital: false },
+        { id: 'cm_13', cat: 'cook', brand: '糧食', name: '三日主食乾燥飯與高熱量糧', grams: 2800, checked: false, isConsumable: true, vital: false },
+        { id: 'cm_14', cat: 'safe', brand: 'Petzl', name: 'Actik Core 頭燈', grams: 88, checked: false, isConsumable: false, vital: true, vitalType: 'headlamp' },
+        { id: 'cm_15', cat: 'safe', brand: 'Black Diamond', name: 'Spot 400 備用頭燈', grams: 77, checked: false, isConsumable: false, vital: false },
+        { id: 'cm_16', cat: 'safe', brand: 'Nitecore', name: '20000mAh 行動電源', grams: 320, checked: false, isConsumable: false, vital: false },
+        { id: 'cm_17', cat: 'gear', brand: 'Black Diamond', name: 'Trail Pro 登山杖', grams: 530, checked: false, isConsumable: false, vital: false },
+        { id: 'cm_18', cat: 'gear', brand: 'TheTentLab', name: 'The Deuce #2 貓鏟與排遺包', grams: 50, checked: false, isConsumable: false, vital: false }
       ],
       trail_run: [
-        { id: 'tr_1', cat: 'gear', brand: 'Salomon 所羅門', name: 'Adv Skin 12 越野跑水袋背心', grams: 293, checked: true, isConsumable: false, vital: false },
-        { id: 'tr_2', cat: 'cook', brand: 'Salomon 所羅門', name: 'Soft Flask 500ml 軟水壺 (雙壺)', grams: 76, checked: true, isConsumable: false, vital: false },
-        { id: 'tr_3', cat: 'cook', brand: '飲用水', name: '越野行進補給水 (1000ml)', grams: 1000, checked: true, isConsumable: true, vital: false },
-        { id: 'tr_4', cat: 'cook', brand: '能量補給', name: '能量膠、電解質粉與能量棒 (賽事儲備)', grams: 350, checked: true, isConsumable: true, vital: false },
-        { id: 'tr_5', cat: 'warm', brand: 'Salomon 所羅門', name: 'Bonatti Waterproof 越野防水透氣外套', grams: 195, checked: true, isConsumable: false, vital: true, vitalType: 'rain' },
-        { id: 'tr_6', cat: 'safe', brand: 'Petzl', name: 'Swift RL 越野智慧感應頭燈 (1100流明)', grams: 100, checked: true, isConsumable: false, vital: true, vitalType: 'headlamp' },
-        { id: 'tr_7', cat: 'safe', brand: '賽事強制裝備', name: '鋁箔輕量急救求生毯 (賽事強制裝備)', grams: 50, checked: true, isConsumable: false, vital: false },
-        { id: 'tr_8', cat: 'safe', brand: '賽事強制裝備', name: '高音無珠急救哨 (賽事強制裝備)', grams: 8, checked: true, isConsumable: false, vital: false },
-        { id: 'tr_9', cat: 'safe', brand: '賽事強制裝備', name: '自黏彈性加壓繃帶與藥品', grams: 45, checked: true, isConsumable: false, vital: false },
-        { id: 'tr_10', cat: 'safe', brand: 'Apple', name: '離線GPX導航手機 (含保護套)', grams: 220, checked: true, isConsumable: false, vital: false },
-        { id: 'tr_11', cat: 'gear', brand: 'Black Diamond', name: 'Distance Carbon Z 碳纖越野跑杖 (雙杖)', grams: 280, checked: true, isConsumable: false, vital: false },
-        { id: 'tr_12', cat: 'gear', brand: 'Salomon 所羅門', name: 'Trail Gaiters 高筒越野防砂套', grams: 80, checked: true, isConsumable: false, vital: false }
+        { id: 'tr_1', cat: 'gear', brand: 'Salomon 所羅門', name: 'Adv Skin 12 越野跑水袋背心', grams: 293, checked: false, isConsumable: false, vital: false },
+        { id: 'tr_2', cat: 'cook', brand: 'Salomon 所羅門', name: 'Soft Flask 500ml 軟水壺 (雙壺)', grams: 76, checked: false, isConsumable: false, vital: false },
+        { id: 'tr_3', cat: 'cook', brand: '飲用水', name: '越野行進補給水 (1000ml)', grams: 1000, checked: false, isConsumable: true, vital: false },
+        { id: 'tr_4', cat: 'cook', brand: '能量補給', name: '能量膠、電解質粉與能量棒 (賽事儲備)', grams: 350, checked: false, isConsumable: true, vital: false },
+        { id: 'tr_5', cat: 'warm', brand: 'Salomon 所羅門', name: 'Bonatti Waterproof 越野防水透氣外套', grams: 195, checked: false, isConsumable: false, vital: true, vitalType: 'rain' },
+        { id: 'tr_6', cat: 'safe', brand: 'Petzl', name: 'Swift RL 越野智慧感應頭燈 (1100流明)', grams: 100, checked: false, isConsumable: false, vital: true, vitalType: 'headlamp' },
+        { id: 'tr_7', cat: 'safe', brand: '賽事強制裝備', name: '鋁箔輕量急救求生毯 (賽事強制裝備)', grams: 50, checked: false, isConsumable: false, vital: false },
+        { id: 'tr_8', cat: 'safe', brand: '賽事強制裝備', name: '高音無珠急救哨 (賽事強制裝備)', grams: 8, checked: false, isConsumable: false, vital: false },
+        { id: 'tr_9', cat: 'safe', brand: '賽事強制裝備', name: '自黏彈性加壓繃帶與藥品', grams: 45, checked: false, isConsumable: false, vital: false },
+        { id: 'tr_10', cat: 'safe', brand: 'Apple', name: '離線GPX導航手機 (含保護套)', grams: 220, checked: false, isConsumable: false, vital: false },
+        { id: 'tr_11', cat: 'gear', brand: 'Black Diamond', name: 'Distance Carbon Z 碳纖越野跑杖 (雙杖)', grams: 280, checked: false, isConsumable: false, vital: false },
+        { id: 'tr_12', cat: 'gear', brand: 'Salomon 所羅門', name: 'Trail Gaiters 高筒越野防砂套', grams: 80, checked: false, isConsumable: false, vital: false }
       ]
     };
 
@@ -3554,9 +3553,10 @@
           });
           ownedCount++;
         } else {
-          // 使用者尚未擁有，使用官方推薦預設作為檢核參考
+          // 使用者尚未擁有，使用官方推薦預設作為檢核參考（具備 checklist 功能，預設未勾選）
           item.isRecommended = true;
           item.prepStatus = 'need_prep';
+          item.checked = false;
           list.push(item);
           needPrepCount++;
         }
