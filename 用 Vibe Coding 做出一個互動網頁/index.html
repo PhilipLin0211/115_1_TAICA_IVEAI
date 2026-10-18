@@ -3067,6 +3067,7 @@
         if (/睡袋|sleeping bag|down hugger|spark|flame/.test(text)) return '高山睡袋';
         if (/包|pack|atmos|exos|talon|baltoro|focal|marl|breach|southwest|登山包|單攻包|背包/.test(text)) return '登山背包';
         if (/枕|pillow/.test(text)) return '營地枕頭';
+        if (/求生毯|避難毯|急救毯|bivy/.test(text)) return '緊急避難保暖';
         return '睡眠收納';
       }
 
@@ -3085,23 +3086,26 @@
         if (/鍋|pot|cookware|鈦鍋|套鍋|餐具|碗|杯/.test(text)) return '戶外套鍋';
         if (/瓦斯|gas|高山氣/.test(text)) return '高山瓦斯';
         if (/濾水|filter|befree|sawyer|濾水壺|淨水/.test(text)) return '戶外濾水';
-        if (/水|water|水壺|水袋|flask|cnoc|軟水/.test(text)) return '行動水袋水壺';
-        if (/糧|食物|乾燥飯|能量膠|gel|能量棒|路糧|發泡錠|鹽糖|肉乾/.test(text)) return '行動乾糧水糧';
+        if (/糧|食物|乾燥飯|能量膠|gel|能量棒|路糧|發泡錠|鹽糖|肉乾|能量補給/.test(text)) return '行動乾糧水糧';
+        if (/水壺|水袋|flask|軟水壺|cnoc|nalgene|折疊水袋|吸水袋/.test(text)) return '儲水水袋水壺';
+        if (/飲用水|行動水|行進水|儲備水|起登水|水\s*\(/.test(text) || (item.isConsumable && /水/.test(text))) return '行動飲用水';
         return '炊事水糧';
       }
 
       if (cat === 'safe') {
         if (/頭燈|headlamp|actik|spot|swift|iko|neo|手電筒|燈/.test(text)) return '照明頭燈';
         if (/行動電源|電源|nb10000|power bank|電池|充電/.test(text)) return '行動電源';
-        if (/手機|導航|gpx|garmin|指北針|地圖/.test(text)) return '離線導航手機';
+        if (/手機|導航|gpx|garmin|指北針|地圖|inreach/.test(text)) return '離線導航手機';
+        if (/求生毯|避難毯|急救毯|bivy/.test(text)) return '急救求生毯';
+        if (/哨|whistle/.test(text)) return '求生急救哨';
         if (/急救|藥|繃帶|first aid|醫藥/.test(text)) return '急救包常備藥';
-        if (/求生毯|避難毯|求生|救生|哨|whistle|打火機|刀/.test(text)) return '求生避難裝備';
         return '安全求生裝備';
       }
 
       // cat === 'gear'
-      if (/杖|pole|distance|carbon|makaralu|trail pro|登山杖/.test(text)) return '登山健行杖';
-      if (/越野|水袋背心|腰帶|防砂套|箭袋|vest|belt/.test(text)) return '越野跑裝備';
+      if (/杖|pole|distance|carbon|makaralu|trail pro|登山杖|跑杖/.test(text)) return '登山健行杖';
+      if (/水袋背心|越野背心|vest|腰帶|running band|belt|箭袋|quiver/.test(text)) return '越野水袋背心';
+      if (/防砂套|防沙套|鞋套|gaiter/.test(text)) return '越野防砂鞋套';
       if (/貓鏟|鏟|deuce|衛生紙|濕紙巾|垃圾袋|排遺/.test(text)) return '排遺清潔用品';
       if (/鞋|襪|綁腿|冰爪|雪套/.test(text)) return '鞋襪足部防護';
       if (/防曬|太陽眼鏡|墨鏡|配件|毛巾/.test(text)) return '防曬個人配件';
@@ -3364,58 +3368,81 @@
     // --- 9.1 裝備比對、推薦款式管理與自動替換機制 ---
     const GENERIC_SUBCATS = new Set(['睡眠收納', '防風保暖', '炊事水糧', '安全求生裝備', '登山個人配件']);
 
-    function isMatchingGear(a, b) {
-      if (!a || !b) return false;
-      if (a.cat !== b.cat) return false;
+    // 計算兩件裝備的相似/相符分數 (0 代表不相符，分數越高代表相符程度越高)
+    function getGearMatchScore(a, b) {
+      if (!a || !b) return 0;
+      if (a.cat !== b.cat) return 0;
 
       const subA = getItemSubcategory(a);
       const subB = getItemSubcategory(b);
 
-      // 如果兩者各自屬於不同且明確的具體子分類（例如：防風雨褲 vs 防水風雨衣、登山背包 vs 高山睡袋），絕不能混為同一項裝備
       const isSpecificA = subA && !GENERIC_SUBCATS.has(subA);
       const isSpecificB = subB && !GENERIC_SUBCATS.has(subB);
+      // 若兩者各自屬於不同且具體的子分類（例如：防風雨褲 vs 防水風雨衣、水袋背心 vs 防砂套），絕不可視為同款
       if (isSpecificA && isSpecificB && subA !== subB) {
-        return false;
+        return 0;
       }
 
-      // 1. 完全相同品名
-      const nameA = (a.name || '').trim().toLowerCase();
-      const nameB = (b.name || '').trim().toLowerCase();
-      if (nameA === nameB) return true;
+      const nameA = (a.name || a.model || '').trim().toLowerCase();
+      const nameB = (b.name || b.model || '').trim().toLowerCase();
+      const brandA = (a.brand || '').trim().toLowerCase();
+      const brandB = (b.brand || '').trim().toLowerCase();
 
-      // 2. 屬於相同的具體子分類 (例如：兩者皆為「防風雨褲」、「防水風雨衣」、「攻頂爐具」、「高山睡袋」、「照明頭燈」等)
-      if (isSpecificA && isSpecificB && subA === subB) {
-        return true;
+      // 雨衣與雨褲互斥檢查
+      if (a.vital && b.vital && a.vitalType === 'rain' && b.vitalType === 'rain') {
+        const isJacketA = /衣|jacket|衝鋒|外套/.test(nameA);
+        const isPantsA = /褲|pants/.test(nameA);
+        const isJacketB = /衣|jacket|衝鋒|外套/.test(nameB);
+        const isPantsB = /褲|pants/.test(nameB);
+        if ((isJacketA && isPantsB) || (isPantsA && isJacketB)) return 0;
       }
 
-      // 3. 相同保命裝備類型（若子分類無法細分時，但需排除雨衣雨褲互斥）
-      if (a.vital && b.vital && a.vitalType && b.vitalType && a.vitalType === b.vitalType) {
-        if (a.vitalType === 'rain') {
-          const isJacketA = /衣|jacket|衝鋒|外套/.test(nameA);
-          const isPantsA = /褲|pants/.test(nameA);
-          const isJacketB = /衣|jacket|衝鋒|外套/.test(nameB);
-          const isPantsB = /褲|pants/.test(nameB);
-          if ((isJacketA && isPantsB) || (isPantsA && isJacketB)) return false;
-        }
-        return true;
+      // 1. 完全相同品牌與品名 (最高優先級: 100 分)
+      if (brandA && brandB && brandA === brandB && nameA === nameB) {
+        return 100;
       }
 
-      // 4. 同品牌且品名關鍵字吻合
-      const STOP_WORDS = new Set(['輕量', '超輕', '登山', '戶外', '高山', '專業', '透氣', '防風', '個人', '便攜', '專用', '標準', '裝備', '必備', '一對', '雙杖', '含電池', '組', '套']);
+      // 2. 完全相同品名 (90 分)
+      if (nameA && nameB && nameA === nameB) {
+        return 90;
+      }
+
+      const STOP_WORDS = new Set(['輕量', '超輕', '登山', '戶外', '高山', '專業', '透氣', '防風', '個人', '便攜', '專用', '標準', '裝備', '必備', '一對', '雙杖', '含電池', '組', '套', '備用']);
       const getKeywords = (name) => name.replace(/[()（）#\-_/【】]/g, ' ').split(/\s+/).filter(w => w.length > 1 && !STOP_WORDS.has(w));
 
-      if (a.brand && b.brand && a.brand.toLowerCase() === b.brand.toLowerCase()) {
-        const wordsA = getKeywords(nameA);
-        if (wordsA.some(w => nameB.includes(w))) return true;
-      }
-
-      // 5. 核心關鍵字重疊比對
       const wordsA = getKeywords(nameA);
       const wordsB = getKeywords(nameB);
-      const shared = wordsA.filter(w => wordsB.some(wb => wb.includes(w) || w.includes(wb)));
-      if (shared.length > 0) return true;
+      const sharedWords = wordsA.filter(w => wordsB.some(wb => wb.includes(w) || w.includes(wb)));
 
-      return false;
+      // 3. 相同品牌且核心型號關鍵字吻合 (80+ 分)
+      if (brandA && brandB && brandA === brandB && sharedWords.length > 0) {
+        return 80 + Math.min(sharedWords.length * 2, 8);
+      }
+
+      // 4. 跨品牌但具有核心型號關鍵字高度吻合 (70+ 分)
+      if (sharedWords.length > 0) {
+        return 70 + Math.min(sharedWords.length * 2, 8);
+      }
+
+      // 5. 屬於相同的具體子分類 (例如皆為「照明頭燈」、「攻頂爐具」、「防水風雨衣」等)
+      if (isSpecificA && isSpecificB && subA === subB) {
+        // 若其中一件標記為「備用」，另一件為主力裝備，則降低相符分數讓主力優先匹配
+        const isSpareA = /備用|spare|backup/.test(nameA);
+        const isSpareB = /備用|spare|backup/.test(nameB);
+        if (isSpareA === isSpareB) return 50;
+        return 40;
+      }
+
+      // 6. 相同保命裝備類型
+      if (a.vital && b.vital && a.vitalType && b.vitalType && a.vitalType === b.vitalType) {
+        return 30;
+      }
+
+      return 0;
+    }
+
+    function isMatchingGear(a, b) {
+      return getGearMatchScore(a, b) > 0;
     }
 
     // 判斷是否為系統推薦/範本預設裝備（非使用者自己登記或自備之真實品項）
@@ -3427,36 +3454,96 @@
       return false;
     }
 
-    // 檢查清單中是否有對應的推薦裝備，若有則自動將推薦裝備移除（讓使用者真實裝備替代之）
+    // 檢查清單中是否有對應的推薦裝備，若有則自動將推薦裝備移除（讓使用者真實裝備替代之，優先選擇相符程度最高者）
     function replaceRecommendedGearWithUserGear(userGear) {
       if (!state.gearList || state.gearList.length === 0) return null;
-      const recIndex = state.gearList.findIndex(it => isRecommendedGear(it) && isMatchingGear(userGear, it));
-      if (recIndex !== -1) {
-        const removedRec = state.gearList[recIndex];
-        state.gearList.splice(recIndex, 1);
+
+      let bestIndex = -1;
+      let highestScore = 0;
+
+      state.gearList.forEach((it, idx) => {
+        if (!isRecommendedGear(it)) return;
+        const score = getGearMatchScore(userGear, it);
+        if (score > highestScore) {
+          highestScore = score;
+          bestIndex = idx;
+        }
+      });
+
+      if (bestIndex !== -1 && highestScore > 0) {
+        const removedRec = state.gearList[bestIndex];
+        state.gearList.splice(bestIndex, 1);
         return removedRec;
       }
       return null;
     }
 
-    // 清理清單中已被使用者自備裝備取代的重複推薦項目
+    // 清理清單中已被使用者自備裝備取代的重複推薦項目及完全重複之裝備
     function cleanupDuplicateRecommendedGear() {
       if (!state.gearList || state.gearList.length === 0) return;
+
+      // 1. 全域去重複：避免因重複帶入或重複渲染產生兩件一模一樣的裝備
+      const seenIds = new Set();
+      const seenGearKeys = new Map();
+      const dedupedList = [];
+
+      state.gearList.forEach(item => {
+        if (!item || !item.name) return;
+        if (item.id && seenIds.has(item.id)) return;
+
+        const gearKey = `${(item.brand || '').trim().toLowerCase()}_${item.name.trim().toLowerCase()}`;
+        if (seenGearKeys.has(gearKey)) {
+          const existing = seenGearKeys.get(gearKey);
+          // 若原有的是推薦款式，當前為自備款式，則以自備款式取代
+          if (isRecommendedGear(existing) && !isRecommendedGear(item)) {
+            const exIdx = dedupedList.indexOf(existing);
+            if (exIdx !== -1) {
+              dedupedList[exIdx] = item;
+              seenGearKeys.set(gearKey, item);
+              if (item.id) seenIds.add(item.id);
+              return;
+            }
+          }
+          // 否則已有相同款式，略過此重複裝備
+          return;
+        }
+
+        if (item.id) seenIds.add(item.id);
+        seenGearKeys.set(gearKey, item);
+        dedupedList.push(item);
+      });
+
+      state.gearList = dedupedList;
+
+      // 2. 嚴格一對一替換：已自備之裝備僅能替換一件最相符之推薦裝備，避免一件自備裝備錯誤取代多件推薦裝備
       const userGears = state.gearList.filter(it => !isRecommendedGear(it));
       if (userGears.length === 0) return;
 
-      const toRemoveIds = new Set();
-      state.gearList.forEach(item => {
-        if (isRecommendedGear(item)) {
-          const hasUserReplacement = userGears.some(u => isMatchingGear(u, item));
-          if (hasUserReplacement) {
-            toRemoveIds.add(item.id);
+      const pairs = [];
+      userGears.forEach(u => {
+        state.gearList.forEach(r => {
+          if (!isRecommendedGear(r)) return;
+          const score = getGearMatchScore(u, r);
+          if (score >= 40) {
+            pairs.push({ u, r, score });
           }
+        });
+      });
+
+      pairs.sort((a, b) => b.score - a.score);
+
+      const matchedRecIds = new Set();
+      const usedUserIds = new Set();
+
+      pairs.forEach(p => {
+        if (!usedUserIds.has(p.u.id) && !matchedRecIds.has(p.r.id)) {
+          usedUserIds.add(p.u.id);
+          matchedRecIds.add(p.r.id);
         }
       });
 
-      if (toRemoveIds.size > 0) {
-        state.gearList = state.gearList.filter(it => !toRemoveIds.has(it.id));
+      if (matchedRecIds.size > 0) {
+        state.gearList = state.gearList.filter(it => !matchedRecIds.has(it.id));
       }
     }
 
@@ -3464,9 +3551,30 @@
     function syncLockerToRecommendedGear() {
       if (!state.gearLocker || !state.gearList) return;
       let replacedCount = 0;
+
+      const packedLockerIds = new Set(
+        state.gearList
+          .filter(it => it.id && it.id.startsWith('pack_'))
+          .map(it => it.id.replace('pack_', ''))
+      );
+
       state.gearLocker.forEach(lItem => {
-        const recIndex = state.gearList.findIndex(it => isRecommendedGear(it) && isMatchingGear(lItem, it));
-        if (recIndex !== -1) {
+        if (packedLockerIds.has(lItem.id)) return;
+        if (state.gearList.some(it => it.name === lItem.name && (it.brand === lItem.brand || !it.brand) && !isRecommendedGear(it))) return;
+
+        let bestRecIndex = -1;
+        let highestScore = 0;
+
+        state.gearList.forEach((it, idx) => {
+          if (!isRecommendedGear(it)) return;
+          const score = getGearMatchScore(lItem, it);
+          if (score > highestScore) {
+            highestScore = score;
+            bestRecIndex = idx;
+          }
+        });
+
+        if (bestRecIndex !== -1 && highestScore >= 40) {
           const packItem = {
             id: 'pack_' + lItem.id,
             cat: lItem.cat,
@@ -3480,10 +3588,12 @@
             prepStatus: 'owned',
             isRecommended: false
           };
-          state.gearList.splice(recIndex, 1, packItem);
+          state.gearList.splice(bestRecIndex, 1, packItem);
+          packedLockerIds.add(lItem.id);
           replacedCount++;
         }
       });
+
       if (replacedCount > 0) {
         renderChecklist();
         recalculate();
@@ -3500,19 +3610,15 @@
       }
       if (item.prepStatus === 'owned') return true;
 
-      // 2. 個人裝備資產庫中是否有相符之裝備
-      if (state.gearLocker && state.gearLocker.some(l => isMatchingGear(item, l))) {
-        return true;
-      }
-
-      // 3. 本次打包清單中是否已有勾選之同類裝備
-      if (state.gearList && state.gearList.some(other => {
-        if (other.id === item.id) return false;
-        if (!other.checked) return false;
-        if (isMatchingGear(item, other)) return true;
-        return false;
-      })) {
-        return true;
+      // 2. 個人裝備資產庫中是否有相符且尚未被其他清單項目佔用的裝備
+      if (state.gearLocker && state.gearLocker.length > 0) {
+        const usedLockerIdsInPack = new Set(
+          state.gearList
+            .filter(it => it.id && it.id.startsWith('pack_') && it.id !== item.id)
+            .map(it => it.id.replace('pack_', ''))
+        );
+        const hasUnusedLockerMatch = state.gearLocker.some(l => !usedLockerIdsInPack.has(l.id) && isMatchingGear(item, l));
+        if (hasUnusedLockerMatch) return true;
       }
 
       return false;
@@ -3529,13 +3635,40 @@
 
       const template = PRESETS[presetKey] || PRESETS.cabin_overnight;
       const list = [];
+      const usedLockerIds = new Set();
+      const allocatedMatches = new Map(); // templateIndex -> lockerItem
+
+      // 建立範本項目與個人在庫裝備所有相符候選組合
+      const candidates = [];
+      template.forEach((tItem, tIdx) => {
+        if (!state.gearLocker) return;
+        state.gearLocker.forEach(lItem => {
+          const score = getGearMatchScore(tItem, lItem);
+          if (score > 0) {
+            candidates.push({ tIdx, tItem, lItem, score });
+          }
+        });
+      });
+
+      // 依相符分數降冪排序：完全相符與高相符者最優先配對，絕不重複分配同一件在庫裝備
+      candidates.sort((a, b) => b.score - a.score);
+
+      const assignedTemplateIndices = new Set();
+      candidates.forEach(cand => {
+        if (!assignedTemplateIndices.has(cand.tIdx) && !usedLockerIds.has(cand.lItem.id)) {
+          assignedTemplateIndices.add(cand.tIdx);
+          usedLockerIds.add(cand.lItem.id);
+          allocatedMatches.set(cand.tIdx, cand.lItem);
+        }
+      });
 
       let ownedCount = 0;
       let needPrepCount = 0;
 
-      template.forEach(tItem => {
+      template.forEach((tItem, tIdx) => {
         const item = JSON.parse(JSON.stringify(tItem));
-        const matchInLocker = state.gearLocker && state.gearLocker.find(l => isMatchingGear(item, l));
+        const matchInLocker = allocatedMatches.get(tIdx);
+
         if (matchInLocker) {
           // 使用者在庫已有此裝備！直接帶入使用者真實裝備，不放置推薦款式！
           list.push({
@@ -4165,7 +4298,7 @@
     }
 
     function togglePackCheckItem(lockerItem) {
-      const existing = state.gearList.find(p => p.name === lockerItem.name && (p.brand === lockerItem.brand || !p.brand));
+      const existing = state.gearList.find(p => p.id === 'pack_' + lockerItem.id || (p.name === lockerItem.name && (p.brand === lockerItem.brand || !p.brand)));
       if (existing) {
         if (existing.checked) {
           state.gearList = state.gearList.filter(p => p !== existing);
@@ -4178,7 +4311,7 @@
         }
       } else {
         const newItem = {
-          id: 'pack_' + Date.now() + Math.random().toString(36).substr(2, 4),
+          id: 'pack_' + lockerItem.id,
           cat: lockerItem.cat,
           brand: lockerItem.brand,
           name: lockerItem.name,
@@ -4324,20 +4457,20 @@
         if (cb.checked) {
           const item = state.gearLocker.find(l => l.id === cb.dataset.id);
           if (item) {
-            const exists = state.gearList.find(p => p.name === item.name && p.brand === item.brand);
+            const exists = state.gearList.find(p => p.id === 'pack_' + item.id || (p.name === item.name && p.brand === item.brand));
             if (exists) {
               exists.checked = true;
             } else {
               const newItem = {
-                id: 'pack_' + Date.now() + Math.random().toString(36).substr(2, 4),
+                id: 'pack_' + item.id,
                 cat: item.cat,
                 brand: item.brand,
                 name: item.name,
-                grams: item.grams,
+                grams: Number(item.grams) || 0,
                 checked: true,
-                isConsumable: item.isConsumable,
-                vital: item.vital,
-                vitalType: item.vitalType,
+                isConsumable: !!item.isConsumable,
+                vital: !!item.vital,
+                vitalType: item.vitalType || null,
                 prepStatus: 'owned',
                 isRecommended: false
               };
