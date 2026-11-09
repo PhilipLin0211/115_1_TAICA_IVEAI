@@ -9,8 +9,9 @@ from pathlib import Path
 import tempfile
 
 from utils.file_parser import extract_text_from_file
-from utils.file_mover import safe_move_file
+from utils.file_mover import safe_move_file, PermissionDeniedError
 from utils.wiki_builder import create_obsidian_note
+from utils.audit_logger import AuditLogger
 from agent.llm_caller import OllamaAgentCaller
 from agent.rag_engine import LocalRagEngine
 
@@ -75,8 +76,36 @@ def run_pipeline_test():
             dry_run=True
         )
 
+        print("\n[Test 6] Testing Security Permission Boundary (MOVE-ONLY)")
+        # Test 6a: Authorized MOVE should pass
+        ok, _ = safe_move_file(sample_file, target_dir, dry_run=True, requested_action="MOVE")
+        assert ok, "Valid MOVE action was blocked!"
+        print("  ✅ Authorized action 'MOVE' permitted.")
+
+        # Test 6b: Unauthorized DELETE should raise PermissionDeniedError
+        try:
+            safe_move_file(sample_file, target_dir, dry_run=True, requested_action="DELETE")
+            assert False, "Security violation: DELETE operation was not blocked!"
+        except PermissionDeniedError as e:
+            print(f"  🛡️ Unauthorized action 'DELETE' successfully BLOCKED! ({e})")
+
+        print("\n[Test 7] Testing Audit Logger & Folder Directory Snapshot")
+        logger = AuditLogger(log_dir=tmp_path / "history", vault_dir=vault_mock)
+        audit_entry = logger.record_action(
+            action="MOVE",
+            source_path=sample_file,
+            destination_path=dest_path,
+            file_info=info,
+            decision=decision,
+            watch_dir=downloads_mock,
+            dry_run=True
+        )
+        assert audit_entry["permission_guard"]["verified"] is True
+        print(f"  ✅ Audit log entry saved: ID {audit_entry['id']}")
+        print(f"  📸 Target directory snapshot files count: {audit_entry['folder_directory_snapshots']['target_directory'].get('total_files')}")
+
         print("\n" + "=" * 65)
-        print("🎉 ALL PIPELINE UNIT CHECKS PASSED SUCCESSFULLY!")
+        print("🎉 ALL PIPELINE & SECURITY BOUNDARY CHECKS PASSED!")
         print("=" * 65)
 
 

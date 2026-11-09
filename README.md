@@ -17,7 +17,7 @@
 | 作業編號 | 作業名稱 / 主題 | 專案成品 | 線上體驗與文件連結 | 狀態 |
 | :--- | :--- | :--- | :--- | :---: |
 | **作業一 (HW 1)** | **用 Vibe Coding 做出一個互動網頁** | **《山岳馱獸包包 PackBeast Pro》**<br>登山輕量化負重與打包檢核 Web App | 🌐 [線上即時操作 (Live Demo)](https://philiplin0211.github.io/115_1_TAICA_IVEAI/%E7%94%A8%20Vibe%20Coding%20%E5%81%9A%E5%87%BA%E4%B8%80%E5%80%8B%E4%BA%92%E5%8B%95%E7%B6%B2%E9%A0%81/)<br>📖 [作業規格與開發歷程](./用%20Vibe%20Coding%20做出一個互動網頁/README.md)<br>🏗️ [系統架構圖 (Architecture)](./用%20Vibe%20Coding%20做出一個互動網頁/ARCHITECTURE.md)<br>📓 [Colab 雲端執行](./用%20Vibe%20Coding%20做出一個互動網頁/run_on_colab.ipynb) | ✅ 已發布 |
-| **期末專案 (Final Project)** | **本地 RAG 檔案管家與自動知識庫** | **《Local AI File Agent》**<br>macOS 下載目錄自動化管家 + 向量檢索 + Obsidian LLMWiki 自動筆記 | 🌐 [線上即時操作 (Live Demo)](https://philiplin0211.github.io/115_1_TAICA_IVEAI/Local%20AI%20File%20Agent/)<br>📖 [專案架構與技術文件](./Local%20AI%20File%20Agent/README.md)<br>📅 [11月底進度追蹤與問題手冊](./Local%20AI%20File%20Agent/PROGRESS.md)<br>🏗️ [系統架構規格書](./Local%20AI%20File%20Agent/ARCHITECTURE.md)<br>📂 [原始碼目錄](./Local%20AI%20File%20Agent/) | ✅ 已發布 |
+| **期末專案 (Final Project)** | **本地 RAG 檔案管家與自動知識庫** | **《Local AI File Agent》**<br>macOS 下載目錄自動化管家 + 向量檢索 + Obsidian LLMWiki 自動筆記 | 🌐 [線上即時操作 (Live Demo)](https://philiplin0211.github.io/115_1_TAICA_IVEAI/Local%20AI%20File%20Agent/)<br>📖 [專案架構與技術文件](./Local%20AI%20File%20Agent/README.md)<br>📅 [11月底進度追蹤與問題手冊](./Local%20AI%20File%20Agent/PROGRESS.md)<br>🏗️ [系統架構規格書](./Local%20AI%20File%20Agent/ARCHITECTURE.md)<br>📓 [Colab 雲端執行](./Local%20AI%20File%20Agent/run_on_colab.ipynb)<br>📂 [原始碼目錄](./Local%20AI%20File%20Agent/) | ✅ 已發布 |
 | **作業二 (HW 2)** | *規劃準備中* | *Coming Soon* | *即將推出* | ⏳ 規劃中 |
 | **作業三 (HW 3)** | *規劃準備中* | *Coming Soon* | *即將推出* | ⏳ 規劃中 |
 
@@ -47,6 +47,7 @@
 │   ├── README.md                            # 專案架構設計、RAG 向量檢索與 LLMWiki 規格書
 │   ├── ARCHITECTURE.md                      # 系統底層架構、狀態機與容錯設計說明書
 │   ├── PROGRESS.md                          # 11月底衝刺進度表、技術對照與問題排查手冊
+│   ├── run_on_colab.ipynb                   # 期末專案 Google Colab 一鍵雲端執行腳本
 │   ├── main.py                              # 系統常駐進入點與 Watchdog 監聽守護行程
 │   ├── config.yaml                          # 系統設定檔 (路徑、模型、分類清單)
 │   ├── requirements.txt                     # Python 依賴套件清單

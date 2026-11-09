@@ -17,6 +17,7 @@ from watchdog.events import FileSystemEventHandler
 from utils.file_parser import extract_text_from_file
 from utils.file_mover import safe_move_file
 from utils.wiki_builder import create_obsidian_note
+from utils.audit_logger import AuditLogger
 from agent.llm_caller import OllamaAgentCaller
 from agent.rag_engine import LocalRagEngine
 
@@ -28,9 +29,12 @@ class DownloadFolderHandler(FileSystemEventHandler):
         self.dry_run = dry_run
         self.ignored_exts = set(config.get("ignored_extensions", [".crdownload", ".tmp", ".part"]))
         self.vault_dir = Path(config.get("vault_directory", "~/Documents/Obsidian_Vault")).expanduser()
+        self.watch_dir = Path(config.get("watch_directory", "~/Downloads")).expanduser()
         self.categories = config.get("categories", [])
         
         # Initialize modules
+        self.logger = AuditLogger(vault_dir=self.vault_dir)
+
         ollama_cfg = config.get("ollama", {})
         self.agent = OllamaAgentCaller(
             host=ollama_cfg.get("host", "http://127.0.0.1:11434"),
@@ -80,12 +84,15 @@ class DownloadFolderHandler(FileSystemEventHandler):
         print(f"🎯 [Decision] Category: {decision.get('category')} | Name: {decision.get('sanitized_name')}")
 
         dest_dir = self.vault_dir / decision.get("category", "General/Inbox")
-        print(f"📂 [Step 4] Moving file to {dest_dir} (Dry-run: {self.dry_run})...")
+        action_requested = decision.get("action", "MOVE")
+        print(f"📂 [Step 4] Requesting action: {action_requested} -> {dest_dir} (Dry-run: {self.dry_run})...")
+        
         ok, final_path = safe_move_file(
             source=file_path,
             destination_dir=dest_dir,
             target_filename=decision.get("sanitized_name"),
-            dry_run=self.dry_run
+            dry_run=self.dry_run,
+            requested_action=action_requested
         )
 
         if ok:
@@ -95,6 +102,17 @@ class DownloadFolderHandler(FileSystemEventHandler):
                 relative_category=decision.get("category", "General/Inbox"),
                 file_info=file_info,
                 decision=decision,
+                dry_run=self.dry_run
+            )
+
+            print(f"📸 [Step 6] Recording audit history & directory snapshot...")
+            self.logger.record_action(
+                action=action_requested,
+                source_path=file_path,
+                destination_path=final_path,
+                file_info=file_info,
+                decision=decision,
+                watch_dir=self.watch_dir,
                 dry_run=self.dry_run
             )
 

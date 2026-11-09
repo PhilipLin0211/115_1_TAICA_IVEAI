@@ -108,6 +108,7 @@ class OllamaAgentCaller:
             tags = ["Dev", "Code"]
 
         return {
+            "action": "MOVE",
             "category": cat,
             "sanitized_name": fname,
             "wiki_title": fname,

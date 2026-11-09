@@ -9,6 +9,7 @@
 
 [![Live Demo](https://img.shields.io/badge/期末專案線上展示-GitHub%20Pages-success?style=for-the-badge&logo=github)](https://philiplin0211.github.io/115_1_TAICA_IVEAI/Local%20AI%20File%20Agent/)
 [![Course Portal](https://img.shields.io/badge/課程作業總覽首頁-Portal-purple?style=for-the-badge&logo=githubpages)](https://philiplin0211.github.io/115_1_TAICA_IVEAI/)
+[![Open In Colab](https://img.shields.io/badge/雲端執行-Google%20Colab-orange?style=for-the-badge&logo=googlecolab)](https://colab.research.google.com/github/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/run_on_colab.ipynb)
 [![GitHub Repo](https://img.shields.io/badge/原始碼-GitHub%20Repo-blue?style=for-the-badge&logo=github)](https://github.com/PhilipLin0211/115_1_TAICA_IVEAI)
 ![100% Local](https://img.shields.io/badge/隱私安全-100%25%20Local%20First-emerald?style=for-the-badge)
 ![Ollama Powered](https://img.shields.io/badge/推論核心-Ollama%20Qwen2.5-black?style=for-the-badge&logo=ollama)
@@ -20,6 +21,8 @@
 
 * 🌐 **期末專案 GitHub Pages 線上即時互動演示 (Live Simulator)**：  
   👉 **[https://philiplin0211.github.io/115_1_TAICA_IVEAI/Local%20AI%20File%20Agent/](https://philiplin0211.github.io/115_1_TAICA_IVEAI/Local%20AI%20File%20Agent/)**
+* 📓 **Colab 一鍵雲端運行與 RAG 驗證 Notebook**：  
+  👉 **[run_on_colab.ipynb](./run_on_colab.ipynb)**
 * 📅 **11月底衝刺進度追蹤表與問題排查手冊 (Progress & Issues)**：  
   👉 **[PROGRESS.md](./PROGRESS.md)**
 * 🏗️ **系統架構圖與狀態機規格說明書 (Architecture & State Machine)**：  
@@ -88,6 +91,12 @@ graph TD
    * 筆記包含 YAML Frontmatter 中繼資料、核心重點摘要、以及 Obsidian 核心語法 `[[雙向連結]]` 與 `#標籤`，自動維護總目錄 `index.md` 與歷程紀錄 `log.md`。
 6. **極致隱私與離線運作 (100% Local & Zero Cost)**：
    * 所有文本分析、Embedding 與模型推論均在本地 Mac 晶片 (Apple Silicon / Metal) 完成，免聯網、免 Token 計費、零個資外洩風險。
+7. **嚴格最小權限防護 (MOVE-Only Permission Boundary)**：
+   * 遵循「最小權限原則 (Principle of Least Privilege)」，系統底層硬性限定 Agent **僅有移動檔案 (MOVE) 權限**。
+   * 絕無刪除 (DELETE)、覆寫 (OVERWRITE)、竄改檔案內容 (MODIFY) 或執行代碼之權限，杜絕誤刪或安全性破壞風險。
+8. **每次動作完整紀錄與資料夾目錄快照 (Audit History & Directory Snapshots)**：
+   * 每次觸發搬移時，自動在 `history/audit_log.json` 與 Obsidian `log.md` 寫入審計條目。
+   * 同步記錄該次動作當下「來源下載資料夾」與「目標分類資料夾」的完整**檔案目錄快照 (Directory Snapshot)**，供隨時追溯與回溯。
 
 ---
 

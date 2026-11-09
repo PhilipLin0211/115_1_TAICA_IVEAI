@@ -38,19 +38,29 @@ class LocalRagEngine:
     def _load_or_init(self):
         """Load existing FAISS index or create an empty one."""
         self.index_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # 1. Always load metadata if present
+        if self.metadata_path.exists():
+            try:
+                with open(self.metadata_path, "r", encoding="utf-8") as f:
+                    self.metadata = json.load(f)
+            except Exception as e:
+                print(f"⚠️ [Metadata Load Warning] {e}")
+                self.metadata = []
+        else:
+            self.metadata = []
+
+        # 2. Load or init FAISS index if library is present
         if faiss is not None:
-            if self.index_path.exists() and self.metadata_path.exists():
+            if self.index_path.exists():
                 try:
                     self.index = faiss.read_index(str(self.index_path))
-                    with open(self.metadata_path, "r", encoding="utf-8") as f:
-                        self.metadata = json.load(f)
                     return
                 except Exception as e:
-                    print(f"⚠️ [FAISS Load Warning] Could not load index: {e}, initializing fresh index.")
+                    print(f"⚠️ [FAISS Load Warning] Could not load index: {e}")
 
             # Create new L2 / Cosine Index
-            self.index = faiss.IndexFlatIP(self.dimension)  # Inner Product for normalized cosine
-            self.metadata = []
+            self.index = faiss.IndexFlatIP(self.dimension)
 
     def get_embedding(self, text: str) -> List[float]:
         """Fetch embedding vector from Ollama (supports modern /api/embed and legacy /api/embeddings)."""
@@ -96,25 +106,58 @@ class LocalRagEngine:
         return vec
 
     def search_similar(self, query_text: str, top_k: int = 3) -> str:
-        """Search top-k most similar past documents in FAISS index."""
-        if faiss is None or self.index is None or self.index.ntotal == 0:
+        """Search top-k most similar past documents in FAISS index (with numpy/keyword fallback)."""
+        if not self.metadata:
             return "(知識庫目前為冷啟動狀態，暫無過往相似記錄)"
 
         q_vec = self.get_embedding(query_text)
-        if not q_vec or all(v == 0.0 for v in q_vec):
-            return "(向量生成失敗或為空文本)"
+        has_q_vec = q_vec and any(v != 0.0 for v in q_vec)
 
-        arr = np.array([q_vec], dtype="float32")
-        scores, indices = self.index.search(arr, min(top_k, self.index.ntotal))
+        # 1. FAISS accelerated search
+        if faiss is not None and self.index is not None and self.index.ntotal > 0 and has_q_vec:
+            arr = np.array([q_vec], dtype="float32")
+            scores, indices = self.index.search(arr, min(top_k, self.index.ntotal))
+            context_lines = []
+            for i, idx in enumerate(indices[0]):
+                if idx != -1 and idx < len(self.metadata):
+                    item = self.metadata[idx]
+                    score = scores[0][i]
+                    context_lines.append(
+                        f"- 文獻: {item.get('title')} | 分類: {item.get('category')} | 相似度: {score:.3f}\n  摘要: {item.get('summary', '')[:120]}"
+                    )
+            if context_lines:
+                return "\n".join(context_lines)
 
-        context_lines = []
-        for i, idx in enumerate(indices[0]):
-            if idx != -1 and idx < len(self.metadata):
+        # 2. Numpy cosine search (if FAISS not installed but embeddings stored)
+        stored_vectors = [m.get("embedding") for m in self.metadata if m.get("embedding") and any(v != 0.0 for v in m.get("embedding"))]
+        if np is not None and has_q_vec and len(stored_vectors) == len(self.metadata):
+            matrix = np.array(stored_vectors, dtype="float32")
+            scores = np.dot(matrix, np.array(q_vec, dtype="float32"))
+            top_indices = np.argsort(scores)[::-1][:top_k]
+            context_lines = []
+            for idx in top_indices:
                 item = self.metadata[idx]
-                score = scores[0][i]
+                score = float(scores[idx])
                 context_lines.append(
                     f"- 文獻: {item.get('title')} | 分類: {item.get('category')} | 相似度: {score:.3f}\n  摘要: {item.get('summary', '')[:120]}"
                 )
+            return "\n".join(context_lines)
+
+        # 3. Fallback: Keyword & Token Overlap Search
+        query_words = set(query_text.lower().replace("？", "").replace("！", "").split())
+        scored_items = []
+        for item in self.metadata:
+            text = f"{item.get('title', '')} {item.get('summary', '')} {item.get('category', '')}".lower()
+            matches = sum(1 for w in query_words if len(w) > 1 and w in text)
+            score = round(min(0.95, 0.5 + (matches * 0.15)), 3) if matches > 0 else 0.3
+            scored_items.append((score, item))
+
+        scored_items.sort(key=lambda x: x[0], reverse=True)
+        context_lines = []
+        for score, item in scored_items[:top_k]:
+            context_lines.append(
+                f"- 文獻: {item.get('title')} | 分類: {item.get('category')} | 相似度: {score:.3f}\n  摘要: {item.get('summary', '')[:120]}"
+            )
 
         return "\n".join(context_lines) if context_lines else "(無足夠相似文獻)"
 
@@ -130,7 +173,8 @@ class LocalRagEngine:
         self.metadata.append({
             "title": title,
             "category": category,
-            "summary": summary
+            "summary": summary,
+            "embedding": vec if vec and any(v != 0.0 for v in vec) else None
         })
         self._save()
 

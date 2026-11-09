@@ -87,8 +87,9 @@ stateDiagram-v2
 | `agent/rag_engine.py` | 管理本地 FAISS 向量資料庫，執行增量 Embedding 索引與 Top-K 餘弦檢索 | `faiss-cpu`, `numpy` |
 | `agent/prompt_template.py` | 規範 System Prompt、分類階層、雙向連結格式與少樣本範例 (Few-Shot) | 純 Python 模板 |
 | `utils/file_parser.py` | 多格式檔案內容解析 (PDF/DOCX/TXT/MD)，提供安全長度截斷防爆 Token | `fitz` (PyMuPDF), `python-docx` |
-| `utils/file_mover.py` | 具備衝突避讓命名、路徑自動建立與 Dry-run 模擬之檔案搬移器 | `pathlib`, `shutil` |
+| `utils/file_mover.py` | 具備衝突避讓命名、路徑自動建立與 Dry-run 模擬之檔案搬移器 (強制 MOVE-ONLY 權限檢查) | `pathlib`, `shutil` |
 | `utils/wiki_builder.py` | 依照 Obsidian 規範產生具 YAML Frontmatter 與雙向連結之 Markdown 筆記 | `datetime`, `re` |
+| `utils/audit_logger.py` | 每次動作完整紀錄與資料夾目錄快照記錄器 (JSON + log.md) | `json`, `datetime` |
 
 ---
 
@@ -106,4 +107,10 @@ stateDiagram-v2
    * 確保總輸入 Token 穩定控制在 2,000 以內，在 Qwen 2.5 Coder 7B 上達到毫秒級推理速度。
 4. **離線純本地運行 (Zero Leakage)**：
    * 系統不向任何外部公有雲 API 發出請求，所有 Embedding 與 LLM 推論都在 localhost (`127.0.0.1:11434`) 執行。
+5. **嚴格最小權限邊界 (MOVE-ONLY Permission Boundary)**：
+   * 系統底層嚴格限制 Agent **僅有移動 (MOVE) 權限**。
+   * 程式內建權限防護網 (`validate_agent_permission`)，凡出現 DELETE、OVERWRITE、MODIFY 或 EXECUTE 之意圖直接拋出 `PermissionDeniedError` 攔截，絕對禁止任何破壞性行為。
+6. **動作審計與資料夾目錄快照 (Audit Trail & Folder Snapshots)**：
+   * 每次動作均自動記錄動作 ID、時間戳、來源、目的地與決策依據至 `history/audit_log.json`。
+   * 每次動作後自動抓取當下目標資料夾之**檔案清單與檔案大小快照**，並同步維護至 Obsidian `log.md`，提供完整的透明度與可追溯性。
 
