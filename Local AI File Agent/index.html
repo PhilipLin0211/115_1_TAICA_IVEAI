@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local AI File Agent | 本地 RAG 檔案管家與自動知識庫 - 期末專案</title>
+  <meta name="description" content="國立臺灣科技大學 115-1 TAICA_IVEAI 課程期末專案 - 基於 macOS、Ollama 與 FAISS 的全自動下載檔案分類、向量檢索與 LLMWiki 第二大腦建構系統。">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Flaticon Uicons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flaticon/flaticon-uicons@3.3.1/css/all/all.min.css">
+
+  <style>
+    :root {
+      --bg-base: #070b14;
+      --bg-surface: #0e1626;
+      --bg-card: rgba(17, 26, 44, 0.78);
+      --bg-card-hover: rgba(25, 38, 64, 0.9);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(56, 189, 248, 0.3);
+      --primary: #10b981;
+      --primary-light: #34d399;
+      --accent-blue: #38bdf8;
+      --accent-purple: #a855f7;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Noto Sans TC', sans-serif;
+      --font-mono: 'Fira Code', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.06) 0%, transparent 60%),
+        linear-gradient(180deg, #070b14 0%, #0c1220 100%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    /* Top Navigation */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .nav-logo {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #10b981, #0284c7);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(16, 185, 129, 0.35);
+    }
+
+    .nav-title h2 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-title p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border-subtle);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.09);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-btn.primary {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: var(--primary-light);
+    }
+
+    .nav-btn.primary:hover {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: var(--primary-light);
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 24px 0 40px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--primary-light);
+      margin-bottom: 18px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    /* Status Bar */
+    .status-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .status-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      backdrop-filter: blur(10px);
+    }
+
+    .status-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .status-card.ollama .status-icon { background: rgba(16, 185, 129, 0.15); color: var(--primary-light); }
+    .status-card.faiss .status-icon { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); }
+    .status-card.watchdog .status-icon { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+    .status-card.obsidian .status-icon { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+
+    .status-text h4 {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .status-text p {
+      font-size: 0.74rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+
+    /* Main Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 980px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Section Panels */
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      position: relative;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 12px;
+    }
+
+    .panel-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+    }
+
+    .panel-title i {
+      color: var(--accent-blue);
+    }
+
+    /* Drop Zone / Simulator */
+    .dropzone-box {
+      border: 2px dashed rgba(56, 189, 248, 0.35);
+      border-radius: 14px;
+      padding: 28px 20px;
+      text-align: center;
+      background: rgba(15, 23, 42, 0.5);
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .dropzone-box:hover {
+      border-color: var(--accent-blue);
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .dropzone-box i {
+      font-size: 2.2rem;
+      color: var(--accent-blue);
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .dropzone-box h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .dropzone-box p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Preset Sample Files */
+    .preset-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .preset-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .preset-chip:hover {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: var(--accent-blue);
+      transform: translateY(-2px);
+    }
+
+    .preset-chip.active {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: var(--primary-light);
+    }
+
+    .preset-chip i {
+      font-size: 1.1rem;
+      color: var(--accent-blue);
+    }
+
+    .preset-chip-info h5 {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+    }
+
+    .preset-chip-info span {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+    }
+
+    /* Trigger Button */
+    .btn-run-agent {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981, #0284c7);
+      border: none;
+      color: #fff;
+      padding: 13px 20px;
+      border-radius: 10px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .btn-run-agent:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-run-agent:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Step Timeline */
+    .timeline {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      transition: all 0.3s ease;
+    }
+
+    .timeline-item.active {
+      border-color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    .timeline-item.done {
+      border-color: rgba(16, 185, 129, 0.35);
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .timeline-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .timeline-item.active .timeline-badge {
+      background: var(--accent-blue);
+      color: #070b14;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+    }
+
+    .timeline-item.done .timeline-badge {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .timeline-content h5 {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .timeline-content p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Right Column: LLMWiki & Obsidian Preview */
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: rgba(168, 85, 247, 0.18);
+      border-color: var(--accent-purple);
+      color: #d8b4fe;
+    }
+
+    /* Code & JSON Display */
+    .code-box {
+      background: #060910;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      overflow-x: auto;
+      max-height: 380px;
+      line-height: 1.55;
+    }
+
+    /* Obsidian Markdown Preview */
+    .obsidian-preview {
+      background: #0f1624;
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-radius: 12px;
+      padding: 22px;
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      min-height: 340px;
+    }
+
+    .obsidian-header {
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .obsidian-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .obsidian-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+    }
+
+    .obsidian-tag {
+      background: rgba(168, 85, 247, 0.2);
+      color: #c084fc;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .obsidian-link {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .obsidian-body h4 {
+      font-size: 0.92rem;
+      color: #93c5fd;
+      margin: 14px 0 6px;
+    }
+
+    .obsidian-body p {
+      font-size: 0.84rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+
+    /* Vault Tree */
+    .vault-tree {
+      background: #080d17;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+
+    .tree-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      color: #94a3b8;
+    }
+
+    .tree-item.folder {
+      color: #38bdf8;
+      font-weight: 600;
+    }
+
+    .tree-item.file-new {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--primary-light);
+      font-weight: 600;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    /* RAG Semantic Search Widget */
+    .rag-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 40px;
+    }
+
+    .search-bar-wrap {
+      display: flex;
+      gap: 12px;
+      margin: 16px 0 24px;
+    }
+
+    .search-input {
+      flex: 1;
+      background: #080d17;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 12px 18px;
+      color: #fff;
+      font-size: 0.92rem;
+      font-family: var(--font-body);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.25);
+    }
+
+    .search-btn {
+      background: var(--primary);
+      border: none;
+      color: #fff;
+      padding: 0 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .search-btn:hover {
+      background: var(--primary-light);
+      color: #070b14;
+    }
+
+    .search-results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .result-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .result-card:hover {
+      border-color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.06);
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .sim-score {
+      font-size: 0.74rem;
+      font-family: var(--font-mono);
+      color: var(--primary-light);
+      background: rgba(16, 185, 129, 0.15);
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .result-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .result-snippet {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #64748b;
+      font-size: 0.84rem;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    footer a:hover {
+      color: var(--primary-light);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Top Navigation -->
+    <header class="top-nav">
+      <div class="nav-left">
+        <div class="nav-logo">
+          <i class="fi fi-rr-brain"></i>
+        </div>
+        <div class="nav-title">
+          <h2>Local AI File Agent <span style="font-size:0.75rem; background:rgba(16,185,129,0.15); color:var(--primary-light); padding:2px 8px; border-radius:6px; font-weight:600;">FINAL PROJECT</span></h2>
+          <p>本地 RAG 檔案管家與自動知識庫 • 國立臺灣科技大學</p>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="../index.html" class="nav-btn">
+          <i class="fi fi-rr-arrow-small-left"></i> 回作業總覽首頁
+        </a>
+        <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/PROGRESS.md" class="nav-btn" target="_blank">
+          <i class="fi fi-rr-calendar"></i> 11月底進度手冊
+        </a>
+        <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/ARCHITECTURE.md" class="nav-btn" target="_blank">
+          <i class="fi fi-rr-diagram-project"></i> 系統架構圖
+        </a>
+        <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/tree/main/Local%20AI%20File%20Agent#readme" class="nav-btn" target="_blank">
+          <i class="fi fi-rr-document"></i> 專案詳細 README
+        </a>
+        <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI" class="nav-btn primary" target="_blank">
+          <i class="fi fi-rr-code-branch"></i> GitHub Repo
+        </a>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-badge">
+        <i class="fi fi-rr-shield-check"></i> 100% 本地端推論 • 零外部 API 費用 • 守護個人數據隱私
+      </div>
+      <h1 class="hero-title">本地 RAG 檔案管家與自動知識庫</h1>
+      <p class="hero-desc">
+        針對 macOS <code>~/Downloads</code> 下載目錄打造的智慧管家。結合 <strong>Watchdog 背景監控</strong>、<strong>PyMuPDF 文本萃取</strong>、<strong>Ollama (Qwen 2.5 Coder + Nomic Embed)</strong> 與 <strong>FAISS 向量檢索</strong>，自動將雜亂檔案語意分類、智慧命名，並同步產出具備雙向連結的 <strong>Obsidian LLMWiki 第二大腦筆記</strong>。
+      </p>
+    </section>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="status-card ollama">
+        <div class="status-icon"><i class="fi fi-rr-microchip"></i></div>
+        <div class="status-text">
+          <h4>Ollama 推論核心</h4>
+          <p>qwen2.5-coder:7b (Online)</p>
+        </div>
+      </div>
+
+      <div class="status-card faiss">
+        <div class="status-icon"><i class="fi fi-rr-database"></i></div>
+        <div class="status-text">
+          <h4>FAISS 向量庫</h4>
+          <p>Index: 128 chunks (Loaded)</p>
+        </div>
+      </div>
+
+      <div class="status-card watchdog">
+        <div class="status-icon"><i class="fi fi-rr-eye"></i></div>
+        <div class="status-text">
+          <h4>Watchdog 監控</h4>
+          <p>~/Downloads (Listening)</p>
+        </div>
+      </div>
+
+      <div class="status-card obsidian">
+        <div class="status-icon"><i class="fi fi-rr-books"></i></div>
+        <div class="status-text">
+          <h4>Obsidian LLMWiki</h4>
+          <p>~/Obsidian_Vault (Sync Ready)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="dashboard-grid">
+      
+      <!-- Left Panel: Simulation Trigger & Process -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <i class="fi fi-rr-cloud-download-alt"></i> 下載資料夾模擬與 Agent 觸發
+          </div>
+          <span style="font-size:0.75rem; font-family:var(--font-mono); color:var(--text-dim);">macOS FSEvents</span>
+        </div>
+
+        <div class="dropzone-box" id="dropZone" onclick="triggerPreset(0)">
+          <i class="fi fi-rr-document-signed"></i>
+          <h3 id="currentFileTitle">點擊測試論文：attention_is_all_you_need.pdf</h3>
+          <p id="currentFileDesc">或從下方選擇預設情境，體驗真實 Agent 處理管線</p>
+        </div>
+
+        <span class="preset-label">選擇模擬下載的情境檔案 (Preset Downloads)：</span>
+        <div class="preset-grid">
+          <div class="preset-chip active" onclick="selectPreset(0, this)">
+            <i class="fi fi-rr-file-pdf"></i>
+            <div class="preset-chip-info">
+              <h5>Attention_Is_All.pdf</h5>
+              <span>AI 論文 • 2.1 MB</span>
+            </div>
+          </div>
+
+          <div class="preset-chip" onclick="selectPreset(1, this)">
+            <i class="fi fi-rr-receipt"></i>
+            <div class="preset-chip-info">
+              <h5>Invoice_MacBook.pdf</h5>
+              <span>財務報稅 • 340 KB</span>
+            </div>
+          </div>
+
+          <div class="preset-chip" onclick="selectPreset(2, this)">
+            <i class="fi fi-rr-presentation"></i>
+            <div class="preset-chip-info">
+              <h5>04LLM只是在猜字.pdf</h5>
+              <span>課程講義 • 69 MB</span>
+            </div>
+          </div>
+
+          <div class="preset-chip" onclick="selectPreset(3, this)">
+            <i class="fi fi-rr-code-simple"></i>
+            <div class="preset-chip-info">
+              <h5>react_hooks.md</h5>
+              <span>技術筆記 • 12 KB</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-run-agent" id="btnRun" onclick="runSimulation()">
+          <i class="fi fi-rr-play"></i> 模擬下載完成，喚醒 Local Agent
+        </button>
+
+        <!-- Pipeline Steps Timeline -->
+        <div class="timeline" id="pipelineTimeline">
+          <div class="timeline-item done" id="step1">
+            <div class="timeline-badge">1</div>
+            <div class="timeline-content">
+              <h5>Watchdog 感知監控 <i class="fi fi-rr-check" style="color:var(--primary); font-size:0.8rem;"></i></h5>
+              <p>偵測到檔案完成寫入，排除 <code>.crdownload</code> 暫存狀態。</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" id="step2">
+            <div class="timeline-badge">2</div>
+            <div class="timeline-content">
+              <h5>文本解析與前言摘要 (PyMuPDF)</h5>
+              <p>擷取 Title、Abstract 與關鍵段落，避免 Token 超額。</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" id="step3">
+            <div class="timeline-badge">3</div>
+            <div class="timeline-content">
+              <h5>FAISS 向量檢索與 RAG 語意比對</h5>
+              <p>透過 <code>nomic-embed-text</code> 與知識庫進行 Top-K 相似度比對。</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" id="step4">
+            <div class="timeline-badge">4</div>
+            <div class="timeline-content">
+              <h5>Qwen 2.5 Coder 結構化決策與正規化命名</h5>
+              <p>本地 LLM 生成嚴格 JSON 決策，指派目標路徑與分類標籤。</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" id="step5">
+            <div class="timeline-badge">5</div>
+            <div class="timeline-content">
+              <h5>Obsidian LLMWiki 自動建構與雙向連結</h5>
+              <p>生成 Markdown 筆記並同步更新 <code>index.md</code> 目錄。</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Panel: Output, Obsidian & Vault Inspector -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <i class="fi fi-rr-notebook"></i> 執行結果與 Obsidian 知識庫預覽
+          </div>
+          <div class="tabs-nav">
+            <button class="tab-btn active" onclick="switchTab('obsidian')">Markdown 筆記</button>
+            <button class="tab-btn" onclick="switchTab('json')">Agent JSON</button>
+            <button class="tab-btn" onclick="switchTab('vault')">Vault 目錄樹</button>
+          </div>
+        </div>
+
+        <!-- Tab 1: Obsidian Preview -->
+        <div id="tabObsidian" class="obsidian-preview">
+          <div class="obsidian-header">
+            <div class="obsidian-title" id="obsTitle">Vaswani et al. (2017) Attention Is All You Need</div>
+            <div class="obsidian-meta" id="obsMeta">
+              <span class="obsidian-tag">#AI_Research</span>
+              <span class="obsidian-tag">#NLP</span>
+              <span class="obsidian-tag">#Transformer</span>
+              <span style="color:var(--text-dim); margin-left:auto;">📅 2026-11-09 15:00</span>
+            </div>
+          </div>
+
+          <div class="obsidian-body" id="obsBody">
+            <h4>📌 論文核心精要</h4>
+            <p>提出全面屏棄循環神經網絡（RNN）與卷積（CNN）的革命性 Transformer 架構，完全仰賴自注意力機制（Self-Attention）來計算輸入與輸出的全域依賴關係，大幅提升並行運算能力與 BLEU 分數。</p>
+
+            <h4>🔗 雙向連結網絡 (Double-Links)</h4>
+            <p style="margin-top:6px;">
+              <a href="#" class="obsidian-link">[[Transformer 架構原理]]</a>
+              <a href="#" class="obsidian-link">[[Self-Attention 矩陣計算]]</a>
+              <a href="#" class="obsidian-link">[[TAICA_IVEAI 課程重點]]</a>
+            </p>
+
+            <h4>📂 檔案歸檔狀態</h4>
+            <p style="font-family:var(--font-mono); font-size:0.78rem; color:#38bdf8; margin-top:8px;">
+              Moved to: ~/Obsidian_Vault/AI_Papers/NLP/2017_Vaswani_Attention_Is_All_You_Need.pdf
+            </p>
+          </div>
+        </div>
+
+        <!-- Tab 2: Agent JSON -->
+        <div id="tabJson" class="code-box" style="display:none;">
+          <pre id="jsonOutput">{
+  "action": "move_and_index",
+  "source_file": "attention_is_all_you_need.pdf",
+  "sanitized_name": "2017_Vaswani_Attention_Is_All_You_Need.pdf",
+  "category": "AI_Papers/NLP",
+  "destination": "~/Obsidian_Vault/AI_Papers/NLP/",
+  "tags": ["NLP", "Transformer", "Self-Attention", "DeepLearning"],
+  "rag_similarity_top1": {
+    "reference_doc": "vaswani2017.pdf",
+    "score": 0.942,
+    "matched_category": "AI_Papers/NLP"
+  },
+  "llm_reasoning": "Detected arXiv paper header. Abstract discusses multi-head attention replacing recurrent models on WMT translation. Highest relevance to NLP literature.",
+  "wiki_note_generated": true
+}</pre>
+        </div>
+
+        <!-- Tab 3: Vault Tree -->
+        <div id="tabVault" class="vault-tree" style="display:none;">
+          <div class="tree-item folder"><i class="fi fi-rr-folder"></i> ~/Obsidian_Vault/</div>
+          <div class="tree-item folder" style="padding-left:24px;"><i class="fi fi-rr-folder"></i> 📁 AI_Papers/</div>
+          <div class="tree-item folder" style="padding-left:44px;"><i class="fi fi-rr-folder"></i> 📁 NLP/</div>
+          <div class="tree-item file-new" style="padding-left:64px;"><i class="fi fi-rr-file-pdf"></i> 2017_Vaswani_Attention_Is_All_You_Need.pdf [NEW]</div>
+          <div class="tree-item file-new" style="padding-left:64px;"><i class="fi fi-rr-document"></i> Vaswani et al. (2017) Attention Is All You Need.md [NEW]</div>
+          <div class="tree-item folder" style="padding-left:24px;"><i class="fi fi-rr-folder"></i> 📁 Course_Materials/</div>
+          <div class="tree-item" style="padding-left:44px;"><i class="fi fi-rr-document"></i> 04LLM只是在猜下一個字.md</div>
+          <div class="tree-item folder" style="padding-left:24px;"><i class="fi fi-rr-folder"></i> 📁 Finance/</div>
+          <div class="tree-item" style="padding-left:44px;"><i class="fi fi-rr-file-pdf"></i> 2026_Tax_Receipt.pdf</div>
+          <div class="tree-item" style="padding-left:24px; color:#38bdf8;"><i class="fi fi-rr-file-edit"></i> 📝 index.md (Wiki Index 自動同步中)</div>
+          <div class="tree-item" style="padding-left:24px; color:#94a3b8;"><i class="fi fi-rr-time-past"></i> 📜 log.md (Agent 操作日誌)</div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RAG Semantic Search Section -->
+    <section class="rag-section">
+      <div class="panel-title" style="margin-bottom:8px;">
+        <i class="fi fi-rr-search-alt"></i> FAISS 向量語意檢索互動 (Semantic RAG Search)
+      </div>
+      <p style="font-size:0.86rem; color:var(--text-muted);">
+        透過 <code>nomic-embed-text</code> 進行多維度餘弦相似度比對，無須精確關鍵字，即使是模糊口語提問也能精準定位文獻與筆記：
+      </p>
+
+      <div class="search-bar-wrap">
+        <input type="text" id="ragQuery" class="search-input" value="哪份文獻討論自注意力機制與多頭注意力？" placeholder="輸入任何問題或概念關鍵字...">
+        <button class="search-btn" onclick="executeRagSearch()">
+          <i class="fi fi-rr-search"></i> 語意檢索
+        </button>
+      </div>
+
+      <div class="search-results-grid" id="ragResults">
+        <div class="result-card">
+          <div class="result-header">
+            <span style="font-size:0.75rem; color:#38bdf8; font-family:var(--font-mono);">AI_Papers/NLP</span>
+            <span class="sim-score">Cosine: 0.942</span>
+          </div>
+          <div class="result-title">Vaswani et al. (2017) Attention Is All You Need.pdf</div>
+          <div class="result-snippet">
+            "The Transformer allows for significantly more parallelization and can reach a new state of the art in translation quality after being trained for as little as twelve hours..."
+          </div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-header">
+            <span style="font-size:0.75rem; color:#a855f7; font-family:var(--font-mono);">Course_Materials</span>
+            <span class="sim-score">Cosine: 0.824</span>
+          </div>
+          <div class="result-title">04LLM只是在猜下一個字？.pdf</div>
+          <div class="result-snippet">
+            "探討語言模型基礎：從 N-gram 到自注意力機制 Transformer，語言模型如何基於機率分佈預測下一個 Token..."
+          </div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-header">
+            <span style="font-size:0.75rem; color:#10b981; font-family:var(--font-mono);">Course_Materials</span>
+            <span class="sim-score">Cosine: 0.768</span>
+          </div>
+          <div class="result-title">05AI怎麼記得前面說過什麼？.pdf</div>
+          <div class="result-snippet">
+            "說明上下文視窗 (Context Window) 與 KV Cache 機制，讓神經網絡維持長對話記憶的運作原理..."
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div>
+        國立臺灣科技大學 (NTUST) 人工智慧所 M11552010 林宸平 • 智慧虛擬實境與人工智慧期末專案
+      </div>
+      <div>
+        <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI" target="_blank">
+          <i class="fi fi-rr-code-branch"></i> GitHub Repository
+        </a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Presets data
+    const presets = [
+      {
+        fileName: "attention_is_all_you_need.pdf",
+        title: "Vaswani et al. (2017) Attention Is All You Need",
+        dest: "~/Obsidian_Vault/AI_Papers/NLP/",
+        sanitized: "2017_Vaswani_Attention_Is_All_You_Need.pdf",
+        tags: ["#AI_Research", "#NLP", "#Transformer", "#Attention"],
+        links: ["[[Transformer 架構原理]]", "[[Self-Attention 矩陣計算]]", "[[TAICA_IVEAI 課程重點]]"],
+        summary: "提出全面屏棄循環神經網絡（RNN）與卷積（CNN）的革命性 Transformer 架構，完全仰賴自注意力機制（Self-Attention）來計算輸入與輸出的全域依賴關係，大幅提升並行運算能力與 BLEU 分數。",
+        score: "0.942",
+        category: "AI_Papers/NLP"
+      },
+      {
+        fileName: "2026_MacBook_Pro_Receipt.pdf",
+        title: "Apple Store 2026 電子發票與報稅收據",
+        dest: "~/Obsidian_Vault/Finance/Receipts_2026/",
+        sanitized: "2026_Receipt_Apple_MacBookPro_M3Max.pdf",
+        tags: ["#Finance", "#Invoices", "#Tax2026", "#Hardware"],
+        links: ["[[2026 年度報稅支出]]", "[[研究設備與硬體折舊]]"],
+        summary: "台灣 Apple 官方線上商店購買 MacBook Pro M3 Max 之統一發票與電子收據憑證，含稅總額與統一編號清晰，符合國科會與實驗室報帳規範。",
+        score: "0.915",
+        category: "Finance/Receipts"
+      },
+      {
+        fileName: "04LLM只是在猜下一個字.pdf",
+        title: "04 LLM 只是在猜下一個字？ (TAICA_IVEAI 課程講義)",
+        dest: "~/Obsidian_Vault/Course_Materials/IVEAI/",
+        sanitized: "TAICA_IVEAI_Week04_LLM_Next_Token.pdf",
+        tags: ["#Course", "#NTUST", "#IVEAI", "#NextTokenPrediction"],
+        links: ["[[03AI為什麼每次都不一樣？]]", "[[05AI怎麼記得前面說過什麼？]]", "[[機率分佈與溫度參數]]"],
+        summary: "深入剖析現代大語言模型運作基礎：從馬可夫鏈、統計語言模型進展至 Transformer 解碼器，解釋 Temperature 與 Top-p 採樣如何影響文字生成的創造力與確定性。",
+        score: "0.892",
+        category: "Course_Materials/IVEAI"
+      },
+      {
+        fileName: "react_hooks_cheatsheet.md",
+        title: "React 19 Hooks & State Management Quick Reference",
+        dest: "~/Obsidian_Vault/Dev_Notes/Frontend/",
+        sanitized: "React_Hooks_Cheatsheet_2026.md",
+        tags: ["#Programming", "#Frontend", "#React", "#JavaScript"],
+        links: ["[[React 狀態管理]]", "[[TypeScript 開發規範]]"],
+        summary: "涵蓋 useState, useEffect, useMemo, useCallback 以及最新 useActionState 最佳實踐，附帶常見 re-render 陷阱排查守則與效能調優策略。",
+        score: "0.873",
+        category: "Dev_Notes/Frontend"
+      }
+    ];
+
+    let currentPresetIdx = 0;
+
+    function selectPreset(idx, element) {
+      currentPresetIdx = idx;
+      document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
+      element.classList.add('active');
+      
+      const item = presets[idx];
+      document.getElementById('currentFileTitle').innerText = "已選定檔案：" + item.fileName;
+      document.getElementById('currentFileDesc').innerText = "點擊下方按鈕，模擬下載事件並執行 Agent 處理流程";
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      document.getElementById('tabObsidian').style.display = (tab === 'obsidian') ? 'block' : 'none';
+      document.getElementById('tabJson').style.display = (tab === 'json') ? 'block' : 'none';
+      document.getElementById('tabVault').style.display = (tab === 'vault') ? 'block' : 'none';
+    }
+
+    function runSimulation() {
+      const btn = document.getElementById('btnRun');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fi fi-rr-spinner" style="animation: spin 1s infinite linear;"></i> Agent 正在本地推論中...`;
+
+      const steps = [
+        document.getElementById('step1'),
+        document.getElementById('step2'),
+        document.getElementById('step3'),
+        document.getElementById('step4'),
+        document.getElementById('step5')
+      ];
+
+      // Reset steps
+      steps.forEach(s => {
+        s.classList.remove('active', 'done');
+      });
+
+      let currentStep = 0;
+
+      function nextStep() {
+        if (currentStep > 0) {
+          steps[currentStep - 1].classList.remove('active');
+          steps[currentStep - 1].classList.add('done');
+        }
+
+        if (currentStep < steps.length) {
+          steps[currentStep].classList.add('active');
+          currentStep++;
+          setTimeout(nextStep, 500);
+        } else {
+          // Finished
+          const item = presets[currentPresetIdx];
+          updatePreview(item);
+          btn.disabled = false;
+          btn.innerHTML = `<i class="fi fi-rr-check"></i> 處理完成！Obsidian 筆記與歸檔已更新`;
+          setTimeout(() => {
+            btn.innerHTML = `<i class="fi fi-rr-play"></i> 模擬下載完成，喚醒 Local Agent`;
+          }, 3000);
+        }
+      }
+
+      nextStep();
+    }
+
+    function updatePreview(item) {
+      // Obsidian Title & Meta
+      document.getElementById('obsTitle').innerText = item.title;
+      document.getElementById('obsMeta').innerHTML = `
+        ${item.tags.map(t => `<span class="obsidian-tag">${t}</span>`).join('')}
+        <span style="color:var(--text-dim); margin-left:auto;">📅 ${new Date().toISOString().slice(0, 10)}</span>
+      `;
+
+      // Obsidian Body
+      document.getElementById('obsBody').innerHTML = `
+        <h4>📌 檔案核心精要</h4>
+        <p>${item.summary}</p>
+
+        <h4>🔗 雙向連結網絡 (Double-Links)</h4>
+        <p style="margin-top:6px;">
+          ${item.links.map(l => `<a href="#" class="obsidian-link">${l}</a>`).join(' ')}
+        </p>
+
+        <h4>📂 檔案歸檔狀態</h4>
+        <p style="font-family:var(--font-mono); font-size:0.78rem; color:#38bdf8; margin-top:8px;">
+          Moved to: ${item.dest}${item.sanitized}
+        </p>
+      `;
+
+      // JSON Preview
+      const jsonObj = {
+        action: "move_and_index",
+        source_file: item.fileName,
+        sanitized_name: item.sanitized,
+        category: item.category,
+        destination: item.dest,
+        tags: item.tags.map(t => t.replace('#', '')),
+        rag_similarity_top1: {
+          reference_doc: item.sanitized,
+          score: parseFloat(item.score),
+          matched_category: item.category
+        },
+        llm_reasoning: `Extracted metadata & abstract. Cosine match with vector store ${item.score}. Rules specify moving to ${item.dest}`,
+        wiki_note_generated: true
+      };
+
+      document.getElementById('jsonOutput').innerText = JSON.stringify(jsonObj, null, 2);
+    }
+
+    function executeRagSearch() {
+      const q = document.getElementById('ragQuery').value.trim();
+      const resultsContainer = document.getElementById('ragResults');
+      if (!q) return;
+
+      resultsContainer.style.opacity = '0.4';
+      setTimeout(() => {
+        resultsContainer.style.opacity = '1';
+        if (q.includes('報稅') || q.includes('發票') || q.includes('MacBook') || q.includes('收據')) {
+          resultsContainer.innerHTML = `
+            <div class="result-card">
+              <div class="result-header">
+                <span style="font-size:0.75rem; color:#f59e0b; font-family:var(--font-mono);">Finance/Receipts</span>
+                <span class="sim-score">Cosine: 0.958</span>
+              </div>
+              <div class="result-title">2026_MacBook_Pro_Receipt.pdf</div>
+              <div class="result-snippet">
+                "台灣 Apple 官方線上商店購買 MacBook Pro M3 Max 之統一發票與電子收據憑證，含稅總額與統一編號清晰，符合國科會報帳規範..."
+              </div>
+            </div>
+            <div class="result-card">
+              <div class="result-header">
+                <span style="font-size:0.75rem; color:#38bdf8; font-family:var(--font-mono);">Finance/Taxes</span>
+                <span class="sim-score">Cosine: 0.812</span>
+              </div>
+              <div class="result-title">2026_Personal_Income_Tax.pdf</div>
+              <div class="result-snippet">
+                "年度綜合所得稅結算申報證明書與扣繳憑單明細..."
+              </div>
+            </div>
+          `;
+        } else if (q.includes('前端') || q.includes('React') || q.includes('Hooks')) {
+          resultsContainer.innerHTML = `
+            <div class="result-card">
+              <div class="result-header">
+                <span style="font-size:0.75rem; color:#38bdf8; font-family:var(--font-mono);">Dev_Notes/Frontend</span>
+                <span class="sim-score">Cosine: 0.945</span>
+              </div>
+              <div class="result-title">React_Hooks_Cheatsheet_2026.md</div>
+              <div class="result-snippet">
+                "涵蓋 useState, useEffect, useMemo, useCallback 以及最新 useActionState 最佳實踐，附帶常見 re-render 陷阱排查守則..."
+              </div>
+            </div>
+          `;
+        } else {
+          resultsContainer.innerHTML = `
+            <div class="result-card">
+              <div class="result-header">
+                <span style="font-size:0.75rem; color:#38bdf8; font-family:var(--font-mono);">AI_Papers/NLP</span>
+                <span class="sim-score">Cosine: 0.942</span>
+              </div>
+              <div class="result-title">Vaswani et al. (2017) Attention Is All You Need.pdf</div>
+              <div class="result-snippet">
+                "The Transformer allows for significantly more parallelization and can reach a new state of the art in translation quality after being trained for as little as twelve hours..."
+              </div>
+            </div>
+            <div class="result-card">
+              <div class="result-header">
+                <span style="font-size:0.75rem; color:#a855f7; font-family:var(--font-mono);">Course_Materials</span>
+                <span class="sim-score">Cosine: 0.824</span>
+              </div>
+              <div class="result-title">04LLM只是在猜下一個字？.pdf</div>
+              <div class="result-snippet">
+                "探討語言模型基礎：從 N-gram 到自注意力機制 Transformer，語言模型如何基於機率分佈預測下一個 Token..."
+              </div>
+            </div>
+            <div class="result-card">
+              <div class="result-header">
+                <span style="font-size:0.75rem; color:#10b981; font-family:var(--font-mono);">Course_Materials</span>
+                <span class="sim-score">Cosine: 0.768</span>
+              </div>
+              <div class="result-title">05AI怎麼記得前面說過什麼？.pdf</div>
+              <div class="result-snippet">
+                "說明上下文視窗 (Context Window) 與 KV Cache 機制，讓神經網絡維持長對話記憶的運作原理..."
+              </div>
+            </div>
+          `;
+        }
+      }, 300);
+    }
+  </script>
+</body>
+</html>
+

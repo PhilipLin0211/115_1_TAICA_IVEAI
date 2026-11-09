@@ -1,0 +1,92 @@
+[
+  {
+    "title": "01 如何不焦慮地學 AI",
+    "category": "Course_Materials/IVEAI",
+    "summary": "臺科大 TAICA_IVEAI 課程第一週講義。引導學生建立正確的 AI 學習心態，從實作中探索神經網路與生成式 AI 工具應用。"
+  },
+  {
+    "title": "02 神經網路的概念",
+    "category": "Course_Materials/IVEAI",
+    "summary": "介紹感知器、多層感知機 (MLP)、權重反向傳播 (Backpropagation) 與梯度下降法 (Gradient Descent) 之底層數學原理。"
+  },
+  {
+    "title": "03 AI 為什麼每次都不一樣？",
+    "category": "Course_Materials/IVEAI",
+    "summary": "探討生成式語言模型的隨機性來源，包含溫度參數 (Temperature)、Top-k、Top-p 採樣與機率分佈抽樣機制。"
+  },
+  {
+    "title": "04 LLM 只是在猜下一個字？",
+    "category": "Course_Materials/IVEAI",
+    "summary": "剖析次字元預測 (Next-token prediction) 與自迴歸語言模型機制，介紹因果自注意力 (Causal Self-Attention)。"
+  },
+  {
+    "title": "05 AI 怎麼記得前面說過什麼？",
+    "category": "Course_Materials/IVEAI",
+    "summary": "解析長文本上下文視窗 (Context Window)、注意力衰減與 KV Cache 機制，說明 Transformer 如何維持上下文對話連貫。"
+  },
+  {
+    "title": "06 打造自己的對話機器人",
+    "category": "Course_Materials/IVEAI",
+    "summary": "深入 Prompt Engineering、System Prompt 設計、Role-playing 與工具調用 (Tool Calling / Function Calling) 實作。"
+  },
+  {
+    "title": "07 讓 AI 看懂你的世界",
+    "category": "Course_Materials/IVEAI",
+    "summary": "多模態大模型 (Multimodal LLM / VLM) 原理，結合視覺編碼器 (CLIP / SigLIP) 讓語言模型理解圖像與空間場景。"
+  },
+  {
+    "title": "08 教 AI 做事的方法",
+    "category": "Course_Materials/IVEAI",
+    "summary": "自主智慧代理 (Autonomous Agent) 設計架構：ReAct 框架、思維鏈 (Chain of Thought)、記憶庫與任務分解演算法。"
+  },
+  {
+    "title": "Vaswani et al. (2017) Attention Is All You Need",
+    "category": "AI_Research/NLP",
+    "summary": "經典 Transformer 論文，完全基於自注意力機制 (Self-Attention) 取代循環與卷積神經網路，成為現代大語言模型之核心架構。"
+  },
+  {
+    "title": "01如何不焦慮地學AI(學生點開顯示未發佈)",
+    "category": "Course_Materials/IVEAI",
+    "summary": "[PyMuPDF not installed, using filename only]"
+  },
+  {
+    "title": "05AI怎麼記得前面說過什麼？",
+    "category": "Course_Materials/IVEAI",
+    "summary": "[PyMuPDF not installed, using filename only]"
+  },
+  {
+    "title": "08教AI做事的方法",
+    "category": "Course_Materials/IVEAI",
+    "summary": "[PyMuPDF not installed, using filename only]"
+  },
+  {
+    "title": "第七週助教課",
+    "category": "Course_Materials/IVEAI",
+    "summary": "[PyMuPDF not installed, using filename only]"
+  },
+  {
+    "title": "04LLM只是在猜下一個字？",
+    "category": "Course_Materials/IVEAI",
+    "summary": "[PyMuPDF not installed, using filename only]"
+  },
+  {
+    "title": "02神經網路的概念",
+    "category": "Course_Materials/IVEAI",
+    "summary": "[PyMuPDF not installed, using filename only]"
+  },
+  {
+    "title": "03AI為什麼每次都不一樣？",
+    "category": "Course_Materials/IVEAI",
+    "summary": "[PyMuPDF not installed, using filename only]"
+  },
+  {
+    "title": "07讓AI看懂你的世界",
+    "category": "Course_Materials/IVEAI",
+    "summary": "[PyMuPDF not installed, using filename only]"
+  },
+  {
+    "title": "06打造自己的對話機器人",
+    "category": "Course_Materials/IVEAI",
+    "summary": "[PyMuPDF not installed, using filename only]"
+  }
+]

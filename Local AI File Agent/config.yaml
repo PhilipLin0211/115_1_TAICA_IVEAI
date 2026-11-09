@@ -1,0 +1,42 @@
+# Local AI File Agent 系統設定檔
+watch_directory: "~/Downloads"
+vault_directory: "~/Documents/Obsidian_Vault"
+
+# Ollama 本地服務連線
+ollama:
+  host: "http://127.0.0.1:11434"
+  llm_model: "qwen2.5-coder:7b"
+  embed_model: "nomic-embed-text"
+  timeout_seconds: 60
+
+# 向量資料庫儲存路徑
+vector_store:
+  index_path: "./vector_store/faiss_index.bin"
+  metadata_path: "./vector_store/metadata.json"
+  top_k: 3
+
+# 忽略/暫存檔案清單 (排除監聽)
+ignored_extensions:
+  - ".crdownload"
+  - ".tmp"
+  - ".part"
+  - ".download"
+  - ".DS_Store"
+
+# 預設分類推薦目錄 (供 Agent 參考)
+categories:
+  - name: "AI_Research/NLP"
+    description: "自然語言處理、大型語言模型、Transformer、Attention 文獻"
+  - name: "AI_Research/Vision"
+    description: "電腦視覺、Diffusion、NeRF、圖像生成與辨識論文"
+  - name: "Course_Materials/IVEAI"
+    description: "臺科大 TAICA_IVEAI 智慧虛擬實境與人工智慧課程投影片與作業"
+  - name: "Finance/Receipts"
+    description: "電子發票、報稅單據、硬體與軟體採購收據憑證"
+  - name: "Dev_Notes/Frontend"
+    description: "前端技術、React、TypeScript、CSS 與介面設計筆記"
+  - name: "Dev_Notes/Backend"
+    description: "後端架構、Python、Docker、API 與資料庫技術文件"
+  - name: "General/Inbox"
+    description: "暫時難以歸類之一般文件與雜項檔案"
+
