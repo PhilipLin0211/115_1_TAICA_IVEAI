@@ -53,30 +53,47 @@ class LocalRagEngine:
             self.metadata = []
 
     def get_embedding(self, text: str) -> List[float]:
-        """Fetch embedding vector from Ollama nomic-embed-text."""
+        """Fetch embedding vector from Ollama (supports modern /api/embed and legacy /api/embeddings)."""
         if not text.strip():
             return [0.0] * self.dimension
 
-        url = f"{self.host}/api/embeddings"
-        payload = {
-            "model": self.embed_model,
-            "prompt": text[:2000]
-        }
+        # 1. Try modern Ollama /api/embed endpoint first
         try:
-            res = requests.post(url, json=payload, timeout=(3, 15))
-            res.raise_for_status()
-            vec = res.json().get("embedding", [])
-            # Normalize vector for cosine similarity
-            if np is not None and vec:
-                arr = np.array(vec, dtype="float32")
-                norm = np.linalg.norm(arr)
-                if norm > 0:
-                    arr = arr / norm
-                return arr.tolist()
-            return vec
+            embed_url = f"{self.host}/api/embed"
+            payload = {"model": self.embed_model, "input": text[:2000]}
+            res = requests.post(embed_url, json=payload, timeout=(2, 10))
+            if res.status_code == 200:
+                data = res.json()
+                embeddings = data.get("embeddings", [])
+                if embeddings and len(embeddings) > 0:
+                    vec = embeddings[0]
+                    return self._normalize_vec(vec)
+        except Exception:
+            pass
+
+        # 2. Fallback to legacy /api/embeddings endpoint
+        try:
+            legacy_url = f"{self.host}/api/embeddings"
+            payload = {"model": self.embed_model, "prompt": text[:2000]}
+            res = requests.post(legacy_url, json=payload, timeout=(2, 10))
+            if res.status_code == 200:
+                vec = res.json().get("embedding", [])
+                if vec:
+                    return self._normalize_vec(vec)
         except Exception as e:
-            print(f"⚠️ [Embedding Error] {e}")
-            return [0.0] * self.dimension
+            pass
+
+        return [0.0] * self.dimension
+
+    def _normalize_vec(self, vec: List[float]) -> List[float]:
+        """L2-normalize vector for Cosine similarity calculation."""
+        if np is not None and vec:
+            arr = np.array(vec, dtype="float32")
+            norm = np.linalg.norm(arr)
+            if norm > 0:
+                arr = arr / norm
+            return arr.tolist()
+        return vec
 
     def search_similar(self, query_text: str, top_k: int = 3) -> str:
         """Search top-k most similar past documents in FAISS index."""
