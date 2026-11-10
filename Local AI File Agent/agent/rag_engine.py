@@ -7,7 +7,14 @@ import os
 import json
 from pathlib import Path
 from typing import List, Dict, Any, Tuple
-import requests
+
+try:
+    import requests
+except ImportError:
+    requests = None
+
+import urllib.request
+import urllib.error
 
 try:
     import faiss
@@ -63,35 +70,51 @@ class LocalRagEngine:
             self.index = faiss.IndexFlatIP(self.dimension)
 
     def get_embedding(self, text: str) -> List[float]:
-        """Fetch embedding vector from Ollama (supports modern /api/embed and legacy /api/embeddings)."""
+        """Fetch embedding vector from Ollama (supports modern /api/embed, legacy /api/embeddings, and urllib fallback)."""
         if not text.strip():
             return [0.0] * self.dimension
 
-        # 1. Try modern Ollama /api/embed endpoint first
-        try:
-            embed_url = f"{self.host}/api/embed"
-            payload = {"model": self.embed_model, "input": text[:2000]}
-            res = requests.post(embed_url, json=payload, timeout=(2, 10))
-            if res.status_code == 200:
-                data = res.json()
-                embeddings = data.get("embeddings", [])
-                if embeddings and len(embeddings) > 0:
-                    vec = embeddings[0]
-                    return self._normalize_vec(vec)
-        except Exception:
-            pass
+        # 1. Try modern Ollama /api/embed endpoint
+        payload_embed = json.dumps({"model": self.embed_model, "input": text[:2000]}).encode("utf-8")
+        if requests is not None:
+            try:
+                res = requests.post(f"{self.host}/api/embed", json={"model": self.embed_model, "input": text[:2000]}, timeout=(2, 10))
+                if res.status_code == 200:
+                    embeddings = res.json().get("embeddings", [])
+                    if embeddings and len(embeddings) > 0:
+                        return self._normalize_vec(embeddings[0])
+            except Exception:
+                pass
+        else:
+            try:
+                req = urllib.request.Request(f"{self.host}/api/embed", data=payload_embed, headers={"Content-Type": "application/json"})
+                with urllib.request.urlopen(req, timeout=10) as resp:
+                    embeddings = json.loads(resp.read().decode("utf-8")).get("embeddings", [])
+                    if embeddings and len(embeddings) > 0:
+                        return self._normalize_vec(embeddings[0])
+            except Exception:
+                pass
 
         # 2. Fallback to legacy /api/embeddings endpoint
-        try:
-            legacy_url = f"{self.host}/api/embeddings"
-            payload = {"model": self.embed_model, "prompt": text[:2000]}
-            res = requests.post(legacy_url, json=payload, timeout=(2, 10))
-            if res.status_code == 200:
-                vec = res.json().get("embedding", [])
-                if vec:
-                    return self._normalize_vec(vec)
-        except Exception as e:
-            pass
+        payload_legacy = json.dumps({"model": self.embed_model, "prompt": text[:2000]}).encode("utf-8")
+        if requests is not None:
+            try:
+                res = requests.post(f"{self.host}/api/embeddings", json={"model": self.embed_model, "prompt": text[:2000]}, timeout=(2, 10))
+                if res.status_code == 200:
+                    vec = res.json().get("embedding", [])
+                    if vec:
+                        return self._normalize_vec(vec)
+            except Exception:
+                pass
+        else:
+            try:
+                req = urllib.request.Request(f"{self.host}/api/embeddings", data=payload_legacy, headers={"Content-Type": "application/json"})
+                with urllib.request.urlopen(req, timeout=10) as resp:
+                    vec = json.loads(resp.read().decode("utf-8")).get("embedding", [])
+                    if vec:
+                        return self._normalize_vec(vec)
+            except Exception:
+                pass
 
         return [0.0] * self.dimension
 

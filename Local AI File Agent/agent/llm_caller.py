@@ -1,12 +1,20 @@
 """
 LLM Caller module for Local AI File Agent.
 Interacts with local Ollama service and robustly parses JSON responses.
+Works with 'requests' or falls back to built-in 'urllib.request' (zero external dependency).
 """
 
 import json
 import re
 from typing import Dict, Any, List
-import requests
+
+try:
+    import requests
+except ImportError:
+    requests = None
+
+import urllib.request
+import urllib.error
 
 from .prompt_template import SYSTEM_PROMPT, CLASSIFY_PROMPT_TEMPLATE
 
@@ -19,11 +27,19 @@ class OllamaAgentCaller:
 
     def check_health(self) -> bool:
         """Check if local Ollama server is reachable."""
-        try:
-            res = requests.get(f"{self.host}/api/tags", timeout=3)
-            return res.status_code == 200
-        except Exception:
-            return False
+        if requests is not None:
+            try:
+                res = requests.get(f"{self.host}/api/tags", timeout=2)
+                return res.status_code == 200
+            except Exception:
+                return False
+        else:
+            try:
+                req = urllib.request.Request(f"{self.host}/api/tags")
+                with urllib.request.urlopen(req, timeout=2) as res:
+                    return res.status == 200
+            except Exception:
+                return False
 
     def classify_and_reason(
         self,
@@ -53,36 +69,44 @@ class OllamaAgentCaller:
             ],
             "stream": False,
             "options": {
-                "temperature": 0.2,  # Low temperature for deterministic JSON output
+                "temperature": 0.2,
                 "top_p": 0.8
             }
         }
 
         try:
-            # Quick check if server is reachable first
             if not self.check_health():
                 print("ℹ️ [Ollama Offline] Ollama server is not running on 127.0.0.1:11434. Using rule fallback.")
                 return self._fallback_decision(file_info)
 
-            response = requests.post(
-                f"{self.host}/api/chat",
-                json=payload,
-                timeout=(3, self.timeout)
-            )
-            response.raise_for_status()
-            res_json = response.json()
-            raw_content = res_json.get("message", {}).get("content", "").strip()
+            raw_content = ""
+            if requests is not None:
+                response = requests.post(
+                    f"{self.host}/api/chat",
+                    json=payload,
+                    timeout=(3, self.timeout)
+                )
+                response.raise_for_status()
+                res_json = response.json()
+                raw_content = res_json.get("message", {}).get("content", "").strip()
+            else:
+                req = urllib.request.Request(
+                    f"{self.host}/api/chat",
+                    data=json.dumps(payload).encode("utf-8"),
+                    headers={"Content-Type": "application/json"}
+                )
+                with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                    res_json = json.loads(resp.read().decode("utf-8"))
+                    raw_content = res_json.get("message", {}).get("content", "").strip()
 
-            # Clean markdown code blocks if model wrapped JSON
             cleaned_json = self._extract_json(raw_content)
             parsed = json.loads(cleaned_json)
+            if "action" not in parsed:
+                parsed["action"] = "MOVE"
             return parsed
 
-        except requests.exceptions.RequestException as e:
-            print(f"⚠️ [Ollama Connection Warning] Could not reach Ollama: {e}. Using rule fallback.")
-            return self._fallback_decision(file_info)
-        except json.JSONDecodeError as e:
-            print(f"⚠️ [JSON Parse Warning] Failed to parse LLM JSON: {e}. Raw content: {raw_content[:200]}")
+        except Exception as e:
+            print(f"⚠️ [Ollama Inference Warning] Fallback activated: {e}")
             return self._fallback_decision(file_info)
 
     def _extract_json(self, text: str) -> str:
@@ -118,4 +142,3 @@ class OllamaAgentCaller:
             "reasoning": "觸發本機規則備援機制（Ollama 離線或回應逾時）。",
             "action_recommendation": "確認 Ollama 服務是否運行後重新索引。"
         }
-
