@@ -113,4 +113,7 @@ stateDiagram-v2
 6. **動作審計與資料夾目錄快照 (Audit Trail & Folder Snapshots)**：
    * 每次動作均自動記錄動作 ID、時間戳、來源、目的地與決策依據至 `history/audit_log.json`。
    * 每次動作後自動抓取當下目標資料夾之**檔案清單與檔案大小快照**，並同步維護至 Obsidian `log.md`，提供完整的透明度與可追溯性。
+7. **動態目錄掛載與優雅啟閉生命週期 (Dynamic Mounting & Graceful Lifecycle)**：
+   * 支援使用者透過命令列參數（`--watch /path/to/folder`）或設定檔將 Agent 動態掛載（Attach）至任何目錄（如桌面、特定專案或課程資料夾）。
+   * 具備完整信號捕獲（SIGINT/SIGTERM）與優雅停用（Graceful Detach），當使用者不要使用時可隨時一鍵關閉，安全釋放檔案鎖與系統監聽資源，不殘留任何背景常駐行程。
 

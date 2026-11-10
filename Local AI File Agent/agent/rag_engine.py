@@ -166,13 +166,21 @@ class LocalRagEngine:
                 )
             return "\n".join(context_lines)
 
-        # 3. Fallback: Keyword & Token Overlap Search
-        query_words = set(query_text.lower().replace("？", "").replace("！", "").split())
+        # 3. Fallback: Keyword & Token Overlap Search (Supports English words and CJK n-grams)
+        import re
+        cjk_bigrams = [
+            query_text[i:i+2].lower()
+            for i in range(len(query_text) - 1)
+            if "\u4e00" <= query_text[i] <= "\u9fff" and "\u4e00" <= query_text[i+1] <= "\u9fff"
+        ]
+        eng_tokens = [w.lower() for w in re.findall(r"[a-zA-Z0-9_]+", query_text) if len(w) > 1]
+        query_tokens = set(cjk_bigrams + eng_tokens)
+
         scored_items = []
         for item in self.metadata:
             text = f"{item.get('title', '')} {item.get('summary', '')} {item.get('category', '')}".lower()
-            matches = sum(1 for w in query_words if len(w) > 1 and w in text)
-            score = round(min(0.95, 0.5 + (matches * 0.15)), 3) if matches > 0 else 0.3
+            matches = sum(1 for tok in query_tokens if tok in text)
+            score = round(min(0.95, 0.45 + (matches * 0.12)), 3) if matches > 0 else 0.2
             scored_items.append((score, item))
 
         scored_items.sort(key=lambda x: x[0], reverse=True)
@@ -185,7 +193,15 @@ class LocalRagEngine:
         return "\n".join(context_lines) if context_lines else "(無足夠相似文獻)"
 
     def add_document(self, title: str, category: str, summary: str):
-        """Add newly categorized file into FAISS index and persist."""
+        """Add newly categorized file into FAISS index and persist (with title deduplication)."""
+        # Deduplication check
+        for existing in self.metadata:
+            if existing.get("title") == title:
+                existing["category"] = category
+                existing["summary"] = summary
+                self._save()
+                return
+
         embed_text = f"Title: {title}\nCategory: {category}\nSummary: {summary}"
         vec = self.get_embedding(embed_text)
 

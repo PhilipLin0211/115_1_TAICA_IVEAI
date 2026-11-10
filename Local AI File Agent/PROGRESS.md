@@ -164,3 +164,25 @@ Local AI File Agent/
 4. [ ] **1~2 分鐘終端機實機操作錄影或 GIF 動畫**（展示在 Downloads 丟入 PDF，終端機自動觸發並在 Obsidian 生成筆記的畫面）
 5. [ ] **投影片簡報 PPT (可放於 `PPT/` 資料夾中)**，呼應前幾週所學的 LLM、Embedding 與 Agent 觀念。
 
+---
+
+## 🚀 五、功能演進與未來規劃 (Feature Backlog & Enhancements)
+
+> **新增需求提案（2026-11-10 記錄）**：使用者希望 Agent 不受限於單一 `~/Downloads` 資料夾，而是能自由「掛載 (Attach)」到任意指定目錄，且隨時能優雅「卸載/關閉 (Detach/Stop)」。
+
+### 1. 動態自訂掛載目錄 (Dynamic Folder Mounting)
+* **需求緣由**：使用者可能想在「桌面 (Desktop)」、「研究專案目錄」、「共享雲端硬碟」或特定課程資料夾中使用 Agent。
+* **設計方案**：
+  * **命令列自由掛載**：支援 `python3 main.py --watch "/path/to/target_folder"` 任意覆蓋預設路徑。
+  * **互動式選單引導**：若啟動時未指定，Agent 會提示使用者選擇欲監聽的目標資料夾，或透過終端機拖曳資料夾路徑。
+  * **多設定檔獨立規則 (Per-Folder Profile)**：不同資料夾可配對不同分類架構（例如監聽「桌面」時偏向暫存圖文與發票收據；監聽「課程資料夾」時偏向投影片與論文）。
+
+### 2. 優雅啟閉與脫鉤管理 (Graceful Attach & Detach Lifecycle)
+* **需求緣由**：使用者需要對 Agent 擁有完全主控權，當不需要自動整理某個資料夾時，能隨時關閉退出，避免誤觸或背景常駐耗電。
+* **設計方案**：
+  * **一鍵卸載退出 (Detach / Stop)**：
+    * 終端機按 `Ctrl + C` 或執行 `python3 main.py stop`。
+    * 系統捕捉 `SIGINT` / `SIGTERM` 信號，等待當前正在搬移的單一檔案完成後，立即安全釋放 Watchdog FSEvents 資源與目錄檔案鎖。
+  * **安全脫鉤 (Safe Unmount)**：關閉時絕不殘留背景殭屍行程，且在 `history/audit_log.json` 中紀錄「Agent 卸載停用快照」，確保離開前後目錄檔案總數一致。
+
+
