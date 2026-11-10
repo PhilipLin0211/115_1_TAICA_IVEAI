@@ -104,8 +104,15 @@ def run_pipeline_test():
         print(f"  ✅ Audit log entry saved: ID {audit_entry['id']}")
         print(f"  📸 Target directory snapshot files count: {audit_entry['folder_directory_snapshots']['target_directory'].get('total_files')}")
 
+        print("\n[Test 8] Testing Lifecycle Event Logging (Attach & Detach Snapshot)")
+        attach_event = logger.record_lifecycle_event("ATTACH", downloads_mock, "測試掛載監聽")
+        detach_event = logger.record_lifecycle_event("DETACH", downloads_mock, "測試卸載停用")
+        assert attach_event["event_type"] == "ATTACH"
+        assert detach_event["event_type"] == "DETACH"
+        print("  ✅ Lifecycle event logging verified: ATTACH and DETACH successfully recorded.")
+
         print("\n" + "=" * 65)
-        print("🎉 ALL PIPELINE & SECURITY BOUNDARY CHECKS PASSED!")
+        print("🎉 ALL PIPELINE & SECURITY BOUNDARY CHECKS PASSED (8/8)!")
         print("=" * 65)
 
 

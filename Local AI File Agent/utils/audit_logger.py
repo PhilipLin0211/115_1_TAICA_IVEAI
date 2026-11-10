@@ -112,6 +112,23 @@ class AuditLogger:
         print(f"📜 [Audit Log Recorded] Action ID: {log_entry['id']} | Target files count: {target_snapshot.get('total_files', 0)}")
         return log_entry
 
+    def record_lifecycle_event(self, event_type: str, directory: Path, note: str = "") -> Dict[str, Any]:
+        """
+        Record Agent lifecycle events such as ATTACH (start monitoring) or DETACH (graceful stop).
+        """
+        snapshot = self.get_directory_snapshot(directory)
+        entry = {
+            "id": f"event_{int(datetime.now().timestamp() * 1000) % 1000000000}",
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "event_type": event_type,  # e.g., "ATTACH", "DETACH"
+            "directory": str(Path(directory).expanduser()),
+            "note": note,
+            "directory_snapshot": snapshot
+        }
+        self._append_json_log(entry)
+        print(f"📌 [Agent Lifecycle] {event_type} on '{directory}' recorded in audit log. (Files: {snapshot.get('total_files', 0)})")
+        return entry
+
     def _append_json_log(self, entry: Dict[str, Any]):
         """Persist to history/audit_log.json"""
         history = []

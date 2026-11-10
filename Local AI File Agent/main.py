@@ -152,7 +152,8 @@ def main():
     parser = argparse.ArgumentParser(description="Local AI File Agent - Auto Sorting & RAG Wiki")
     parser.add_argument("--dry-run", action="store_true", help="Run without physically moving files or writing notes")
     parser.add_argument("--config", default="config.yaml", help="Path to configuration yaml")
-    parser.add_argument("--watch", help="Override watch directory (default from config)")
+    parser.add_argument("-w", "--watch", help="Override watch directory (e.g. ~/Desktop or custom folder)")
+    parser.add_argument("-i", "--interactive", action="store_true", help="Interactively prompt for directory to watch")
     parser.add_argument("--vault", help="Override Obsidian vault directory")
     args = parser.parse_args()
 
@@ -167,6 +168,16 @@ def main():
         config["vault_directory"] = args.vault
 
     watch_dir = Path(config.get("watch_directory", "~/Downloads")).expanduser()
+
+    # Interactive directory selection if requested
+    if args.interactive:
+        print("\n📂 [動態掛載選單] 請輸入欲監聽整理的資料夾路徑")
+        print(f"   (可直接拖曳資料夾至視窗中，直接按 Enter 則預設為: {watch_dir})")
+        user_choice = input("👉 掛載目錄: ").strip().strip("'\"")
+        if user_choice:
+            watch_dir = Path(user_choice).expanduser()
+            config["watch_directory"] = str(watch_dir)
+
     if not watch_dir.exists():
         print(f"Creating watch directory: {watch_dir}")
         watch_dir.mkdir(parents=True, exist_ok=True)
@@ -183,15 +194,20 @@ def main():
     observer.schedule(handler, str(watch_dir), recursive=False)
     observer.start()
 
-    print("🚀 Agent daemon active. Press Ctrl+C to terminate.")
+    # Record ATTACH lifecycle event
+    handler.logger.record_lifecycle_event("ATTACH", watch_dir, "Agent 成功掛載並啟動即時監聽")
+
+    print(f"🚀 Agent daemon active on '{watch_dir}'. Press Ctrl+C to detach & stop.")
     try:
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        print("\n🛑 Stopping Observer...")
+        print("\n🛑 Detaching Agent & Stopping Observer...")
+        # Record DETACH lifecycle event
+        handler.logger.record_lifecycle_event("DETACH", watch_dir, "Agent 收到中斷信號，安全卸載並停止監聽")
         observer.stop()
     observer.join()
-    print("👋 Agent successfully stopped.")
+    print(f"👋 Agent successfully detached from '{watch_dir}'. Goodbye!")
 
 
 if __name__ == "__main__":

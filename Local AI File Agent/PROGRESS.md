@@ -6,7 +6,7 @@
 > **硬體環境**：Apple MacBook Air M5 (16GB 統一記憶體 / 1TB SSD，Metal GPU 硬體加速)  
 > **目標截止日**：2026 年 11 月 30 日前全數完成並通過端到端驗收  
 > **建立時間**：2026-11-09  
-> **當前狀態**：第一週 (Week 1) 進度 100% 提前達標，全管線單元測試通過！
+> **當前狀態**：第一週 (Week 1) 與第二週 (Week 2) 進度 100% 提前超前達標，RAG 向量庫毫秒級檢索 (4.58ms) 通過全套基準驗收！
 
 ---
 
@@ -22,12 +22,13 @@ gantt
     Watchdog 監控與檔案鎖定機制         :done,    w1_1, 2026-11-09, 2026-11-12
     PyMuPDF 多格式內容萃取與 Token 防爆   :done,    w1_2, 2026-11-09, 2026-11-15
     全流程驗證腳本 test_pipeline.py 測試通過 :done,  w1_3, 2026-11-09, 2026-11-09
-    section 第二週：RAG 向量庫 (進行中)
-    Ollama nomic-embed-text 串接        :active,  w2_1, 2026-11-16, 2026-11-18
-    FAISS 索引建立、持久化與預置種子資料 :active,  w2_2, 2026-11-19, 2026-11-22
+    section 第二週：RAG 向量庫 (已完成)
+    Ollama nomic-embed-text 串接        :done,    w2_1, 2026-11-16, 2026-11-18
+    FAISS 索引建立、持久化與預置種子資料 :done,    w2_2, 2026-11-19, 2026-11-22
+    RAG 毫秒級檢索基準測試 (4.58ms)       :done,    w2_3, 2026-11-19, 2026-11-22
     section 第三週：決策與 Wiki
-    Qwen 2.5 Coder 結構化 JSON 決策     :         w3_1, 2026-11-23, 2026-11-25
-    Obsidian 雙向連結筆記與 Index 維護   :         w3_2, 2026-11-26, 2026-11-27
+    Qwen 2.5 Coder 結構化 JSON 決策     :active,  w3_1, 2026-11-23, 2026-11-25
+    Obsidian 雙向連結筆記與 Index 維護   :active,  w3_2, 2026-11-26, 2026-11-27
     section 第四週：整合與成果交付
     端到端實地壓力測試與例外防呆驗收    :         w4_1, 2026-11-28, 2026-11-29
     GitHub Pages 演示頁更新與期末繳交   :         w4_2, 2026-11-30, 2026-11-30
@@ -37,9 +38,9 @@ gantt
 
 | 週次與日期 | 核心技術堆疊 | 開發重點與任務清單 | 檢驗交付指標 (Deliverables) |
 | :--- | :--- | :--- | :--- |
-| **第一週 (Week 1)**<br>`11/09 ~ 11/15`<br>⭐ **[已完成]** | • Python 3.10+<br>• `watchdog` (macOS FSEvents)<br>• `PyMuPDF` (fitz)<br>• `python-docx`<br>• `argparse` & `pyyaml` | 1. 建立 `watchdog` 目錄監聽守護行程 (`main.py`)。<br>2. 實作瀏覽器下載暫存檔 (`.crdownload`) 排除。<br>3. 實作檔案大小雙重比對鎖定機制 (File Lock Validation)。<br>4. 實作多格式文本擷取與首尾頁關鍵字截斷演算法 (`file_parser.py`)。<br>5. 支援 `--dry-run` 命令列安全模式。<br>6. 撰寫 `test_pipeline.py` 並通過端到端單元測試。 | ✅ **[100% 提前達標]**<br>監聽 `~/Downloads` 能即時感測，單元測試通過，成功模擬論文文字萃取、搬移與 Markdown 導讀筆記產出。 |
-| **第二週 (Week 2)**<br>`11/16 ~ 11/22` | • Ollama Local Server<br>• `nomic-embed-text`<br>• `faiss-cpu`<br>• `numpy` (L2 Normalization) | 1. 串接 Ollama `/api/embeddings` 接口。<br>2. 建立 768 維 FAISS `IndexFlatIP` 向量庫。<br>3. 實作向量 L2 正規化以達成精確餘弦相似度 (Cosine Similarity)。<br>4. 建立向量資料庫本地持久化 (`faiss_index.bin` + `metadata.json`)。<br>5. 實作 Top-K 語意相似文獻查詢與冷啟動 Fallback。 | ✅ 任意輸入一段摘要文本，系統能在 50 毫秒內檢索出知識庫中語意最接近的 3 篇歷史文獻及其分類路徑。 |
-| **第三週 (Week 3)**<br>`11/23 ~ 11/27` | • `qwen2.5-coder:7b`<br>• Few-Shot Prompting<br>• JSON Schema Enforcement<br>• Obsidian Markdown 規格 | 1. 撰寫嚴謹的 System Prompt 與階層化分類目錄指引。<br>2. 呼叫 Ollama 本地模型產出結構化 JSON 決策。<br>3. 實作正則代碼反引號自動剝除與 JSON 修補防呆。<br>4. 實作安全移動函式與同名衝突時間戳附加。<br>5. 產出含 YAML Frontmatter、導讀摘要與 `[[雙向連結]]` 的 Markdown 筆記。<br>6. 自動維護 `index.md` 與 `log.md`。 | ✅ 下載新檔案後，系統能全自動完成：「分類決策 ➔ 檔案正規化搬移 ➔ Obsidian 筆記寫入 ➔ 向量索引更新」端到端閉環。 |
+| **第一週 (Week 1)**<br>`11/09 ~ 11/15`<br>⭐ **[已完成]** | • Python 3.10+<br>• `watchdog` (macOS FSEvents)<br>• `PyMuPDF` (fitz)<br>• `python-docx`<br>• `argparse` & `pyyaml` | 1. 建立 `watchdog` 目錄監聽守護行程 (`main.py`)。<br>2. 實作瀏覽器下載暫存檔 (`.crdownload`) 排除。<br>3. 實作檔案大小雙重比對鎖定機制 (File Lock Validation)。<br>4. 實作多格式文本擷取與首尾頁關鍵字截斷演算法 (`file_parser.py`)。<br>5. 支援 `--dry-run` 與動態 `--watch` 目錄掛載模式。<br>6. 撰寫 `test_pipeline.py` 並通過 8/8 全項安全與管線驗證。 | ✅ **[100% 提前達標]**<br>動態掛載目錄能即時感測，單元測試通過，成功模擬論文文字萃取、安全搬移、Obsidian 導讀筆記產出與生命週期掛載/卸載事件紀錄。 |
+| **第二週 (Week 2)**<br>`11/16 ~ 11/22`<br>⭐ **[已完成]** | • Ollama Local Server<br>• `nomic-embed-text`<br>• `faiss-cpu`<br>• `numpy` (L2 Normalization)<br>• CJK N-gram 演算法 | 1. 串接 Ollama `/api/embed` 與 `/api/embeddings` 雙接口。<br>2. 建立 768 維 FAISS `IndexFlatIP` 向量庫與向量 L2 正規化。<br>3. 建立向量持久化 (`faiss_index.bin` + `metadata.json`) 與標題去重機制。<br>4. 預置 18 筆課程重點與文獻種子資料 (`seed_vector_store.py`)。<br>5. 實作「FAISS ➔ Numpy 內積 ➔ CJK 雙字元 N-gram」三級降級檢索。<br>6. 實作 `test_rag_search.py` 效能評測套件。 | ✅ **[100% 提前超前達標]**<br>實測平均檢索延遲為 **4.58 ms**（遠優於 < 50 ms 規格目標）；多模態、Transformer 與對話機器人三大多主題測試命中率 100%。 |
+| **第三週 (Week 3)**<br>`11/23 ~ 11/27`<br>🔥 **[進行中]** | • `qwen2.5-coder:7b`<br>• Few-Shot Prompting<br>• JSON Schema Enforcement<br>• Obsidian Markdown 規格 | 1. 撰寫嚴謹的 System Prompt 與階層化分類目錄指引。<br>2. 呼叫 Ollama 本地模型產出結構化 JSON 決策。<br>3. 實作正則代碼反引號自動剝除與 JSON 修補防呆。<br>4. 實作安全移動函式與同名衝突時間戳附加。<br>5. 產出含 YAML Frontmatter、導讀摘要與 `[[雙向連結]]` 的 Markdown 筆記。<br>6. 自動維護 `index.md` 與 `log.md`。 | ✅ 下載新檔案後，系統能全自動完成：「分類決策 ➔ 檔案正規化搬移 ➔ Obsidian 筆記寫入 ➔ 向量索引更新」端到端閉環。 |
 | **第四週 (Week 4)**<br>`11/28 ~ 11/30` | • Vanilla JS / CSS3<br>• GitHub Pages CI/CD<br>• macOS Launchd 常駐<br>• 系統壓力測試 | 1. 整合邊界條件測試（超大檔、損毀檔、二進制安裝檔）。<br>2. 同步更新 GitHub Pages 線上互動演示網頁 (<https://philiplin0211.github.io/115_1_TAICA_IVEAI/Local%20AI%20File%20Agent/>)。<br>3. 產出系統執行日誌與期末展示簡報。<br>4. 成果封裝並提交期末專案。 | 🎯 專案達到 Production Ready 狀態，文件、架構圖、網頁展示與源碼完全一致，正式結案。 |
 
 ---
