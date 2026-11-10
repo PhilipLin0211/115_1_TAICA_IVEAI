@@ -213,17 +213,26 @@ python3 test_rag_search.py
 
 ---
 
-## 🎯 Week 3 驗收：LLM 結構化決策與 Obsidian 知識庫整合
+## 🎯 Week 3 驗收：LLM 結構化決策與 Obsidian 知識庫整合（⭐ 100% 提前達標）
 
 ### 1. 驗收項目清單
-* [ ] 本地模型 `qwen2.5-coder:7b` 穩定輸出合法 JSON（含 `_extract_json` 代碼標籤剝離）。
-* [ ] 決策 JSON 嚴格包含 `action: "MOVE"`, `category`, `sanitized_name`, `tags`, `double_links`, `summary`。
-* [ ] 檔案安全搬移至目標分類子目錄，同名檔案自動附加微秒時間戳記（零覆蓋風險）。
-* [ ] 自動在 Obsidian Vault 目錄下生成符合規格的 Markdown 閱讀筆記。
-* [ ] 自動更新 `index.md`（總目錄）與 `log.md`（審計日誌與目錄快照）。
+* [x] 本地模型 `qwen2.5-coder:7b` 穩定輸出合法 JSON（含 `_extract_json` 代碼標籤剝離與 Rule Fallback）。
+* [x] 決策 JSON 嚴格包含 `action: "MOVE"`, `category`, `sanitized_name`, `tags`, `double_links`, `summary`。
+* [x] 檔案安全搬移至目標分類子目錄，同名檔案自動附加微秒時間戳記（零覆蓋風險）。
+* [x] 自動在 Obsidian Vault 目錄下生成符合規格的 Markdown 閱讀筆記（含 YAML Frontmatter、導讀摘要與建議行動）。
+* [x] 自動維護 `index.md`（知識總目錄）與 `log.md`（審計日誌與目錄快照）。
+* [x] 向量資料庫即時在線增量更新，新歸檔知識立即支援再次語意搜尋。
+* [x] 撰寫專屬驗收腳本 `test_week3_integration.py` 驗證端到端 8 步驟完整閉環。
 
 ### 2. 驗收指令
-啟動 Dry-Run 常駐守護行程：
+
+#### 步驟 3-1：執行全端到端決策與第二大腦閉環測試
+```bash
+python3 test_week3_integration.py
+```
+
+#### 步驟 3-2：實地模擬常駐守護行程 (Dry-Run 模式)
+啟動守護行程：
 ```bash
 python3 main.py --dry-run
 ```
@@ -233,20 +242,40 @@ echo "Convolutional Neural Networks for Visual Recognition and Image Classificat
 ```
 
 ### 3. 預期輸出與合格判定依據
-終端機必須即時偵測並輸出：
+執行 `python3 test_week3_integration.py` 之預期輸出：
 ```text
-⚡ [Watchdog Event] Detected new file: test_vision_paper.txt
-📄 [Step 1] Parsing content & metadata...
-🔍 [Step 2] Querying FAISS vector index (RAG)...
-🧠 [Step 3] LLM Reasoning via Qwen 2.5 Coder 7B...
-🎯 [Decision] Category: AI_Research/Vision | Name: 2026_test_vision_paper.txt
-📂 [Step 4] Requesting action: MOVE -> ~/Documents/Obsidian_Vault/AI_Research/Vision (Dry-run: True)...
-🔍 [DRY-RUN MOVE] Permission Verified: MOVE | 'test_vision_paper.txt' -> '.../2026_test_vision_paper.txt'
-📝 [Step 5] Building Obsidian LLMWiki note & updating index.md...
-📸 [Step 6] Recording audit history & directory snapshot...
-📜 [Audit Log Recorded] Action ID: act_...
+======================================================================
+🧠 Local AI File Agent - Week 3 全端到端決策與第二大腦整合測試
+======================================================================
+
+[步驟 1] 模擬使用者下載新檔案: 2024_Multimodal_Vision_Language_Models_Survey.txt
+  • 檔案大小: 562 bytes
+[步驟 2] 萃取內文與元數據 (Token 防爆截斷)...
+  • 成功解析文字長度: 562 字元
+[步驟 3] 執行 RAG 本地語意相似度檢索 (查詢相關課程教材)...
+  • RAG 檢索命中的相似歷史紀錄: 07 讓 AI 看懂你的世界
+[步驟 4] 呼叫決策引擎 (Qwen 2.5 Coder / Few-Shot JSON 規範)...
+  • 決定分類路徑: AI_Research/Vision
+  • 正規化新檔名: 2024_Multimodal_Vision_Language_Models_Survey.txt
+  • 筆記標題: Multimodal Vision-Language Models Survey
+[步驟 5] 執行 MOVE-ONLY 權限核驗與防碰撞安全搬移...
+  ✅ 檔案安全搬移成功 (MOVE-ONLY 權限核可)
+[步驟 6] 自動產生 Obsidian 導讀筆記與更新總索引...
+  ✅ Obsidian 筆記已建立: Multimodal Vision-Language Models Survey.md
+  ✅ 總索引目錄 index.md 已成功更新雙向連結！
+[步驟 7] 紀錄審計日誌與目標目錄快照...
+  ✅ 動作審計紀錄完成: ID act_... | 目標目錄現有檔案快照數: 2 筆
+[步驟 8] 即時增量更新向量資料庫並驗證再次檢索...
+  🔍 新增後的即時檢索結果: 命中 Multimodal Vision-Language Models Survey (相似度: 0.810)
+  ✅ 知識庫即時自我增長閉環驗證通過！
+
+======================================================================
+🎉 WEEK 3 全端到端決策、知識庫閉環與安全防禦測試全數通過 (8/8)！
+======================================================================
 ```
-> **合格判定**：端到端從感知到日誌記錄無任何錯誤中斷，分類命中合理的目錄。
+> **合格判定**：
+> 1. 端到端從感知、RAG 參考、LLM 決策、MOVE-ONLY 搬移、Obsidian 導讀卡片產出、總索引維護到向量自我更新，8 大關卡無任何中斷錯誤。
+> 2. 目錄快照與審計日誌如實記載。
 
 ---
 

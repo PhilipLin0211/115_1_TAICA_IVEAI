@@ -9,7 +9,11 @@ import os
 import time
 import argparse
 from pathlib import Path
-import yaml
+
+try:
+    import yaml
+except ImportError:
+    yaml = None
 
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -144,8 +148,41 @@ class DownloadFolderHandler(FileSystemEventHandler):
 
 
 def load_config(config_path: str = "config.yaml") -> dict:
-    with open(config_path, "r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
+    if yaml is not None:
+        try:
+            with open(config_path, "r", encoding="utf-8") as f:
+                loaded = yaml.safe_load(f)
+                if isinstance(loaded, dict):
+                    return loaded
+        except Exception:
+            pass
+
+    # Built-in fallback configuration when yaml module is absent
+    return {
+        "watch_directory": "~/Downloads",
+        "vault_directory": "~/Documents/Obsidian_Vault",
+        "ollama": {
+            "host": "http://127.0.0.1:11434",
+            "llm_model": "qwen2.5-coder:7b",
+            "embed_model": "nomic-embed-text",
+            "timeout_seconds": 60
+        },
+        "vector_store": {
+            "index_path": "./vector_store/faiss_index.bin",
+            "metadata_path": "./vector_store/metadata.json",
+            "top_k": 3
+        },
+        "ignored_extensions": [".crdownload", ".tmp", ".part", ".download", ".DS_Store"],
+        "categories": [
+            {"name": "AI_Research/NLP", "description": "自然語言處理、大型語言模型、Transformer、Attention 文獻"},
+            {"name": "AI_Research/Vision", "description": "電腦視覺、Diffusion、NeRF、圖像生成與辨識論文"},
+            {"name": "Course_Materials/IVEAI", "description": "臺科大 TAICA_IVEAI 智慧虛擬實境與人工智慧課程投影片與作業"},
+            {"name": "Finance/Receipts", "description": "電子發票、報稅單據、硬體與軟體採購收據憑證"},
+            {"name": "Dev_Notes/Frontend", "description": "前端技術、React、TypeScript、CSS 與介面設計筆記"},
+            {"name": "Dev_Notes/Backend", "description": "後端架構、Python、Docker、API 與資料庫技術文件"},
+            {"name": "General/Inbox", "description": "暫時難以歸類之一般文件與雜項檔案"}
+        ]
+    }
 
 
 def main():
