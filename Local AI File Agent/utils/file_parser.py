@@ -40,6 +40,10 @@ def extract_text_from_file(file_path: Path, max_chars: int = 4000) -> Dict[str, 
         result["text"] = f"[Error] File not found: {path}"
         return result
 
+    if file_size == 0:
+        result["text"] = "[Empty 0-byte file]"
+        return result
+
     # 1. PDF extraction
     if ext == ".pdf":
         if fitz is not None:
