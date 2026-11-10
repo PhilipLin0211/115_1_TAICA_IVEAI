@@ -154,3 +154,4 @@ class AuditLogger:
         else:
             with open(log_md_path, "a", encoding="utf-8") as f:
                 f.write(row)
+

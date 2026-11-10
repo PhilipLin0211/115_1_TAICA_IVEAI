@@ -23,6 +23,8 @@
   👉 **[https://philiplin0211.github.io/115_1_TAICA_IVEAI/Local%20AI%20File%20Agent/](https://philiplin0211.github.io/115_1_TAICA_IVEAI/Local%20AI%20File%20Agent/)**
 * 📓 **Colab 一鍵雲端運行與 RAG 驗證 Notebook**：  
   👉 **[run_on_colab.ipynb](./run_on_colab.ipynb)**
+* 🧪 **詳細使用手冊與每週驗收指引書 (Verification Guide & Manual)**：  
+  👉 **[VERIFICATION_GUIDE.md](./VERIFICATION_GUIDE.md)**
 * 📅 **11月底衝刺進度追蹤表與問題排查手冊 (Progress & Issues)**：  
   👉 **[PROGRESS.md](./PROGRESS.md)**
 * 🏗️ **系統架構圖與狀態機規格說明書 (Architecture & State Machine)**：  

@@ -96,10 +96,15 @@ Local AI File Agent/
 ├── README.md              # 專案總體規格書、架構圖、核心特點與快速開始說明
 ├── ARCHITECTURE.md        # 系統底層架構、管線流程圖、狀態機與容錯設計說明書
 ├── PROGRESS.md            # 【本檔案】11月底衝刺進度追蹤表、問題排查手冊與檔案清冊
+├── VERIFICATION_GUIDE.md  # 詳細使用手冊與每週驗收標準與驗證指令指引書
 ├── index.html             # 期末專案線上即時互動演示網頁 (GitHub Pages Demo)
+├── run_on_colab.ipynb     # Google Colab 一鍵雲端執行與驗證 Notebook
 ├── requirements.txt       # Python 相依套件清單 (watchdog, pymupdf, faiss-cpu 等)
 ├── config.yaml            # 系統設定檔 (目錄路徑、Ollama 模型、預設分類規則)
 ├── main.py                # 系統常駐進入點與 Watchdog 監聽守護行程
+├── test_pipeline.py       # 端到端單元管線與 MOVE-ONLY 權限邊界驗證腳本
+├── test_rag_search.py     # RAG 毫秒級向量相似度檢索驗證工具
+├── seed_vector_store.py   # 課程講義與論文種子資料預置腳本
 │
 ├── agent/                 # Agent 核心邏輯與推論模組
 │   ├── __init__.py        # 模組初始化標籤
@@ -110,12 +115,16 @@ Local AI File Agent/
 ├── utils/                 # 工具函式模組
 │   ├── __init__.py        # 模組初始化標籤
 │   ├── file_parser.py     # PDF/Word/TXT 文本萃取與 Token 安全截斷
-│   ├── file_mover.py      # 具防碰撞時間戳命名之安全檔案搬移器 (支援 --dry-run)
+│   ├── file_mover.py      # 具防碰撞時間戳命名之安全檔案搬移器 (強制 MOVE-ONLY 權限檢查)
+│   ├── audit_logger.py    # 每次動作自動紀錄與資料夾檔案目錄快照稽核器
 │   └── wiki_builder.py    # Obsidian Markdown 筆記、雙向連結、index.md 與 log.md 維護
+│
+├── history/               # 動作審計日誌與目錄快照持久化資料夾
+│   └── audit_log.json     # 完整操作與資料夾目錄快照紀錄
 │
 └── vector_store/          # 向量資料庫本地持久化目錄
     ├── faiss_index.bin    # FAISS 高維向量二進制索引 (執行時自動生成)
-    └── metadata.json      # 向量對應之文獻 Metadata 與分類資訊 (執行時自動生成)
+    └── metadata.json      # 向量對應之文獻 Metadata 與分類資訊 (已預置18筆知識)
 ```
 
 ---
