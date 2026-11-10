@@ -936,6 +936,7 @@
             <button class="tab-btn active" onclick="switchTab('obsidian')">Markdown 筆記</button>
             <button class="tab-btn" onclick="switchTab('json')">Agent JSON</button>
             <button class="tab-btn" onclick="switchTab('vault')">Vault 目錄樹</button>
+            <button class="tab-btn" onclick="switchTab('audit')">審計日誌與目錄快照</button>
           </div>
         </div>
 
@@ -1001,6 +1002,49 @@
           <div class="tree-item" style="padding-left:44px;"><i class="fi fi-rr-file-pdf"></i> 2026_Tax_Receipt.pdf</div>
           <div class="tree-item" style="padding-left:24px; color:#38bdf8;"><i class="fi fi-rr-file-edit"></i> 📝 index.md (Wiki Index 自動同步中)</div>
           <div class="tree-item" style="padding-left:24px; color:#94a3b8;"><i class="fi fi-rr-time-past"></i> 📜 log.md (Agent 操作日誌)</div>
+        </div>
+
+        <!-- Tab 4: Audit Log & Directory Snapshot -->
+        <div id="tabAudit" class="code-box" style="display:none;">
+          <pre id="auditOutput">{
+  "action_id": "act_1794265649",
+  "timestamp": "2026-11-10 15:07:29",
+  "permission_guard": {
+    "allowed_scope": "MOVE_ONLY",
+    "verified": true,
+    "status": "AUTHORIZED_PASSED"
+  },
+  "action_executed": "MOVE",
+  "source": {
+    "file_name": "attention_is_all_you_need.pdf",
+    "size_bytes": 2185410,
+    "extension": ".pdf"
+  },
+  "destination": {
+    "category": "AI_Papers/NLP",
+    "sanitized_name": "2017_Vaswani_Attention_Is_All_You_Need.pdf",
+    "final_path": "~/Obsidian_Vault/AI_Papers/NLP/2017_Vaswani_Attention_Is_All_You_Need.pdf"
+  },
+  "folder_directory_snapshots": {
+    "target_directory": {
+      "path": "~/Obsidian_Vault/AI_Papers/NLP",
+      "total_files": 2,
+      "files": [
+        {"relative_path": "2017_Vaswani_Attention_Is_All_You_Need.pdf", "size_bytes": 2185410},
+        {"relative_path": "Vaswani et al. (2017) Attention Is All You Need.md", "size_bytes": 1280}
+      ]
+    },
+    "watch_directory": {
+      "path": "~/Downloads",
+      "total_files": 3,
+      "files": [
+        {"relative_path": "Invoice_MacBook.pdf", "size_bytes": 348160},
+        {"relative_path": "04LLM只是在猜字.pdf", "size_bytes": 72351744},
+        {"relative_path": "react_hooks.md", "size_bytes": 12288}
+      ]
+    }
+  }
+}</pre>
         </div>
 
       </div>
@@ -1141,6 +1185,7 @@
       document.getElementById('tabObsidian').style.display = (tab === 'obsidian') ? 'block' : 'none';
       document.getElementById('tabJson').style.display = (tab === 'json') ? 'block' : 'none';
       document.getElementById('tabVault').style.display = (tab === 'vault') ? 'block' : 'none';
+      document.getElementById('tabAudit').style.display = (tab === 'audit') ? 'block' : 'none';
     }
 
     function runSimulation() {
@@ -1214,7 +1259,7 @@
 
       // JSON Preview
       const jsonObj = {
-        action: "move_and_index",
+        action: "MOVE",
         source_file: item.fileName,
         sanitized_name: item.sanitized,
         category: item.category,
@@ -1230,6 +1275,43 @@
       };
 
       document.getElementById('jsonOutput').innerText = JSON.stringify(jsonObj, null, 2);
+
+      // Audit Log & Snapshot Preview
+      const auditObj = {
+        action_id: "act_" + Date.now(),
+        timestamp: new Date().toISOString().replace('T', ' ').slice(0, 19),
+        permission_guard: {
+          allowed_scope: "MOVE_ONLY",
+          verified: true,
+          status: "AUTHORIZED_PASSED"
+        },
+        action_executed: "MOVE",
+        source: {
+          file_name: item.fileName,
+          destination_dir: item.dest
+        },
+        destination: {
+          category: item.category,
+          sanitized_name: item.sanitized,
+          final_path: item.dest + item.sanitized
+        },
+        folder_directory_snapshots: {
+          target_directory: {
+            path: item.dest,
+            total_files: 2,
+            files: [
+              {"relative_path": item.sanitized, "status": "MOVED_IN"},
+              {"relative_path": item.title + ".md", "status": "WIKI_NOTE_CREATED"}
+            ]
+          },
+          watch_directory: {
+            path: "~/Downloads",
+            status: "OBSERVED_AFTER_MOVE"
+          }
+        }
+      };
+
+      document.getElementById('auditOutput').innerText = JSON.stringify(auditObj, null, 2);
     }
 
     function executeRagSearch() {
