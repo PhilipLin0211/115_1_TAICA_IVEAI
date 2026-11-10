@@ -210,13 +210,34 @@ Local AI File Agent/
 └── vector_store/          # FAISS 本地持久化索引目錄
 ```
 
-### 4. 執行與測試
-```bash
-# 測試模式 (Dry-run：僅輸出分類日誌，不執行檔案真實搬移)
-python main.py --dry-run
+### 4. 完整衝刺週驗收套件 (Weekly Verification Suite)
 
-# 正式常駐執行
-python main.py --vault ~/Documents/Obsidian_Vault
+本專案提供完整的每週單元與壓力測試工具，可直接於終端機執行驗證：
+
+```bash
+# 【第一週驗收】端到端核心管線與 MOVE-ONLY 權限阻擋測試 (8/8 通過)
+python3 test_pipeline.py
+
+# 【第二週驗收】多領域 RAG 向量知識庫檢索基準測試 (實測平均 4.58 ms)
+python3 test_rag_search.py
+
+# 【第三週驗收】Qwen 2.5 Coder 決策、Obsidian 導讀卡片與在線閉環 (8/8 通過)
+python3 test_week3_integration.py
+
+# 【第四週驗收】全系統極限壓力、高併發連續處理與邊界條件測試 (6/6 全勝)
+python3 test_week4_stress.py
+
+# -------------------------------------------------------------
+# 【實機常駐執行】支援動態資料夾掛載與安全模擬模式
+# -------------------------------------------------------------
+# 模式 A：安全模擬模式 (Dry-Run：印出決策，不實際搬移檔案)
+python3 main.py --dry-run
+
+# 模式 B：動態掛載至指定資料夾 (如桌面或自訂目錄)
+python3 main.py -w "~/Desktop"
+
+# 模式 C：互動式引導掛載
+python3 main.py -i
 ```
 
 ---
