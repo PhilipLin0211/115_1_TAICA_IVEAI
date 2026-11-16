@@ -1,37 +1,64 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TAICA_IVEAI 課程作業中心 | 國立臺灣科技大學 林宸平</title>
-  <meta name="description" content="國立臺灣科技大學 人工智慧所 115-1 智慧虛擬實境與人工智慧 (TAICA_IVEAI) 課程作業集與成果導航中心。">
-  
+  <title>115-1 TAICA_IVEAI 課程作業與知識整合中心 | 林宸平</title>
+  <meta name="description"
+    content="國立臺灣科技大學 人工智慧所 115-1 智慧虛擬實境與人工智慧 (TAICA_IVEAI) 課程作業集與成果導航中心。嚴格遵循 VS Code Dark+ 零透明度實色設計規範。">
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Flaticon Uicons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flaticon/flaticon-uicons@3.3.1/css/all/all.min.css">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Marked.js for Markdown Rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
   <style>
+    /* ==========================================================================
+       VS Code Dark+ 規範 — 100% 實色變數系統（禁止任何透明/半透明/毛玻璃）
+       ========================================================================== */
     :root {
-      --bg-base: #070a12;
-      --bg-card: rgba(18, 24, 40, 0.75);
-      --bg-card-hover: rgba(28, 38, 62, 0.85);
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(16, 185, 129, 0.35);
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
-      --text-accent: #34d399;
-      --primary: #10b981;
-      --primary-hover: #059669;
-      --accent-blue: #38bdf8;
-      --accent-purple: #a855f7;
-      --accent-amber: #f59e0b;
-      --font-display: 'Outfit', sans-serif;
-      --font-body: 'Noto Sans TC', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
+      --bg-titlebar: #323233;
+      --bg-activity: #333333;
+      --bg-activity-active: #252526;
+      --bg-sidebar: #252526;
+      --bg-sidebar-header: #212122;
+      --bg-tabs: #2d2d2d;
+      --bg-tab-active: #1e1e1e;
+      --bg-tab-inactive: #2d2d2d;
+      --bg-tab-hover: #323233;
+      --bg-editor: #1e1e1e;
+      --bg-card: #252526;
+      --bg-card-alt: #2a2d2e;
+      --bg-hover: #2a2d2e;
+      --bg-active: #37373d;
+      --bg-input: #3c3c3c;
+      --bg-statusbar: #007acc;
+      --border-solid: #3c3c3c;
+      --border-dark: #191919;
+      --border-focus: #007fd4;
+
+      --text-main: #cccccc;
+      --text-bright: #ffffff;
+      --text-muted: #858585;
+      --text-dim: #6e6e6e;
+
+      --accent-blue: #569cd6;
+      --accent-teal: #4ec9b0;
+      --accent-yellow: #dcdcaa;
+      --accent-orange: #ce9178;
+      --accent-green: #6a9955;
+      --accent-purple: #c586c0;
+      --accent-red: #f48771;
+
+      --font-code: 'JetBrains Mono', Consolas, Monaco, monospace;
+      --font-ui: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-heading: 'Outfit', 'Noto Sans TC', sans-serif;
     }
 
     * {
@@ -41,706 +68,2022 @@
     }
 
     body {
-      background-color: var(--bg-base);
-      background-image: 
-        radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(56, 189, 248, 0.1) 0%, transparent 45%),
-        linear-gradient(180deg, #070a12 0%, #0d1322 100%);
-      background-attachment: fixed;
+      background-color: var(--bg-editor);
       color: var(--text-main);
-      font-family: var(--font-body);
-      min-height: 100vh;
-      line-height: 1.6;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      line-height: 1.5;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
       -webkit-font-smoothing: antialiased;
     }
 
-    .container {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 40px 24px 80px;
+    a {
+      color: var(--accent-blue);
+      text-decoration: none;
     }
 
-    /* Top Brand Bar */
-    .top-header {
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: 1px solid var(--border-solid);
+      background-color: var(--bg-input);
+      color: var(--text-bright);
+      padding: 6px 14px;
+      font-size: 12px;
+      border-radius: 2px;
+      transition: background-color 0.15s ease;
+    }
+
+    button:hover {
+      background-color: var(--bg-active);
+    }
+
+    button.btn-primary {
+      background-color: #0e639c;
+      border-color: #1177bb;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    button.btn-primary:hover {
+      background-color: #1177bb;
+    }
+
+    button.btn-success {
+      background-color: #2e7d32;
+      border-color: #388e3c;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    button.btn-success:hover {
+      background-color: #388e3c;
+    }
+
+    input,
+    textarea,
+    select {
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-solid);
+      color: var(--text-bright);
+      padding: 6px 10px;
+      font-family: inherit;
+      font-size: 12px;
+      border-radius: 2px;
+      outline: none;
+      width: 100%;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--border-focus);
+    }
+
+    /* ==========================================================================
+       1. Top Title Bar (36px)
+       ========================================================================== */
+    .titlebar {
+      height: 36px;
+      background-color: var(--bg-titlebar);
+      border-bottom: 1px solid var(--border-dark);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border-subtle);
-      margin-bottom: 40px;
-      flex-wrap: wrap;
-      gap: 16px;
+      justify-content: space-between;
+      padding: 0 12px;
+      user-select: none;
+      flex-shrink: 0;
+      z-index: 10;
     }
 
-    .brand-title {
+    .titlebar-left {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .brand-logo {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, #10b981, #06b6d4);
-      border-radius: 12px;
+    .window-controls {
       display: flex;
+      gap: 7px;
       align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      color: #fff;
-      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
     }
 
-    .brand-text h2 {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      color: #fff;
-    }
-
-    .brand-text p {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-
-    .student-badge {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-subtle);
-      padding: 8px 16px;
-      border-radius: 9999px;
-      font-size: 0.85rem;
-      color: #cbd5e1;
-    }
-
-    .student-badge .dot {
-      width: 8px;
-      height: 8px;
-      background-color: var(--primary);
+    .window-dot {
+      width: 11px;
+      height: 11px;
       border-radius: 50%;
-      box-shadow: 0 0 8px var(--primary);
+      display: inline-block;
     }
 
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      padding: 40px 0 50px;
+    .dot-close {
+      background-color: #ff5f56;
     }
 
-    .hero-tag {
-      display: inline-flex;
+    .dot-min {
+      background-color: #ffbd2e;
+    }
+
+    .dot-max {
+      background-color: #27c93f;
+    }
+
+    .app-icon-title {
+      display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      color: var(--text-accent);
-      padding: 6px 14px;
-      border-radius: 9999px;
-      font-size: 0.82rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
-      margin-bottom: 20px;
-      font-family: var(--font-mono);
+      color: var(--text-bright);
+      font-size: 12px;
+      font-family: var(--font-code);
     }
 
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.2rem, 5vw, 3.4rem);
+    .app-icon {
+      color: var(--accent-blue);
       font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      margin-bottom: 16px;
-      background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
 
-    .hero-desc {
-      font-size: 1.1rem;
+    .titlebar-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background-color: #252526;
+      border: 1px solid var(--border-solid);
+      border-radius: 4px;
+      padding: 3px 14px;
       color: var(--text-muted);
-      max-width: 680px;
-      margin: 0 auto;
-      line-height: 1.7;
+      font-size: 12px;
+      cursor: pointer;
+      max-width: 440px;
+      width: 100%;
+      justify-content: center;
     }
 
-    /* Section Headers */
-    .section-title {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 24px;
+    .titlebar-center:hover {
+      border-color: var(--border-focus);
+      color: var(--text-main);
+    }
+
+    .titlebar-right {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .section-title i {
-      color: var(--primary);
-    }
-
-    /* Grid of Assignments */
-    .assignments-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 28px;
-      margin-bottom: 60px;
-    }
-
-    /* Assignment Card - Featured (Homework 1) */
-    .assignment-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      padding: 36px;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    /* ==========================================================================
+       2. Main Layout (Activity Bar + Sidebar + Editor)
+       ========================================================================== */
+    .workbench {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
       position: relative;
+    }
+
+    /* Activity Bar (48px) */
+    .activity-bar {
+      width: 48px;
+      background-color: var(--bg-activity);
+      border-right: 1px solid var(--border-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 0;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .activity-btn {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 18px;
+      position: relative;
+      padding: 0;
+    }
+
+    .activity-btn:hover {
+      color: var(--text-bright);
+      background: transparent;
+    }
+
+    .activity-btn.active {
+      color: var(--text-bright);
+      background-color: var(--bg-activity-active);
+    }
+
+    .activity-btn.active::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background-color: var(--text-bright);
+    }
+
+    .activity-btn-label {
+      font-size: 9px;
+      margin-top: 2px;
+    }
+
+    .activity-bar-bottom {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Sidebar (280px) */
+    .sidebar {
+      width: 280px;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-dark);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      user-select: none;
       overflow: hidden;
     }
 
-    .assignment-card.featured {
-      border-color: rgba(16, 185, 129, 0.3);
-      box-shadow: 0 10px 40px -10px rgba(16, 185, 129, 0.15);
-    }
-
-    .assignment-card.featured:hover {
-      transform: translateY(-4px);
-      border-color: rgba(16, 185, 129, 0.6);
-      box-shadow: 0 16px 50px -10px rgba(16, 185, 129, 0.25);
-    }
-
-    .card-glow {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .card-top {
+    .sidebar-header {
+      height: 35px;
+      padding: 0 16px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 12px;
+      border-bottom: 1px solid var(--border-dark);
+      background-color: var(--bg-sidebar-header);
     }
 
-    .hw-badge {
-      display: inline-flex;
+    .sidebar-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-bright);
+    }
+
+    .sidebar-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .sidebar-icon-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 2px 4px;
+      font-size: 13px;
+    }
+
+    .sidebar-icon-btn:hover {
+      color: var(--text-bright);
+      background-color: var(--bg-hover);
+    }
+
+    .sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    /* Tree View */
+    .tree-section {
+      border-bottom: 1px solid var(--border-dark);
+    }
+
+    .tree-section-header {
+      padding: 5px 10px;
+      display: flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
-      border-radius: 9999px;
-      font-size: 0.8rem;
+      font-size: 11px;
       font-weight: 700;
-      font-family: var(--font-mono);
-      letter-spacing: 0.02em;
-    }
-
-    .hw-badge.active {
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    .hw-badge.pending {
-      background: rgba(148, 163, 184, 0.1);
-      color: #94a3b8;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-    }
-
-    .card-title-group h3 {
-      font-family: var(--font-display);
-      font-size: 1.7rem;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 8px;
-    }
-
-    .card-title-group .card-subtitle {
-      font-size: 1.05rem;
-      color: var(--accent-blue);
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .card-desc {
-      color: #cbd5e1;
-      font-size: 0.98rem;
-      margin-bottom: 24px;
-      line-height: 1.7;
-      max-width: 880px;
-    }
-
-    .tech-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 28px;
-    }
-
-    .tech-tag {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      color: #cbd5e1;
-      font-family: var(--font-mono);
-    }
-
-    .action-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 22px;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s ease;
+      text-transform: uppercase;
+      color: var(--text-muted);
       cursor: pointer;
+      background-color: var(--bg-sidebar);
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+    .tree-section-header:hover {
+      background-color: var(--bg-hover);
+      color: var(--text-bright);
     }
 
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    .tree-arrow {
+      font-size: 9px;
+      width: 12px;
+      display: inline-block;
+      transition: transform 0.1s ease;
     }
 
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      color: #e2e8f0;
-      border: 1px solid var(--border-subtle);
+    .tree-section.collapsed .tree-arrow {
+      transform: rotate(-90deg);
     }
 
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
+    .tree-section.collapsed .tree-items {
+      display: none;
     }
 
-    .btn-colab {
-      background: rgba(245, 158, 11, 0.12);
-      color: #fbbf24;
-      border: 1px solid rgba(245, 158, 11, 0.25);
-    }
-
-    .btn-colab:hover {
-      background: rgba(245, 158, 11, 0.2);
-      border-color: rgba(245, 158, 11, 0.45);
-      transform: translateY(-2px);
-    }
-
-    /* Pending Assignment Cards */
-    .upcoming-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
-      margin-bottom: 60px;
-    }
-
-    .pending-card {
-      background: rgba(18, 24, 40, 0.4);
-      border: 1px dashed rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
-      padding: 28px;
-    }
-
-    .pending-card h4 {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #94a3b8;
-      margin-bottom: 8px;
-    }
-
-    .pending-card p {
-      font-size: 0.88rem;
-      color: #64748b;
-    }
-
-    /* Course Materials (PPTs) */
-    .materials-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      margin-bottom: 60px;
-    }
-
-    .material-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 18px 20px;
+    .tree-item {
       display: flex;
       align-items: center;
-      gap: 14px;
-      text-decoration: none;
+      gap: 8px;
+      padding: 4px 14px 4px 24px;
+      font-size: 12.5px;
+      cursor: pointer;
       color: var(--text-main);
-      transition: all 0.2s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border-left: 2px solid transparent;
     }
 
-    .material-card:hover {
-      background: var(--bg-card-hover);
-      border-color: rgba(56, 189, 248, 0.4);
-      transform: translateY(-2px);
+    .tree-item:hover {
+      background-color: var(--bg-hover);
+      color: var(--text-bright);
     }
 
-    .material-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
-      background: rgba(56, 189, 248, 0.12);
-      color: var(--accent-blue);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
+    .tree-item.active {
+      background-color: var(--bg-active);
+      color: var(--text-bright);
+      border-left-color: var(--accent-blue);
+    }
+
+    .tree-icon {
+      font-size: 13px;
       flex-shrink: 0;
     }
 
-    .material-info h4 {
-      font-size: 0.92rem;
-      font-weight: 600;
-      color: #f1f5f9;
-      margin-bottom: 2px;
+    .tree-icon-folder {
+      color: #dcb67a;
     }
 
-    .material-info p {
-      font-size: 0.76rem;
+    .tree-icon-html {
+      color: #e34f26;
+    }
+
+    .tree-icon-md {
+      color: #519aba;
+    }
+
+    .tree-icon-pdf {
+      color: #f48771;
+    }
+
+    .tree-icon-json {
+      color: #cbcb41;
+    }
+
+    .tree-icon-video {
+      color: #a855f7;
+    }
+
+    .item-badge-count {
+      margin-left: auto;
+      font-size: 10px;
+      background-color: #333333;
+      padding: 1px 6px;
+      border-radius: 9px;
       color: var(--text-muted);
-      font-family: var(--font-mono);
     }
 
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--border-subtle);
-      padding-top: 32px;
+    /* ==========================================================================
+       3. Editor Group (Tabs + Breadcrumbs + Content)
+       ========================================================================== */
+    .editor-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-editor);
+      overflow: hidden;
+    }
+
+    /* Tabs Bar (35px) */
+    .tabs-bar {
+      height: 35px;
+      background-color: var(--bg-tabs);
+      display: flex;
+      align-items: flex-end;
+      overflow-x: auto;
+      user-select: none;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border-dark);
+    }
+
+    .tabs-bar::-webkit-scrollbar {
+      height: 2px;
+    }
+
+    .tab {
+      height: 34px;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--bg-tab-inactive);
+      color: var(--text-muted);
+      border-right: 1px solid var(--border-dark);
+      cursor: pointer;
+      font-size: 12px;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .tab:hover {
+      background-color: var(--bg-tab-hover);
+      color: var(--text-main);
+    }
+
+    .tab.active {
+      background-color: var(--bg-tab-active);
+      color: var(--text-bright);
+      border-top: 1px solid var(--accent-blue);
+    }
+
+    .tab-close {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+      font-size: 11px;
+    }
+
+    .tab-close:hover {
+      background-color: var(--bg-hover);
+      color: var(--accent-red);
+    }
+
+    /* Breadcrumbs Bar (24px) */
+    .breadcrumbs {
+      height: 24px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+      background-color: var(--bg-editor);
+      border-bottom: 1px solid var(--border-dark);
+      flex-shrink: 0;
+      font-family: var(--font-code);
+    }
+
+    .breadcrumb-item {
+      color: var(--text-muted);
+    }
+
+    .breadcrumb-item.active {
+      color: var(--text-bright);
+    }
+
+    .breadcrumb-sep {
+      color: var(--text-dim);
+    }
+
+    /* Editor Main Stage */
+    .editor-stage {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 32px;
+      background-color: var(--bg-editor);
+    }
+
+    /* ==========================================================================
+       4. View Modes in Editor Stage
+       ========================================================================== */
+    .view-card-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Welcome / Hero Banner */
+    .vs-hero {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-solid);
+      padding: 24px 28px;
+      margin-bottom: 24px;
+    }
+
+    .vs-hero-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .vs-hero-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-bright);
+    }
+
+    .vs-hero-subtitle {
+      font-size: 13px;
+      color: var(--accent-blue);
+      margin-top: 4px;
+      font-family: var(--font-code);
+    }
+
+    .vs-hero-meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-solid);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .vs-hero-meta span strong {
+      color: var(--text-bright);
+    }
+
+    /* Assignment Section / Card */
+    .assignment-detail-box {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-solid);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .assignment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .assignment-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background-color: #173824;
+      color: #4ec9b0;
+      border: 1px solid #235937;
+      font-size: 11px;
+      font-family: var(--font-code);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .assignment-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-bright);
+      font-family: var(--font-heading);
+    }
+
+    .assignment-subtitle {
+      color: var(--accent-orange);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .assignment-desc {
+      color: var(--text-main);
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 16px 0;
+      background-color: var(--bg-card-alt);
+      padding: 14px 18px;
+      border-left: 3px solid var(--accent-blue);
+    }
+
+    .assignment-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .assignment-tag {
+      background-color: #2e3235;
+      border: 1px solid var(--border-solid);
+      color: #9cdcfe;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-family: var(--font-code);
+    }
+
+    .assignment-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-solid);
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 2px;
+    }
+
+    .action-btn:hover {
+      text-decoration: none;
+    }
+
+    .action-btn.primary {
+      background-color: #0e639c;
+      border: 1px solid #1177bb;
+      color: #ffffff;
+    }
+
+    .action-btn.primary:hover {
+      background-color: #1177bb;
+    }
+
+    .action-btn.secondary {
+      background-color: #333333;
+      border: 1px solid var(--border-solid);
+      color: var(--text-bright);
+    }
+
+    .action-btn.secondary:hover {
+      background-color: var(--bg-hover);
+    }
+
+    .action-btn.colab {
+      background-color: #8c5600;
+      border: 1px solid #b87503;
+      color: #ffffff;
+    }
+
+    .action-btn.colab:hover {
+      background-color: #b87503;
+    }
+
+    /* Markdown Render View */
+    .markdown-body {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-solid);
+      padding: 28px 36px;
+      color: var(--text-main);
+      font-size: 13.5px;
+      line-height: 1.7;
+    }
+
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3 {
+      color: var(--accent-blue);
+      font-family: var(--font-heading);
+      border-bottom: 1px solid var(--border-solid);
+      padding-bottom: 8px;
+      margin-top: 24px;
+      margin-bottom: 14px;
+    }
+
+    .markdown-body h1 {
+      font-size: 22px;
+      color: var(--text-bright);
+    }
+
+    .markdown-body h2 {
+      font-size: 17px;
+    }
+
+    .markdown-body h3 {
+      font-size: 15px;
+      color: var(--accent-teal);
+    }
+
+    .markdown-body p,
+    .markdown-body ul,
+    .markdown-body ol {
+      margin-bottom: 14px;
+    }
+
+    .markdown-body ul,
+    .markdown-body ol {
+      padding-left: 24px;
+    }
+
+    .markdown-body li {
+      margin-bottom: 6px;
+    }
+
+    .markdown-body code {
+      background-color: #2d2d2d;
+      color: var(--accent-orange);
+      padding: 2px 6px;
+      font-family: var(--font-code);
+      font-size: 12px;
+      border: 1px solid var(--border-solid);
+    }
+
+    .markdown-body pre {
+      background-color: #141414;
+      border: 1px solid var(--border-solid);
+      padding: 16px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .markdown-body pre code {
+      background: transparent;
+      border: none;
+      padding: 0;
+      color: var(--text-bright);
+    }
+
+    .markdown-body blockquote {
+      border-left: 4px solid var(--accent-blue);
+      background-color: var(--bg-card-alt);
+      padding: 10px 16px;
+      margin-bottom: 14px;
+      color: var(--text-bright);
+    }
+
+    .markdown-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+    }
+
+    .markdown-body th,
+    .markdown-body td {
+      border: 1px solid var(--border-solid);
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .markdown-body th {
+      background-color: var(--bg-card-alt);
+      color: var(--text-bright);
+    }
+
+    /* Materials / PPT Grid */
+    .grid-materials {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .material-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-solid);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .material-card:hover {
+      border-color: var(--accent-blue);
+      background-color: var(--bg-card-alt);
+    }
+
+    .mat-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .mat-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-bright);
+      line-height: 1.4;
+    }
+
+    .mat-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: #64748b;
-      font-size: 0.85rem;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    footer a {
+      font-size: 11px;
       color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s ease;
+      font-family: var(--font-code);
+      padding-top: 8px;
+      border-top: 1px solid var(--border-solid);
     }
 
-    footer a:hover {
-      color: var(--primary);
+    /* Form Panels (Add Note / Video / Manage Names) */
+    .form-panel {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-solid);
+      padding: 24px;
+      max-width: 720px;
+      margin: 0 auto 24px;
     }
 
-    @media (max-width: 640px) {
-      .assignment-card {
-        padding: 24px 20px;
-      }
-      .action-buttons {
-        flex-direction: column;
-      }
-      .btn {
-        width: 100%;
-        justify-content: center;
-      }
+    .form-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Notification banner */
+    .alert-banner {
+      background-color: #1b3d2f;
+      border: 1px solid #28634b;
+      color: #92e0be;
+      padding: 10px 14px;
+      font-size: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ==========================================================================
+       5. Bottom Status Bar (24px)
+       ========================================================================== */
+    .statusbar {
+      height: 24px;
+      background-color: var(--bg-statusbar);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      font-size: 11px;
+      user-select: none;
+      flex-shrink: 0;
+      z-index: 10;
+      font-family: var(--font-code);
+    }
+
+    .statusbar-left,
+    .statusbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .statusbar-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 2px 4px;
+    }
+
+    .statusbar-item:hover {
+      background-color: #1177bb;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1e1e1e;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #424242;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4f4f4f;
     }
   </style>
 </head>
+
 <body>
 
-  <div class="container">
-    
-    <!-- Top Navigation & Profile Bar -->
-    <header class="top-header">
-      <div class="brand-title">
-        <div class="brand-logo">
-          <i class="fi fi-rr-mountain"></i>
+  <!-- 1. Top Title Bar -->
+  <header class="titlebar">
+    <div class="titlebar-left">
+      <div class="window-controls">
+        <span class="window-dot dot-close"></span>
+        <span class="window-dot dot-min"></span>
+        <span class="window-dot dot-max"></span>
+      </div>
+      <div class="app-icon-title">
+        <span class="app-icon">⬡</span>
+        <span>115-1 TAICA_IVEAI</span>
+        <span style="color: var(--text-dim);">—</span>
+        <span id="top-student-info" style="color: var(--text-muted);">林宸平 (M11552010)</span>
+      </div>
+    </div>
+
+    <div class="titlebar-center" onclick="showCommandPalette()">
+      <span>⌕</span>
+      <span>TAICA_IVEAI: 課程作業導航與知識總管 (VS Code Dark+)</span>
+    </div>
+
+    <div class="titlebar-right">
+      <button class="btn-success" onclick="exportDataJson()" title="將目前所有修改（包含自訂影片、筆記與顯示名稱）匯出為 data.json 檔案">
+        ↓ 匯出 data.json
+      </button>
+      <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI" target="_blank" rel="noopener noreferrer">
+        <button>GitHub 倉庫 ↗</button>
+      </a>
+    </div>
+  </header>
+
+  <!-- 2. Main Workbench -->
+  <div class="workbench">
+    <!-- Activity Bar (48px) -->
+    <nav class="activity-bar">
+      <button class="activity-btn active" id="btn-act-explorer" onclick="switchSidebarPanel('explorer')"
+        title="檔案總管 (Explorer)">
+        <span>📁</span>
+        <span class="activity-btn-label">總管</span>
+      </button>
+      <button class="activity-btn" id="btn-act-add" onclick="switchSidebarPanel('add')" title="新增影片連結與筆記">
+        <span>➕</span>
+        <span class="activity-btn-label">新增</span>
+      </button>
+      <button class="activity-btn" id="btn-act-names" onclick="switchSidebarPanel('names')"
+        title="專案顯示名稱管理 (displayName)">
+        <span>🏷️</span>
+        <span class="activity-btn-label">名稱</span>
+      </button>
+      <button class="activity-btn" id="btn-act-json" onclick="openDataJsonViewer()" title="檢視／編輯 data.json">
+        <span>{ }</span>
+        <span class="activity-btn-label">JSON</span>
+      </button>
+
+      <div class="activity-bar-bottom">
+        <button class="activity-btn" onclick="openAgentsMd()" title="檢視 AGENTS.md 規範">
+          <span>📜</span>
+          <span class="activity-btn-label">規範</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Sidebar (280px) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title" id="sidebar-panel-title">檔案總管 : TAICA_IVEAI</span>
+        <div class="sidebar-actions">
+          <button class="sidebar-icon-btn" onclick="refreshManifest()" title="重新載入 data.json">↻</button>
+          <button class="sidebar-icon-btn" onclick="collapseAllSections()" title="折疊全部">―</button>
         </div>
-        <div class="brand-text">
-          <h2>115-1 TAICA_IVEAI 課程作業中心</h2>
-          <p>智慧虛擬實境與人工智慧 • 國立臺灣科技大學</p>
+      </div>
+
+      <!-- Panel: Explorer -->
+      <div class="sidebar-content" id="panel-explorer">
+        <!-- Root Project Overview -->
+        <div class="tree-item" id="tree-overview" onclick="openOverviewTab()"
+          style="padding: 6px 14px; border-bottom: 1px solid var(--border-dark);">
+          <span class="tree-icon tree-icon-md">📜</span>
+          <span style="font-weight: 600;">Overview.md</span>
+          <span class="item-badge-count" style="margin-left: auto; color: var(--accent-teal);">首頁</span>
         </div>
-      </div>
-      <div class="student-badge">
-        <span class="dot"></span>
-        <span>林宸平 (M11552010) • 人工智慧所</span>
-      </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-tag">
-        <i class="fi fi-rr-browser"></i> MULTI-ASSIGNMENT COURSE PORTAL
-      </div>
-      <h1 class="hero-title">學期課程作業導航中心</h1>
-      <p class="hero-desc">
-        本儲存庫統整收錄 115 學年度第 1 學期《智慧虛擬實境與人工智慧》各項作業成果與技術文件。
-      </p>
-    </section>
-
-    <!-- Main Assignment Showcase -->
-    <section>
-      <div class="section-title">
-        <i class="fi fi-rr-cube"></i> 本學期作業成果 (Course Assignments)
-      </div>
-
-      <div class="assignments-grid">
-        
-        <!-- Assignment 1 -->
-        <article class="assignment-card featured">
-          <div class="card-glow"></div>
-          
-          <div class="card-top">
-            <span class="hw-badge active">
-              <i class="fi fi-rr-check-circle"></i> 作業一 (HW 1) • 已發布
-            </span>
-            <span style="font-size: 0.8rem; color: #94a3b8; font-family: var(--font-mono);">
-              Vanilla JS • Web Audio • Vibe Coding
-            </span>
+        <!-- Section: Assignments -->
+        <div class="tree-section" id="sec-assignments">
+          <div class="tree-section-header" onclick="toggleSection('sec-assignments')">
+            <span class="tree-arrow">▼</span>
+            <span>ASSIGNMENTS / 作業成果</span>
+            <span class="item-badge-count" id="count-assignments">0</span>
           </div>
+          <div class="tree-items" id="tree-assignments-list"></div>
+        </div>
 
-          <div class="card-title-group">
-            <h3>用 Vibe Coding 做出一個互動網頁</h3>
-            <div class="card-subtitle">
-              <i class="fi fi-rr-backpack"></i> 《山岳馱獸包包 PackBeast Pro》登山輕量化負重與打包檢核 Web App
+        <!-- Section: Materials PPT -->
+        <div class="tree-section" id="sec-materials">
+          <div class="tree-section-header" onclick="toggleSection('sec-materials')">
+            <span class="tree-arrow">▼</span>
+            <span>PPT / 課程講義</span>
+            <span class="item-badge-count" id="count-materials">0</span>
+          </div>
+          <div class="tree-items" id="tree-materials-list"></div>
+        </div>
+
+        <!-- Section: Notes Markdown -->
+        <div class="tree-section" id="sec-notes">
+          <div class="tree-section-header" onclick="toggleSection('sec-notes')">
+            <span class="tree-arrow">▼</span>
+            <span>NOTES / 學習筆記 (.md)</span>
+            <span class="item-badge-count" id="count-notes">0</span>
+          </div>
+          <div class="tree-items" id="tree-notes-list"></div>
+        </div>
+
+        <!-- Section: Videos -->
+        <div class="tree-section" id="sec-videos">
+          <div class="tree-section-header" onclick="toggleSection('sec-videos')">
+            <span class="tree-arrow">▼</span>
+            <span>VIDEOS / 課程與實作錄影</span>
+            <span class="item-badge-count" id="count-videos">0</span>
+          </div>
+          <div class="tree-items" id="tree-videos-list"></div>
+        </div>
+
+        <!-- Section: Root Docs -->
+        <div class="tree-section" id="sec-root-docs">
+          <div class="tree-section-header" onclick="toggleSection('sec-root-docs')">
+            <span class="tree-arrow">▼</span>
+            <span>CONFIG & SPECS</span>
+          </div>
+          <div class="tree-items">
+            <div class="tree-item" id="tree-agents-md" onclick="openAgentsMd()">
+              <span class="tree-icon tree-icon-md">📜</span>
+              <span>AGENTS.md</span>
+            </div>
+            <div class="tree-item" id="tree-data-json" onclick="openDataJsonViewer()">
+              <span class="tree-icon tree-icon-json">{ }</span>
+              <span>data.json</span>
             </div>
           </div>
-
-          <p class="card-desc">
-            針對台灣百岳、中級山與越野跑量身打造的全方位行前裝備與體能管理工具。結合五大系統裝備檢核、個人裝備資產庫、130+ 款裝備規格智慧搜尋、呆萌馱獸 SVG 動態表情回饋、保命裝備防呆機制與原生 Web Audio 音效合成引擎。
-          </p>
-
-          <div class="tech-tags">
-            <span class="tech-tag">純前端單靜態頁</span>
-            <span class="tech-tag">SVG 動態馱獸</span>
-            <span class="tech-tag">1-to-1 Match Scoring 演算法</span>
-            <span class="tech-tag">Web Audio 振盪器音效</span>
-            <span class="tech-tag">LocalStorage 離線持久化</span>
-            <span class="tech-tag">130+ 款裝備資料庫</span>
-          </div>
-
-          <div class="action-buttons">
-            <a href="./用%20Vibe%20Coding%20做出一個互動網頁/index.html" class="btn btn-primary">
-              <i class="fi fi-rr-play-alt"></i> 線上體驗作業一 (Live Demo)
-            </a>
-            <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/tree/main/用%20Vibe%20Coding%20做出一個互動網頁#readme" class="btn btn-secondary" target="_blank">
-              <i class="fi fi-rr-document"></i> 作業規格與開發紀錄 (README)
-            </a>
-            <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/用%20Vibe%20Coding%20做出一個互動網頁/ARCHITECTURE.md" class="btn btn-secondary" target="_blank">
-              <i class="fi fi-rr-diagram-project"></i> 系統架構圖 (Architecture)
-            </a>
-            <a href="https://colab.research.google.com/github/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/用%20Vibe%20Coding%20做出一個互動網頁/run_on_colab.ipynb" class="btn btn-colab" target="_blank">
-              <i class="fi fi-rr-cloud-download"></i> Google Colab 雲端執行
-            </a>
-          </div>
-        </article>
-
-        <!-- Final Project: Local AI File Agent -->
-        <article class="assignment-card featured" style="border-color: rgba(56, 189, 248, 0.4); box-shadow: 0 10px 40px -10px rgba(56, 189, 248, 0.15);">
-          <div class="card-glow" style="background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, transparent 70%);"></div>
-          
-          <div class="card-top">
-            <span class="hw-badge active" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border-color: rgba(56, 189, 248, 0.35);">
-              <i class="fi fi-rr-star"></i> 學期期末專案 (Final Project) • 核心成果發布
-            </span>
-            <span style="font-size: 0.8rem; color: #94a3b8; font-family: var(--font-mono);">
-              Ollama • RAG • FAISS • Watchdog • Obsidian
-            </span>
-          </div>
-
-          <div class="card-title-group">
-            <h3>本地 RAG 檔案管家與自動知識庫</h3>
-            <div class="card-subtitle" style="color: var(--primary-light);">
-              <i class="fi fi-rr-brain"></i> Local AI File Agent —— 打造零隱私外洩的個人第二大腦系統
-            </div>
-          </div>
-
-          <p class="card-desc">
-            基於 macOS 本地環境與 Ollama 本地模型運算的 AI 檔案分類與向量檢索系統。背景常駐監聽 <code>~/Downloads</code> 目錄，自動萃取文獻重點並透過 FAISS 向量資料庫進行語意比對，交由 Qwen 2.5 Coder 進行結構化決策與智慧歸檔，自動生成含雙向連結的 Obsidian LLMWiki 閱讀筆記。
-          </p>
-
-          <div class="tech-tags">
-            <span class="tech-tag">100% 本地端離線推論</span>
-            <span class="tech-tag">Ollama (Qwen 2.5 Coder 7B)</span>
-            <span class="tech-tag">FAISS 向量檢索 (RAG)</span>
-            <span class="tech-tag">nomic-embed-text</span>
-            <span class="tech-tag">Python Watchdog 監控</span>
-            <span class="tech-tag">Obsidian 雙向連結筆記</span>
-          </div>
-
-          <div class="action-buttons">
-            <a href="./Local%20AI%20File%20Agent/index.html" class="btn btn-primary" style="background: linear-gradient(135deg, #0284c7, #10b981);">
-              <i class="fi fi-rr-play-alt"></i> 線上體驗期末專案 (Live Demo)
-            </a>
-            <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/tree/main/Local%20AI%20File%20Agent#readme" class="btn btn-secondary" target="_blank">
-              <i class="fi fi-rr-document"></i> 專案規格說明 (README)
-            </a>
-            <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/VERIFICATION_GUIDE.md" class="btn btn-secondary" target="_blank">
-              <i class="fi fi-rr-list-check"></i> 使用與驗收指引書 (GUIDE)
-            </a>
-            <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/PROGRESS.md" class="btn btn-secondary" target="_blank">
-              <i class="fi fi-rr-calendar"></i> 11月底進度手冊 (PROGRESS)
-            </a>
-            <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/ARCHITECTURE.md" class="btn btn-secondary" target="_blank">
-              <i class="fi fi-rr-diagram-project"></i> 系統架構圖 (Architecture)
-            </a>
-            <a href="https://colab.research.google.com/github/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/run_on_colab.ipynb" class="btn btn-colab" target="_blank">
-              <i class="fi fi-rr-cloud-download"></i> Google Colab 雲端執行
-            </a>
-            <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/tree/main/Local%20AI%20File%20Agent" class="btn btn-secondary" target="_blank">
-              <i class="fi fi-rr-folder"></i> 原始碼目錄 (Folder)
-            </a>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- Future Assignments -->
-    <section>
-      <div class="section-title">
-        <i class="fi fi-rr-time-forward"></i> 後續作業排程 (Upcoming Assignments)
-      </div>
-
-      <div class="upcoming-grid">
-        <div class="pending-card">
-          <div class="hw-badge pending" style="margin-bottom: 12px;">
-            <i class="fi fi-rr-hourglass-end"></i> 作業二 (HW 2) • 規劃中
-          </div>
-          <h4>作業二即將推出</h4>
-          <p>配合學期課程進度規劃與發布，成果將收錄於專屬作業目錄中。</p>
-        </div>
-
-        <div class="pending-card">
-          <div class="hw-badge pending" style="margin-bottom: 12px;">
-            <i class="fi fi-rr-hourglass-end"></i> 作業三 (HW 3) • 規劃中
-          </div>
-          <h4>作業三即將推出</h4>
-          <p>配合學期課程進度規劃與發布，成果將收錄於專屬作業目錄中。</p>
         </div>
       </div>
-    </section>
 
-    <!-- Course Materials (PPTs) -->
-    <section>
-      <div class="section-title">
-        <i class="fi fi-rr-presentation"></i> 課程投影片與教材資源 (Course Materials)
+      <!-- Panel: Add Video & Notes -->
+      <div class="sidebar-content" id="panel-add" style="display: none; padding: 16px;">
+        <div style="font-weight: 700; color: var(--text-bright); margin-bottom: 12px; font-size: 12px;">快速新增資源</div>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 14px;">
+          在此新增之項目會立即加入本頁清單，您可隨時透過右上角「匯出 data.json」保存。
+        </p>
+        <button class="btn-primary" style="width: 100%; margin-bottom: 8px;" onclick="openAddVideoModal()">+
+          新增課程影片連結</button>
+        <button class="btn-primary" style="width: 100%;" onclick="openAddNoteModal()">+ 新增 Markdown 筆記</button>
       </div>
 
-      <div class="materials-grid">
-        <a href="./PPT/01如何不焦慮地學AI(學生點開顯示未發佈).pdf" class="material-card" target="_blank">
-          <div class="material-icon"><i class="fi fi-rr-file-pdf"></i></div>
-          <div class="material-info">
-            <h4>01 如何不焦慮地學 AI</h4>
-            <p>PDF 講義 (81 MB)</p>
-          </div>
-        </a>
-
-        <a href="./PPT/02神經網路的概念.pdf" class="material-card" target="_blank">
-          <div class="material-icon"><i class="fi fi-rr-file-pdf"></i></div>
-          <div class="material-info">
-            <h4>02 神經網路的概念</h4>
-            <p>PDF 講義 (90 MB)</p>
-          </div>
-        </a>
-
-        <a href="./PPT/03AI為什麼每次都不一樣？.pdf" class="material-card" target="_blank">
-          <div class="material-icon"><i class="fi fi-rr-file-pdf"></i></div>
-          <div class="material-info">
-            <h4>03 AI 為什麼每次都不一樣？</h4>
-            <p>PDF 講義 (64 MB)</p>
-          </div>
-        </a>
-
-        <a href="./PPT/04LLM只是在猜下一個字？.pdf" class="material-card" target="_blank">
-          <div class="material-icon"><i class="fi fi-rr-file-pdf"></i></div>
-          <div class="material-info">
-            <h4>04 LLM 只是在猜下一個字？</h4>
-            <p>PDF 講義 (72 MB)</p>
-          </div>
-        </a>
-
-        <a href="./PPT/05AI怎麼記得前面說過什麼？.pdf" class="material-card" target="_blank">
-          <div class="material-icon"><i class="fi fi-rr-file-pdf"></i></div>
-          <div class="material-info">
-            <h4>05 AI 怎麼記得前面說過什麼？</h4>
-            <p>PDF 講義 (44 MB)</p>
-          </div>
-        </a>
-
-        <a href="./PPT/06打造自己的對話機器人.pdf" class="material-card" target="_blank">
-          <div class="material-icon"><i class="fi fi-rr-file-pdf"></i></div>
-          <div class="material-info">
-            <h4>06 打造自己的對話機器人</h4>
-            <p>PDF 講義 (73 MB)</p>
-          </div>
-        </a>
-
-        <a href="./PPT/07讓AI看懂你的世界.pdf" class="material-card" target="_blank">
-          <div class="material-icon"><i class="fi fi-rr-file-pdf"></i></div>
-          <div class="material-info">
-            <h4>07 讓 AI 看懂你的世界</h4>
-            <p>PDF 講義 (45 MB)</p>
-          </div>
-        </a>
-
-        <a href="./PPT/08教AI做事的方法.pdf" class="material-card" target="_blank">
-          <div class="material-icon"><i class="fi fi-rr-file-pdf"></i></div>
-          <div class="material-info">
-            <h4>08 教 AI 做事的方法</h4>
-            <p>PDF 講義 (52 MB)</p>
-          </div>
-        </a>
-
-        <a href="./PPT/第七週助教課.pdf" class="material-card" target="_blank">
-          <div class="material-icon"><i class="fi fi-rr-file-pdf"></i></div>
-          <div class="material-info">
-            <h4>第七週助教課實作講義</h4>
-            <p>PDF 講義 (7.7 MB)</p>
-          </div>
-        </a>
+      <!-- Panel: Display Name Management -->
+      <div class="sidebar-content" id="panel-names" style="display: none; padding: 16px;">
+        <div style="font-weight: 700; color: var(--text-bright); margin-bottom: 8px; font-size: 12px;">專案顯示名稱管理</div>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 14px;">
+          不需更改檔案資料夾實體名稱，即可自訂網頁展示名稱。
+        </p>
+        <div id="sidebar-displaynames-list"></div>
       </div>
-    </section>
+    </aside>
 
-    <!-- Footer -->
-    <footer>
-      <div>
-        國立臺灣科技大學 (NTUST) 人工智慧所 M11552010 林宸平
-      </div>
-      <div>
-        <a href="https://github.com/PhilipLin0211/115_1_TAICA_IVEAI" target="_blank">
-          <i class="fi fi-rr-code-branch"></i> GitHub Repository
-        </a>
-      </div>
-    </footer>
+    <!-- Editor Group -->
+    <main class="editor-group">
+      <!-- Tabs Bar -->
+      <div class="tabs-bar" id="tabs-bar"></div>
 
+      <!-- Breadcrumbs Bar -->
+      <div class="breadcrumbs" id="breadcrumbs">
+        <span class="breadcrumb-item">TAICA_IVEAI</span>
+        <span class="breadcrumb-sep">&gt;</span>
+        <span class="breadcrumb-item active" id="breadcrumb-current">README.md</span>
+      </div>
+
+      <!-- Editor Content Stage -->
+      <div class="editor-stage" id="editor-stage">
+        <!-- Rendered dynamically -->
+      </div>
+    </main>
   </div>
 
+  <!-- 3. Bottom Status Bar -->
+  <footer class="statusbar">
+    <div class="statusbar-left">
+      <div class="statusbar-item" onclick="window.open('https://github.com/PhilipLin0211/115_1_TAICA_IVEAI', '_blank')">
+        <span>⑂</span>
+        <span>main*</span>
+      </div>
+      <div class="statusbar-item" title="自動掃描狀態">
+        <span>↻</span>
+        <span>Manifest Sync: OK</span>
+      </div>
+      <div class="statusbar-item">
+        <span>⊗ 0</span>
+        <span>⚠ 0</span>
+      </div>
+      <div class="statusbar-item" id="status-counts">
+        <span>3 作業 • 9 講義 • 1 筆記</span>
+      </div>
+    </div>
+
+    <div class="statusbar-right">
+      <div class="statusbar-item">UTF-8</div>
+      <div class="statusbar-item">LF</div>
+      <div class="statusbar-item">VS Code Dark+ (Solid)</div>
+      <div class="statusbar-item" id="status-last-updated">2026-11-15</div>
+    </div>
+  </footer>
+
+  <script>
+    /* ==========================================================================
+       Fallback Data (100% 同步 data.json，確保 file:// 本地直接雙擊亦能完整運作)
+       ========================================================================== */
+    const FALLBACK_DATA = {
+      "meta": {
+        "course": "115-1 TAICA_IVEAI 智慧虛擬實境與人工智慧",
+        "student": "林宸平 (M11552010)",
+        "department": "國立臺灣科技大學 人工智慧所",
+        "repoUrl": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI",
+        "lastUpdated": "2026-11-15 19:30 CST"
+      },
+      "assignments": [
+        {
+          "id": "hw1-packbeast",
+          "badge": "作業一 (HW 1) • 已發布",
+          "displayName": "用 Vibe Coding 做出一個互動網頁",
+          "subtitle": "《山岳馱獸包包 PackBeast Pro》登山輕量化負重與打包檢核 Web App",
+          "folderPath": "用 Vibe Coding 做出一個互動網頁",
+          "entryFile": "index.html",
+          "description": "針對台灣百岳、中級山與越野跑量身打造的全方位行前裝備與體能管理工具。結合五大系統裝備檢核、個人裝備資產庫、130+ 款裝備規格智慧搜尋、呆萌馱獸 SVG 動態表情回饋、保命裝備防呆機制與原生 Web Audio 音效合成引擎。",
+          "tags": ["純前端單靜態頁", "SVG 動態馱獸", "1-to-1 Match Scoring", "Web Audio API", "LocalStorage", "130+ 裝備資料庫"],
+          "links": [
+            { "label": "線上體驗 (Live Demo)", "url": "./用 Vibe Coding 做出一個互動網頁/index.html", "type": "primary" },
+            { "label": "作業規格 (README)", "url": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/tree/main/用%20Vibe%20Coding%20做出一個互動網頁#readme", "type": "secondary", "external": true },
+            { "label": "系統架構圖", "url": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/用%20Vibe%20Coding%20做出一個互動網頁/ARCHITECTURE.md", "type": "secondary", "external": true },
+            { "label": "Google Colab 雲端執行", "url": "https://colab.research.google.com/github/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/用%20Vibe%20Coding%20做出一個互動網頁/run_on_colab.ipynb", "type": "colab", "external": true }
+          ]
+        },
+        {
+          "id": "hw2-agents-md",
+          "badge": "作業二 (HW 2) • 已發布",
+          "displayName": "建立一個自己的 AGENTS.md",
+          "subtitle": "VS Code Dark+ IDE 風格課程中心與自動化規範展示頁",
+          "folderPath": "建立一個自己的  AGENTS",
+          "entryFile": "index.html",
+          "description": "依照根目錄 AGENTS.md 規範設計的同風格子頁面，完整展示本課程入口站的 VS Code Dark+ 零透明度設計系統、自動化資料流架構（build_manifest.py + GitHub Actions）與未來擴充流程。",
+          "tags": ["AGENTS.md", "VS Code Dark+", "零透明度實色", "GitHub Actions", "Markdown Rendering"],
+          "links": [
+            { "label": "線上體驗 (Live Demo)", "url": "./建立一個自己的  AGENTS/index.html", "type": "primary" },
+            { "label": "檢視 AGENTS.md", "url": "./AGENTS.md", "type": "secondary", "external": false }
+          ]
+        },
+        {
+          "id": "final-local-ai-agent",
+          "badge": "學期期末專案 (Final Project) • 已發布",
+          "displayName": "本地 RAG 檔案管家與自動知識庫",
+          "subtitle": "Local AI File Agent —— 打造零隱私外洩的個人第二大腦系統",
+          "folderPath": "Local AI File Agent",
+          "entryFile": "index.html",
+          "description": "基於 macOS 本地環境與 Ollama 本地模型運算的 AI 檔案分類與向量檢索系統。背景常駐監聽 ~/Downloads 目錄，自動萃取文獻重點並透過 FAISS 向量資料庫進行語意比對，交由 Qwen 2.5 Coder 進行結構化決策與智慧歸檔，自動生成含雙向連結的 Obsidian LLMWiki 閱讀筆記。",
+          "tags": ["100% 本地離線推論", "Ollama Qwen 2.5 Coder", "FAISS RAG", "nomic-embed-text", "Watchdog", "Obsidian LLMWiki"],
+          "links": [
+            { "label": "線上體驗 (Live Demo)", "url": "./Local AI File Agent/index.html", "type": "primary" },
+            { "label": "專案規格 (README)", "url": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/tree/main/Local%20AI%20File%20Agent#readme", "type": "secondary", "external": true },
+            { "label": "驗收指引書 (GUIDE)", "url": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/VERIFICATION_GUIDE.md", "type": "secondary", "external": true },
+            { "label": "系統架構圖", "url": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/ARCHITECTURE.md", "type": "secondary", "external": true },
+            { "label": "Google Colab 雲端執行", "url": "https://colab.research.google.com/github/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/run_on_colab.ipynb", "type": "colab", "external": true }
+          ]
+        }
+      ],
+      "materials": [
+        { "id": "ppt-01", "title": "01 如何不焦慮地學 AI", "path": "./PPT/01如何不焦慮地學AI(學生點開顯示未發佈).pdf", "sizeMB": "77.3 MB" },
+        { "id": "ppt-02", "title": "02 神經網路的概念", "path": "./PPT/02神經網路的概念.pdf", "sizeMB": "86.3 MB" },
+        { "id": "ppt-03", "title": "03 AI 為什麼每次都不一樣？", "path": "./PPT/03AI為什麼每次都不一樣？.pdf", "sizeMB": "61.7 MB" },
+        { "id": "ppt-04", "title": "04 LLM 只是在猜下一個字？", "path": "./PPT/04LLM只是在猜下一個字？.pdf", "sizeMB": "68.9 MB" },
+        { "id": "ppt-05", "title": "05 AI 怎麼記得前面說過什麼？", "path": "./PPT/05AI怎麼記得前面說過什麼？.pdf", "sizeMB": "42.8 MB" },
+        { "id": "ppt-06", "title": "06 打造自己的對話機器人", "path": "./PPT/06打造自己的對話機器人.pdf", "sizeMB": "72.7 MB" },
+        { "id": "ppt-07", "title": "07 讓 AI 看懂你的世界", "path": "./PPT/07讓AI看懂你的世界.pdf", "sizeMB": "44.9 MB" },
+        { "id": "ppt-08", "title": "08 教 AI 做事的方法", "path": "./PPT/08教AI做事的方法.pdf", "sizeMB": "51.7 MB" },
+        { "id": "ppt-ta07", "title": "第七週助教課實作講義", "path": "./PPT/第七週助教課.pdf", "sizeMB": "7.7 MB" }
+      ],
+      "notes": [
+        { "id": "note-w08-agents-md", "title": "W08｜建立自己的 AGENTS.md 與自動化網站架構筆記", "path": "./notes/W08_AGENTS_md_設計筆記.md" }
+      ],
+      "videos": []
+    };
+
+    /* ==========================================================================
+       Runtime State
+       ========================================================================== */
+    let courseData = JSON.parse(JSON.stringify(FALLBACK_DATA));
+    let openTabs = [];
+    let activeTabId = null;
+
+    // In-memory cache for loaded text files (markdown, json, etc.)
+    const fileContentCache = {};
+
+    /* ==========================================================================
+       Initialization
+       ========================================================================== */
+    window.addEventListener('DOMContentLoaded', async () => {
+      await loadDataJson();
+      renderSidebar();
+      updateStatusBar();
+
+      // 預設開啟首頁總覽
+      openTab({
+        id: 'overview',
+        title: 'Overview.md',
+        type: 'overview',
+        path: 'TAICA_IVEAI > Overview.md',
+        icon: '📜'
+      });
+    });
+
+    async function loadDataJson() {
+      try {
+        const res = await fetch('data.json?t=' + Date.now());
+        if (res.ok) {
+          const json = await res.json();
+          // 合併自訂修改
+          courseData = json;
+          console.log('[Manifest] Loaded data.json successfully.');
+        } else {
+          console.warn('[Manifest] fetch data.json returned non-200, using fallback.');
+        }
+      } catch (err) {
+        console.warn('[Manifest] fetch data.json failed (possibly local file:// protocol), using fallback data.', err);
+      }
+    }
+
+    /* ==========================================================================
+       Sidebar Rendering
+       ========================================================================== */
+    function renderSidebar() {
+      // 1. Assignments
+      const assignList = document.getElementById('tree-assignments-list');
+      assignList.innerHTML = '';
+      courseData.assignments.forEach(item => {
+        const div = document.createElement('div');
+        div.className = `tree-item ${activeTabId === item.id ? 'active' : ''}`;
+        div.onclick = () => openAssignmentTab(item);
+        div.innerHTML = `
+          <span class="tree-icon tree-icon-folder">📁</span>
+          <span title="${item.displayName}">${item.displayName}</span>
+        `;
+        assignList.appendChild(div);
+      });
+      document.getElementById('count-assignments').innerText = courseData.assignments.length;
+
+      // 2. Materials
+      const matList = document.getElementById('tree-materials-list');
+      matList.innerHTML = '';
+      courseData.materials.forEach(item => {
+        const div = document.createElement('div');
+        div.className = `tree-item ${activeTabId === item.id ? 'active' : ''}`;
+        div.onclick = () => openMaterialTab(item);
+        div.innerHTML = `
+          <span class="tree-icon tree-icon-pdf">📄</span>
+          <span title="${item.title}">${item.title}</span>
+        `;
+        matList.appendChild(div);
+      });
+      document.getElementById('count-materials').innerText = courseData.materials.length;
+
+      // 3. Notes
+      const notesList = document.getElementById('tree-notes-list');
+      notesList.innerHTML = '';
+      courseData.notes.forEach(item => {
+        const div = document.createElement('div');
+        div.className = `tree-item ${activeTabId === item.id ? 'active' : ''}`;
+        div.onclick = () => openNoteTab(item);
+        div.innerHTML = `
+          <span class="tree-icon tree-icon-md">📝</span>
+          <span title="${item.title}">${item.title}</span>
+        `;
+        notesList.appendChild(div);
+      });
+      document.getElementById('count-notes').innerText = courseData.notes.length;
+
+      // 4. Videos
+      const vidList = document.getElementById('tree-videos-list');
+      vidList.innerHTML = '';
+      if (!courseData.videos || courseData.videos.length === 0) {
+        vidList.innerHTML = `<div style="padding: 6px 24px; color: var(--text-dim); font-size: 11px;">尚無新增影片 (點擊活動列 ➕ 新增)</div>`;
+      } else {
+        courseData.videos.forEach(item => {
+          const div = document.createElement('div');
+          div.className = `tree-item ${activeTabId === item.id ? 'active' : ''}`;
+          div.onclick = () => openVideoTab(item);
+          div.innerHTML = `
+            <span class="tree-icon tree-icon-video">🎬</span>
+            <span title="${item.title}">${item.title}</span>
+          `;
+          vidList.appendChild(div);
+        });
+      }
+      document.getElementById('count-videos').innerText = (courseData.videos || []).length;
+
+      // 5. Sidebar displayNames list
+      renderDisplayNamesManager();
+
+      // 6. Highlight root items (Overview, AGENTS.md, data.json)
+      const elOverview = document.getElementById('tree-overview');
+      if (elOverview) {
+        if (activeTabId === 'overview') elOverview.classList.add('active');
+        else elOverview.classList.remove('active');
+      }
+      const elAgents = document.getElementById('tree-agents-md');
+      if (elAgents) {
+        if (activeTabId === 'agents-md') elAgents.classList.add('active');
+        else elAgents.classList.remove('active');
+      }
+      const elJson = document.getElementById('tree-data-json');
+      if (elJson) {
+        if (activeTabId === 'data-json') elJson.classList.add('active');
+        else elJson.classList.remove('active');
+      }
+    }
+
+    function renderDisplayNamesManager() {
+      const container = document.getElementById('sidebar-displaynames-list');
+      if (!container) return;
+      container.innerHTML = '';
+
+      courseData.assignments.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.style.marginBottom = '12px';
+        div.innerHTML = `
+          <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-code); margin-bottom: 4px;">
+            資料夾: ${item.folderPath}
+          </div>
+          <input type="text" value="${item.displayName}" onchange="updateAssignmentDisplayName(${idx}, this.value)" style="margin-bottom: 6px;">
+        `;
+        container.appendChild(div);
+      });
+
+      const exportBtn = document.createElement('button');
+      exportBtn.className = 'btn-success';
+      exportBtn.style.width = '100%';
+      exportBtn.innerText = '↓ 匯出修改後的 data.json';
+      exportBtn.onclick = exportDataJson;
+      container.appendChild(exportBtn);
+    }
+
+    function updateAssignmentDisplayName(idx, newVal) {
+      if (!newVal.trim()) return;
+      courseData.assignments[idx].displayName = newVal.trim();
+      renderSidebar();
+      // 如果當前開啟的 tab 是此項目，更新標題
+      const tab = openTabs.find(t => t.id === courseData.assignments[idx].id);
+      if (tab) {
+        tab.title = newVal.trim();
+        renderTabs();
+        if (activeTabId === tab.id) {
+          renderEditorStage(tab);
+        }
+      }
+      alert(`已將顯示名稱更新為「${newVal.trim()}」！請點選右上角「匯出 data.json」以儲存。`);
+    }
+
+    /* ==========================================================================
+       Tab & Editor Management
+       ========================================================================== */
+    function openTab(tabObj) {
+      const existing = openTabs.find(t => t.id === tabObj.id);
+      if (!existing) {
+        openTabs.push(tabObj);
+      }
+      activeTabId = tabObj.id;
+      renderTabs();
+      renderEditorStage(tabObj);
+      renderSidebar();
+    }
+
+    function closeTab(tabId, e) {
+      if (e) e.stopPropagation();
+      const idx = openTabs.findIndex(t => t.id === tabId);
+      if (idx === -1) return;
+
+      openTabs.splice(idx, 1);
+      if (activeTabId === tabId) {
+        if (openTabs.length > 0) {
+          const nextTab = openTabs[Math.max(0, idx - 1)];
+          activeTabId = nextTab.id;
+          renderEditorStage(nextTab);
+        } else {
+          activeTabId = null;
+          renderEmptyEditor();
+        }
+      }
+      renderTabs();
+      renderSidebar();
+    }
+
+    function renderTabs() {
+      const tabsBar = document.getElementById('tabs-bar');
+      tabsBar.innerHTML = '';
+
+      openTabs.forEach(tab => {
+        const div = document.createElement('div');
+        div.className = `tab ${tab.id === activeTabId ? 'active' : ''}`;
+        div.onclick = () => {
+          activeTabId = tab.id;
+          renderTabs();
+          renderEditorStage(tab);
+          renderSidebar();
+        };
+        div.innerHTML = `
+          <span>${tab.icon || '📄'}</span>
+          <span>${tab.title}</span>
+          <span class="tab-close" onclick="closeTab('${tab.id}', event)">✕</span>
+        `;
+        tabsBar.appendChild(div);
+      });
+    }
+
+    function renderBreadcrumbs(pathStr) {
+      const el = document.getElementById('breadcrumb-current');
+      el.innerText = pathStr || 'README.md';
+    }
+
+    function renderEmptyEditor() {
+      renderBreadcrumbs('Workspace');
+      document.getElementById('editor-stage').innerHTML = `
+        <div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted);">
+          <div style="font-size: 48px; margin-bottom: 16px; color: var(--border-solid);">⬡</div>
+          <div style="font-size: 16px; font-weight: 600; color: var(--text-bright); margin-bottom: 8px;">TAICA_IVEAI 課程作業中心</div>
+          <div style="font-size: 12px; margin-bottom: 20px;">請從左側檔案總管選取作業、講義或筆記開始瀏覽</div>
+          <button class="btn-primary" onclick="openOverviewTab()">開啟課程總覽 (Overview.md)</button>
+        </div>
+      `;
+    }
+
+    /* ==========================================================================
+       Specific Tab Openers
+       ========================================================================== */
+    function openOverviewTab() {
+      openTab({
+        id: 'overview',
+        title: 'Overview.md',
+        type: 'overview',
+        path: 'TAICA_IVEAI > Overview.md',
+        icon: '📜'
+      });
+    }
+
+    function openAssignmentTab(item) {
+      openTab({
+        id: item.id,
+        title: item.displayName,
+        type: 'assignment',
+        data: item,
+        path: `TAICA_IVEAI > assignments > ${item.folderPath} > ${item.entryFile}`,
+        icon: '📁'
+      });
+    }
+
+    function openMaterialTab(item) {
+      openTab({
+        id: item.id,
+        title: item.title,
+        type: 'material',
+        data: item,
+        path: `TAICA_IVEAI > PPT > ${item.title}.pdf`,
+        icon: '📄'
+      });
+    }
+
+    function openNoteTab(item) {
+      openTab({
+        id: item.id,
+        title: item.title,
+        type: 'note',
+        data: item,
+        path: `TAICA_IVEAI > notes > ${item.title}.md`,
+        icon: '📝'
+      });
+    }
+
+    function openVideoTab(item) {
+      openTab({
+        id: item.id,
+        title: item.title,
+        type: 'video',
+        data: item,
+        path: `TAICA_IVEAI > videos > ${item.title}`,
+        icon: '🎬'
+      });
+    }
+
+    function openAgentsMd() {
+      openTab({
+        id: 'agents-md',
+        title: 'AGENTS.md',
+        type: 'agents_md',
+        path: 'TAICA_IVEAI > AGENTS.md',
+        icon: '📜'
+      });
+    }
+
+    function openDataJsonViewer() {
+      openTab({
+        id: 'data-json',
+        title: 'data.json',
+        type: 'data_json',
+        path: 'TAICA_IVEAI > data.json',
+        icon: '{ }'
+      });
+    }
+
+    /* ==========================================================================
+       Editor Stage Renderers
+       ========================================================================== */
+    async function renderEditorStage(tab) {
+      renderBreadcrumbs(tab.path);
+      const stage = document.getElementById('editor-stage');
+
+      switch (tab.type) {
+        case 'overview':
+          renderOverviewView(stage);
+          break;
+        case 'assignment':
+          renderAssignmentView(stage, tab.data);
+          break;
+        case 'material':
+          renderMaterialView(stage, tab.data);
+          break;
+        case 'note':
+          await renderMarkdownFileView(stage, tab.data.path, tab.data.title);
+          break;
+        case 'agents_md':
+          await renderMarkdownFileView(stage, './AGENTS.md', 'AGENTS.md 規範手冊');
+          break;
+        case 'data_json':
+          renderDataJsonView(stage);
+          break;
+        case 'video':
+          renderVideoView(stage, tab.data);
+          break;
+        default:
+          stage.innerHTML = `<div style="color: var(--text-muted);">未知檢視類型</div>`;
+      }
+    }
+
+    function renderOverviewView(container) {
+      container.innerHTML = `
+        <div class="view-card-wrap">
+          <div class="vs-hero">
+            <div class="vs-hero-header">
+              <div>
+                <div class="vs-hero-title">115-1 TAICA_IVEAI 智慧虛擬實境與人工智慧</div>
+                <div class="vs-hero-subtitle">國立臺灣科技大學 人工智慧所 • 課程作業集與知識庫中心</div>
+              </div>
+              <button class="btn-primary" onclick="exportDataJson()">↓ 匯出 data.json</button>
+            </div>
+            <p style="color: var(--text-main); line-height: 1.7; margin-top: 10px;">
+              歡迎來到本課程的個人學習成果入口網站。本網站收錄各項作業成果、上課講義與個人實作筆記。
+            </p>
+            <div class="vs-hero-meta">
+              <span>學生：<strong>林宸平 (M11552010)</strong></span>
+              <span>系所：<strong>國立臺灣科技大學 人工智慧所</strong></span>
+              <span>架構：<strong>GitHub Pages 靜態發布</strong></span>
+              <span>最後更新：<strong>${courseData.meta.lastUpdated || '2026-11-15'}</strong></span>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 24px;">
+            <div style="font-size: 15px; font-weight: 700; color: var(--text-bright); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <span>📁</span>
+              <span>課程作業成果總覽 (${courseData.assignments.length})</span>
+            </div>
+            ${courseData.assignments.map(item => `
+              <div class="assignment-detail-box" style="margin-bottom: 14px;">
+                <div class="assignment-header">
+                  <div>
+                    <div class="assignment-badge">${item.badge}</div>
+                    <div class="assignment-title">${item.displayName}</div>
+                    <div class="assignment-subtitle">${item.subtitle}</div>
+                  </div>
+                  <div>
+                    <button class="btn-primary" onclick="openAssignmentTab(${JSON.stringify(item).replace(/"/g, '&quot;')})">在編輯器開啟 ↗</button>
+                  </div>
+                </div>
+                <div class="assignment-desc">${item.description}</div>
+                <div class="assignment-tags">
+                  ${item.tags.map(tag => `<span class="assignment-tag">${tag}</span>`).join('')}
+                </div>
+                <div class="assignment-links">
+                  ${item.links.map(link => `
+                    <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="action-btn ${link.type || 'secondary'}">
+                      ${link.label} ↗
+                    </a>
+                  `).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+            <div class="vs-hero" style="margin-bottom: 0;">
+              <div style="font-weight: 700; font-size: 14px; color: var(--text-bright); margin-bottom: 8px;">📚 課程投影片講義 (PPT/)</div>
+              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">已收錄 ${courseData.materials.length} 份官方教學投影片，支援線上直接預覽與下載。</p>
+              <button onclick="toggleSection('sec-materials'); switchSidebarPanel('explorer');">展開講義清單 (${courseData.materials.length} 篇)</button>
+            </div>
+            <div class="vs-hero" style="margin-bottom: 0;">
+              <div style="font-weight: 700; font-size: 14px; color: var(--text-bright); margin-bottom: 8px;">📝 課程學習筆記 (notes/)</div>
+              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">使用 Markdown 撰寫的實作筆記與 AGENTS 規範，支援即時語法渲染。</p>
+              <button onclick="openNoteTab(courseData.notes[0])">閱讀最新筆記 ↗</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAssignmentView(container, item) {
+      container.innerHTML = `
+        <div class="view-card-wrap">
+          <div class="assignment-detail-box">
+            <div class="assignment-header">
+              <div>
+                <div class="assignment-badge">${item.badge}</div>
+                <div class="assignment-title">${item.displayName}</div>
+                <div class="assignment-subtitle">${item.subtitle}</div>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <a href="./${item.folderPath}/${item.entryFile}" target="_blank" class="action-btn primary">
+                  🚀 獨立全螢幕體驗 ↗
+                </a>
+              </div>
+            </div>
+
+            <div class="assignment-desc">
+              ${item.description}
+            </div>
+
+            <div style="margin: 16px 0;">
+              <div style="font-size: 12px; font-weight: 600; color: var(--text-bright); margin-bottom: 8px;">核心技術與特性：</div>
+              <div class="assignment-tags">
+                ${item.tags.map(t => `<span class="assignment-tag">${t}</span>`).join('')}
+              </div>
+            </div>
+
+            <div style="margin: 16px 0;">
+              <div style="font-size: 12px; font-weight: 600; color: var(--text-bright); margin-bottom: 8px;">路徑與入口檔案：</div>
+              <div style="background-color: #141414; padding: 10px 14px; border: 1px solid var(--border-solid); font-family: var(--font-code); font-size: 12px; color: var(--accent-teal);">
+                ${item.folderPath} / ${item.entryFile}
+              </div>
+            </div>
+
+            <div class="assignment-links">
+              ${item.links.map(l => `
+                <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="action-btn ${l.type || 'secondary'}">
+                  ${l.label} ↗
+                </a>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Live Preview Frame Inside IDE -->
+          <div style="background-color: var(--bg-card); border: 1px solid var(--border-solid); padding: 16px; margin-top: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span style="font-weight: 700; color: var(--text-bright); font-size: 13px;">🖥️ 編輯器內嵌即時預覽 (Embedded Preview)</span>
+              <span style="font-size: 11px; color: var(--text-muted); font-family: var(--font-code);">src: ./${item.folderPath}/${item.entryFile}</span>
+            </div>
+            <iframe src="./${item.folderPath}/${item.entryFile}" style="width: 100%; height: 600px; border: 1px solid var(--border-solid); background-color: #ffffff;"></iframe>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderMaterialView(container, item) {
+      container.innerHTML = `
+        <div class="view-card-wrap">
+          <div class="vs-hero">
+            <div class="vs-hero-header">
+              <div>
+                <span class="assignment-badge">PDF 講義</span>
+                <div class="vs-hero-title">${item.title}</div>
+                <div class="vs-hero-subtitle">檔案大小：${item.sizeMB} • 實體路徑：${item.path}</div>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <a href="${item.path}" target="_blank" class="action-btn primary">開啟 PDF ↗</a>
+                <a href="${item.path}" download class="action-btn secondary">下載檔案 ↓</a>
+              </div>
+            </div>
+          </div>
+
+          <div style="background-color: var(--bg-card); border: 1px solid var(--border-solid); padding: 16px;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--text-bright); margin-bottom: 12px;">PDF 預覽檢視</div>
+            <iframe src="${item.path}" style="width: 100%; height: 680px; border: 1px solid var(--border-solid); background-color: #2b2b2b;"></iframe>
+          </div>
+        </div>
+      `;
+    }
+
+    async function renderMarkdownFileView(container, filePath, fallbackTitle) {
+      container.innerHTML = `
+        <div class="view-card-wrap">
+          <div style="color: var(--text-muted); padding: 20px; font-family: var(--font-code);">讀取 Markdown 筆記中...</div>
+        </div>
+      `;
+
+      let mdText = '';
+      if (fileContentCache[filePath]) {
+        mdText = fileContentCache[filePath];
+      } else {
+        try {
+          const res = await fetch(filePath + '?t=' + Date.now());
+          if (res.ok) {
+            mdText = await res.text();
+            fileContentCache[filePath] = mdText;
+          } else {
+            throw new Error('fetch status ' + res.status);
+          }
+        } catch (err) {
+          console.warn('[Markdown] Failed to fetch ' + filePath, err);
+          // If filePath is notes/W08_AGENTS_md_設計筆記.md or AGENTS.md, provide embedded text
+          if (filePath.includes('W08')) {
+            mdText = `# W08｜建立自己的 AGENTS.md 與自動化網站架構筆記\n\n## 本週核心觀念：從 Vibe Coding 走向可持續擴充\n\n- **Vibe Coding**：目標是快速把「單一網頁」做出來，每次修改都要重新描述上下文。\n- **AGENTS.md 規範開發**：先定義好**設計系統（CSS 變數）**、**資料夾結構**、**資料格式（\`data.json\`）**與**AI 執行流程**，讓後續新增頁面或內容時能保持完全一致的風格。\n\n## 本站自動化連動機制\n\n1. **檔案總管資料來源**：首頁讀取根目錄的 \`data.json\`，自動渲染作業、講義與 \`notes/\` 底下的 \`.md\` 筆記。\n2. **GitHub Actions 自動掃描**：只要把新的 PDF 放進 \`PPT/\`，或把新的 \`.md\` 放進 \`notes/\` 並推上 GitHub，\`scripts/build_manifest.py\` 就會自動更新 \`data.json\`。\n3. **網頁自訂功能**：可在網頁左側面板直接新增**上課影片連結**、撰寫新筆記或修改專案顯示名稱（\`displayName\`），再透過上方 **「匯出 data.json」** 覆蓋儲存。`;
+          } else {
+            mdText = `# ${fallbackTitle}\n\n無法透過 HTTP 取得實體檔案內容（可能為本地 file:// 限制），請確認檔案路徑是否正確：\`${filePath}\`。`;
+          }
+        }
+      }
+
+      const htmlContent = marked.parse(mdText);
+      container.innerHTML = `
+        <div class="view-card-wrap">
+          <div class="markdown-body">
+            ${htmlContent}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDataJsonView(container) {
+      const jsonStr = JSON.stringify(courseData, null, 2);
+      container.innerHTML = `
+        <div class="view-card-wrap">
+          <div class="vs-hero">
+            <div class="vs-hero-header">
+              <div>
+                <div class="vs-hero-title">data.json 編輯與即時檢視</div>
+                <div class="vs-hero-subtitle">本站所有清單、講義、筆記與自訂影片的核心 Manifest</div>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn-primary" onclick="saveEditedDataJson()">套用編輯</button>
+                <button class="btn-success" onclick="exportDataJson()">↓ 匯出 data.json 檔案</button>
+              </div>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
+              提示：您可以直接在下方編輯器修改 JSON 內容，點選「套用編輯」即可即時在網頁中生效，並點選「匯出 data.json」下載取代本機檔案。
+            </p>
+          </div>
+
+          <div style="background-color: #141414; border: 1px solid var(--border-solid); padding: 16px;">
+            <textarea id="json-editor-textarea" style="width: 100%; height: 500px; font-family: var(--font-code); font-size: 12px; background: transparent; border: none; color: #9cdcfe; outline: none; resize: vertical;">${jsonStr}</textarea>
+          </div>
+        </div>
+      `;
+    }
+
+    function saveEditedDataJson() {
+      const txt = document.getElementById('json-editor-textarea').value;
+      try {
+        const parsed = JSON.parse(txt);
+        courseData = parsed;
+        renderSidebar();
+        updateStatusBar();
+        alert('data.json 已成功套用至當前工作階段！請記得點選右上角「匯出 data.json」將實體檔案下載儲存。');
+      } catch (err) {
+        alert('JSON 格式解析錯誤，請檢查語法：' + err.message);
+      }
+    }
+
+    function renderVideoView(container, item) {
+      container.innerHTML = `
+        <div class="view-card-wrap">
+          <div class="vs-hero">
+            <span class="assignment-badge">課程影片</span>
+            <div class="vs-hero-title">${item.title}</div>
+            <div class="vs-hero-subtitle">${item.desc || '上課錄影或實作操作示範影片'}</div>
+            <div style="margin-top: 16px;">
+              <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="action-btn primary">前往觀看影片 ↗</a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ==========================================================================
+       Modals & Forms for Adding Video / Notes
+       ========================================================================== */
+    function openAddVideoModal() {
+      const stage = document.getElementById('editor-stage');
+      renderBreadcrumbs('TAICA_IVEAI > Action > Add New Video');
+      stage.innerHTML = `
+        <div class="view-card-wrap">
+          <div class="form-panel">
+            <div class="form-title">🎬 新增課程或實作影片連結</div>
+            <div class="form-desc">將 YouTube、Google Drive 或本機錄影連結加入課程資料庫中。</div>
+            
+            <div class="form-group">
+              <label class="form-label">影片標題 *</label>
+              <input type="text" id="new-video-title" placeholder="例如：W08 作業二 AGENTS.md 實作成果展示影片">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">影片 URL 連結 *</label>
+              <input type="text" id="new-video-url" placeholder="https://www.youtube.com/watch?v=...">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">簡要說明 (選填)</label>
+              <textarea id="new-video-desc" rows="3" placeholder="請描述本影片展示的核心重點..."></textarea>
+            </div>
+            
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+              <button onclick="openOverviewTab()">取消</button>
+              <button class="btn-primary" onclick="submitNewVideo()">儲存並加入清單</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function submitNewVideo() {
+      const title = document.getElementById('new-video-title').value.trim();
+      const url = document.getElementById('new-video-url').value.trim();
+      const desc = document.getElementById('new-video-desc').value.trim();
+
+      if (!title || !url) {
+        alert('請完整填寫影片標題與 URL！');
+        return;
+      }
+
+      const newId = 'video-' + Date.now();
+      const newVideo = { id: newId, title, url, desc };
+      courseData.videos = courseData.videos || [];
+      courseData.videos.push(newVideo);
+
+      renderSidebar();
+      updateStatusBar();
+      openVideoTab(newVideo);
+      alert('已成功新增影片「' + title + '」！請點選右上角「匯出 data.json」下載保存。');
+    }
+
+    function openAddNoteModal() {
+      const stage = document.getElementById('editor-stage');
+      renderBreadcrumbs('TAICA_IVEAI > Action > Add New Note');
+      stage.innerHTML = `
+        <div class="view-card-wrap">
+          <div class="form-panel" style="max-width: 860px;">
+            <div class="form-title">📝 新增 Markdown 筆記</div>
+            <div class="form-desc">在網頁中撰寫實作筆記，可即時渲染預覽，並可加入 data.json。</div>
+            
+            <div class="form-group">
+              <label class="form-label">筆記標題 *</label>
+              <input type="text" id="new-note-title" placeholder="例如：W09｜深度強化學習實作要點">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">檔案路徑 (建議放置於 ./notes/ 下) *</label>
+              <input type="text" id="new-note-path" value="./notes/W09_深度強化學習.md">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Markdown 筆記內容 *</label>
+              <textarea id="new-note-content" rows="12" style="font-family: var(--font-code); font-size: 12px;" placeholder="# 筆記標題&#10;&#10;## 重點整理&#10;- 第一點..."></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+              <button onclick="openOverviewTab()">取消</button>
+              <button class="btn-primary" onclick="submitNewNote()">儲存並加入清單</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function submitNewNote() {
+      const title = document.getElementById('new-note-title').value.trim();
+      const path = document.getElementById('new-note-path').value.trim();
+      const content = document.getElementById('new-note-content').value.trim();
+
+      if (!title || !path) {
+        alert('請完整填寫筆記標題與檔案路徑！');
+        return;
+      }
+
+      const newId = 'note-' + Date.now();
+      const newNote = { id: newId, title, path };
+      courseData.notes.push(newNote);
+      if (content) {
+        fileContentCache[path] = content;
+      }
+
+      renderSidebar();
+      updateStatusBar();
+      openNoteTab(newNote);
+      alert('已成功新增筆記「' + title + '」！請點選右上角「匯出 data.json」下載保存。');
+    }
+
+    /* ==========================================================================
+       Export data.json (檔案下載功能)
+       ========================================================================== */
+    function exportDataJson() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(courseData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "data.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      console.log('[Manifest] data.json exported successfully.');
+    }
+
+    /* ==========================================================================
+       Sidebar Toggle & Panel Switching
+       ========================================================================== */
+    function switchSidebarPanel(panelName) {
+      document.querySelectorAll('.activity-btn').forEach(btn => btn.classList.remove('active'));
+      const pExplorer = document.getElementById('panel-explorer');
+      const pAdd = document.getElementById('panel-add');
+      const pNames = document.getElementById('panel-names');
+      const title = document.getElementById('sidebar-panel-title');
+
+      pExplorer.style.display = 'none';
+      pAdd.style.display = 'none';
+      pNames.style.display = 'none';
+
+      if (panelName === 'explorer') {
+        document.getElementById('btn-act-explorer').classList.add('active');
+        pExplorer.style.display = 'block';
+        title.innerText = '檔案總管 : TAICA_IVEAI';
+      } else if (panelName === 'add') {
+        document.getElementById('btn-act-add').classList.add('active');
+        pAdd.style.display = 'block';
+        title.innerText = '新增影片與筆記';
+      } else if (panelName === 'names') {
+        document.getElementById('btn-act-names').classList.add('active');
+        pNames.style.display = 'block';
+        title.innerText = '專案顯示名稱管理';
+      }
+    }
+
+    function toggleSection(sectionId) {
+      const sec = document.getElementById(sectionId);
+      sec.classList.toggle('collapsed');
+    }
+
+    function collapseAllSections() {
+      document.querySelectorAll('.tree-section').forEach(sec => sec.classList.add('collapsed'));
+    }
+
+    function refreshManifest() {
+      loadDataJson().then(() => {
+        renderSidebar();
+        updateStatusBar();
+        alert('data.json 重新載入完成！');
+      });
+    }
+
+    function showCommandPalette() {
+      const action = prompt("【TAICA_IVEAI 命令選擇區】\n輸入 1: 開啟課程總覽\n輸入 2: 檢視 AGENTS.md\n輸入 3: 匯出 data.json\n輸入 4: 新增影片連結", "1");
+      if (action === "1") openOverviewTab();
+      else if (action === "2") openAgentsMd();
+      else if (action === "3") exportDataJson();
+      else if (action === "4") openAddVideoModal();
+    }
+
+    function updateStatusBar() {
+      const aCount = courseData.assignments ? courseData.assignments.length : 0;
+      const mCount = courseData.materials ? courseData.materials.length : 0;
+      const nCount = courseData.notes ? courseData.notes.length : 0;
+      const vCount = courseData.videos ? courseData.videos.length : 0;
+      document.getElementById('status-counts').innerText = `${aCount} 作業 • ${mCount} 講義 • ${nCount} 筆記 • ${vCount} 影片`;
+      if (courseData.meta && courseData.meta.lastUpdated) {
+        document.getElementById('status-last-updated').innerText = courseData.meta.lastUpdated;
+      }
+    }
+  </script>
 </body>
+
 </html>

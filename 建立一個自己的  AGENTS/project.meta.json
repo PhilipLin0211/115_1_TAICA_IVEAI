@@ -1,0 +1,30 @@
+{
+  "id": "hw2-agents-md",
+  "badge": "作業二 (HW 2) • 已發布",
+  "displayName": "建立一個自己的 AGENTS.md",
+  "subtitle": "VS Code Dark+ IDE 風格課程中心與自動化規範展示頁",
+  "folderPath": "建立一個自己的  AGENTS",
+  "entryFile": "index.html",
+  "description": "依照根目錄 AGENTS.md 規範設計的同風格子頁面，完整展示本課程入口站的 VS Code Dark+ 零透明度設計系統、自動化資料流架構（build_manifest.py + GitHub Actions）與未來擴充流程。",
+  "tags": [
+    "AGENTS.md",
+    "VS Code Dark+",
+    "零透明度實色",
+    "GitHub Actions",
+    "Markdown Rendering"
+  ],
+  "links": [
+    {
+      "label": "線上體驗 (Live Demo)",
+      "url": "./建立一個自己的  AGENTS/index.html",
+      "type": "primary"
+    },
+    {
+      "label": "檢視 AGENTS.md",
+      "url": "./AGENTS.md",
+      "type": "secondary",
+      "external": false
+    }
+  ]
+}
+

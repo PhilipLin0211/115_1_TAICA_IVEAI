@@ -1,0 +1,1395 @@
+[
+  {
+    "id": "event_286819679",
+    "timestamp": "2026-11-10 13:00:19",
+    "event_type": "ATTACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 成功掛載並啟動即時監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 25,
+      "files": [
+        {
+          "relative_path": "20261110強化學習與人機互動系統開發.m4a",
+          "size_bytes": 30722891,
+          "modified": "2026-11-10 11:46:37"
+        },
+        {
+          "relative_path": "DJI_20261106135354_0229_D.MP4",
+          "size_bytes": 1071137020,
+          "modified": "2026-11-06 13:56:11"
+        },
+        {
+          "relative_path": "DJI_20261106135938_0230_D.MP4",
+          "size_bytes": 465799292,
+          "modified": "2026-11-06 14:00:41"
+        },
+        {
+          "relative_path": "DJI_20261106140146_0231_D.MP4",
+          "size_bytes": 3618362104,
+          "modified": "2026-11-06 14:10:07"
+        },
+        {
+          "relative_path": "DJI_20261106141139_0232_D.MP4",
+          "size_bytes": 3783101060,
+          "modified": "2026-11-06 14:20:29"
+        },
+        {
+          "relative_path": "DJI_20261106142024_0233_D.MP4",
+          "size_bytes": 3782757559,
+          "modified": "2026-11-06 14:29:06"
+        },
+        {
+          "relative_path": "DJI_20261106142901_0234_D.MP4",
+          "size_bytes": 3785823494,
+          "modified": "2026-11-06 14:37:37"
+        },
+        {
+          "relative_path": "DJI_20261106143733_0235_D.MP4",
+          "size_bytes": 3782608084,
+          "modified": "2026-11-06 14:46:14"
+        },
+        {
+          "relative_path": "DJI_20261106144609_0236_D.MP4",
+          "size_bytes": 221264739,
+          "modified": "2026-11-06 14:46:44"
+        },
+        {
+          "relative_path": "DJI_20261106145917_0237_D.MP4",
+          "size_bytes": 3785121392,
+          "modified": "2026-11-06 15:07:56"
+        },
+        {
+          "relative_path": "DJI_20261106150752_0238_D.MP4",
+          "size_bytes": 3784406366,
+          "modified": "2026-11-06 15:16:54"
+        },
+        {
+          "relative_path": "DJI_20261106151651_0239_D.MP4",
+          "size_bytes": 3783423364,
+          "modified": "2026-11-06 15:25:46"
+        },
+        {
+          "relative_path": "DJI_20261106152541_0240_D.MP4",
+          "size_bytes": 488709769,
+          "modified": "2026-11-06 15:26:53"
+        },
+        {
+          "relative_path": "DJI_20261106153129_0241_D.MP4",
+          "size_bytes": 3784241441,
+          "modified": "2026-11-06 15:40:15"
+        },
+        {
+          "relative_path": "DJI_20261106154011_0242_D.MP4",
+          "size_bytes": 3784160614,
+          "modified": "2026-11-06 15:48:48"
+        },
+        {
+          "relative_path": "DJI_20261106154844_0243_D.MP4",
+          "size_bytes": 3785178875,
+          "modified": "2026-11-06 15:57:39"
+        },
+        {
+          "relative_path": "DJI_20261106155735_0244_D.MP4",
+          "size_bytes": 2672664500,
+          "modified": "2026-11-06 16:03:48"
+        },
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "Lecture_8_NVIDIA_Issac_Sim_with_ROS.pptx",
+          "size_bytes": 159962511,
+          "modified": "2026-11-10 09:21:07"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "封存.zip",
+          "size_bytes": 45801583098,
+          "modified": "2026-11-08 17:33:39"
+        },
+        {
+          "relative_path": "新錄音.m4a",
+          "size_bytes": 5786454,
+          "modified": "2026-11-09 13:07:21"
+        }
+      ]
+    }
+  },
+  {
+    "id": "event_286880295",
+    "timestamp": "2026-11-10 13:01:20",
+    "event_type": "DETACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 收到中斷信號，安全卸載並停止監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 25,
+      "files": [
+        {
+          "relative_path": "20261110強化學習與人機互動系統開發.m4a",
+          "size_bytes": 30722891,
+          "modified": "2026-11-10 11:46:37"
+        },
+        {
+          "relative_path": "DJI_20261106135354_0229_D.MP4",
+          "size_bytes": 1071137020,
+          "modified": "2026-11-06 13:56:11"
+        },
+        {
+          "relative_path": "DJI_20261106135938_0230_D.MP4",
+          "size_bytes": 465799292,
+          "modified": "2026-11-06 14:00:41"
+        },
+        {
+          "relative_path": "DJI_20261106140146_0231_D.MP4",
+          "size_bytes": 3618362104,
+          "modified": "2026-11-06 14:10:07"
+        },
+        {
+          "relative_path": "DJI_20261106141139_0232_D.MP4",
+          "size_bytes": 3783101060,
+          "modified": "2026-11-06 14:20:29"
+        },
+        {
+          "relative_path": "DJI_20261106142024_0233_D.MP4",
+          "size_bytes": 3782757559,
+          "modified": "2026-11-06 14:29:06"
+        },
+        {
+          "relative_path": "DJI_20261106142901_0234_D.MP4",
+          "size_bytes": 3785823494,
+          "modified": "2026-11-06 14:37:37"
+        },
+        {
+          "relative_path": "DJI_20261106143733_0235_D.MP4",
+          "size_bytes": 3782608084,
+          "modified": "2026-11-06 14:46:14"
+        },
+        {
+          "relative_path": "DJI_20261106144609_0236_D.MP4",
+          "size_bytes": 221264739,
+          "modified": "2026-11-06 14:46:44"
+        },
+        {
+          "relative_path": "DJI_20261106145917_0237_D.MP4",
+          "size_bytes": 3785121392,
+          "modified": "2026-11-06 15:07:56"
+        },
+        {
+          "relative_path": "DJI_20261106150752_0238_D.MP4",
+          "size_bytes": 3784406366,
+          "modified": "2026-11-06 15:16:54"
+        },
+        {
+          "relative_path": "DJI_20261106151651_0239_D.MP4",
+          "size_bytes": 3783423364,
+          "modified": "2026-11-06 15:25:46"
+        },
+        {
+          "relative_path": "DJI_20261106152541_0240_D.MP4",
+          "size_bytes": 488709769,
+          "modified": "2026-11-06 15:26:53"
+        },
+        {
+          "relative_path": "DJI_20261106153129_0241_D.MP4",
+          "size_bytes": 3784241441,
+          "modified": "2026-11-06 15:40:15"
+        },
+        {
+          "relative_path": "DJI_20261106154011_0242_D.MP4",
+          "size_bytes": 3784160614,
+          "modified": "2026-11-06 15:48:48"
+        },
+        {
+          "relative_path": "DJI_20261106154844_0243_D.MP4",
+          "size_bytes": 3785178875,
+          "modified": "2026-11-06 15:57:39"
+        },
+        {
+          "relative_path": "DJI_20261106155735_0244_D.MP4",
+          "size_bytes": 2672664500,
+          "modified": "2026-11-06 16:03:48"
+        },
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "Lecture_8_NVIDIA_Issac_Sim_with_ROS.pptx",
+          "size_bytes": 159962511,
+          "modified": "2026-11-10 09:21:07"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "封存.zip",
+          "size_bytes": 45801583098,
+          "modified": "2026-11-08 17:33:39"
+        },
+        {
+          "relative_path": "新錄音.m4a",
+          "size_bytes": 5786454,
+          "modified": "2026-11-09 13:07:21"
+        }
+      ]
+    }
+  },
+  {
+    "id": "event_286906975",
+    "timestamp": "2026-11-10 13:01:46",
+    "event_type": "ATTACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 成功掛載並啟動即時監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 25,
+      "files": [
+        {
+          "relative_path": "20261110強化學習與人機互動系統開發.m4a",
+          "size_bytes": 30722891,
+          "modified": "2026-11-10 11:46:37"
+        },
+        {
+          "relative_path": "DJI_20261106135354_0229_D.MP4",
+          "size_bytes": 1071137020,
+          "modified": "2026-11-06 13:56:11"
+        },
+        {
+          "relative_path": "DJI_20261106135938_0230_D.MP4",
+          "size_bytes": 465799292,
+          "modified": "2026-11-06 14:00:41"
+        },
+        {
+          "relative_path": "DJI_20261106140146_0231_D.MP4",
+          "size_bytes": 3618362104,
+          "modified": "2026-11-06 14:10:07"
+        },
+        {
+          "relative_path": "DJI_20261106141139_0232_D.MP4",
+          "size_bytes": 3783101060,
+          "modified": "2026-11-06 14:20:29"
+        },
+        {
+          "relative_path": "DJI_20261106142024_0233_D.MP4",
+          "size_bytes": 3782757559,
+          "modified": "2026-11-06 14:29:06"
+        },
+        {
+          "relative_path": "DJI_20261106142901_0234_D.MP4",
+          "size_bytes": 3785823494,
+          "modified": "2026-11-06 14:37:37"
+        },
+        {
+          "relative_path": "DJI_20261106143733_0235_D.MP4",
+          "size_bytes": 3782608084,
+          "modified": "2026-11-06 14:46:14"
+        },
+        {
+          "relative_path": "DJI_20261106144609_0236_D.MP4",
+          "size_bytes": 221264739,
+          "modified": "2026-11-06 14:46:44"
+        },
+        {
+          "relative_path": "DJI_20261106145917_0237_D.MP4",
+          "size_bytes": 3785121392,
+          "modified": "2026-11-06 15:07:56"
+        },
+        {
+          "relative_path": "DJI_20261106150752_0238_D.MP4",
+          "size_bytes": 3784406366,
+          "modified": "2026-11-06 15:16:54"
+        },
+        {
+          "relative_path": "DJI_20261106151651_0239_D.MP4",
+          "size_bytes": 3783423364,
+          "modified": "2026-11-06 15:25:46"
+        },
+        {
+          "relative_path": "DJI_20261106152541_0240_D.MP4",
+          "size_bytes": 488709769,
+          "modified": "2026-11-06 15:26:53"
+        },
+        {
+          "relative_path": "DJI_20261106153129_0241_D.MP4",
+          "size_bytes": 3784241441,
+          "modified": "2026-11-06 15:40:15"
+        },
+        {
+          "relative_path": "DJI_20261106154011_0242_D.MP4",
+          "size_bytes": 3784160614,
+          "modified": "2026-11-06 15:48:48"
+        },
+        {
+          "relative_path": "DJI_20261106154844_0243_D.MP4",
+          "size_bytes": 3785178875,
+          "modified": "2026-11-06 15:57:39"
+        },
+        {
+          "relative_path": "DJI_20261106155735_0244_D.MP4",
+          "size_bytes": 2672664500,
+          "modified": "2026-11-06 16:03:48"
+        },
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "Lecture_8_NVIDIA_Issac_Sim_with_ROS.pptx",
+          "size_bytes": 159962511,
+          "modified": "2026-11-10 09:21:07"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "封存.zip",
+          "size_bytes": 45801583098,
+          "modified": "2026-11-08 17:33:39"
+        },
+        {
+          "relative_path": "新錄音.m4a",
+          "size_bytes": 5786454,
+          "modified": "2026-11-09 13:07:21"
+        }
+      ]
+    }
+  },
+  {
+    "id": "act_1794287017",
+    "timestamp": "2026-11-10 13:03:37",
+    "timestamp_iso": "2026-11-10T13:03:37.041198",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "參賽證明.pdf",
+      "size_bytes": 136152,
+      "extension": ".pdf"
+    },
+    "destination": {
+      "category": "Course_Materials/IVEAI",
+      "sanitized_name": "TAICA_IVEAI_參賽證明.pdf",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/Course_Materials/IVEAI/TAICA_IVEAI_參賽證明.pdf"
+    },
+    "decision_metadata": {
+      "wiki_title": "TAICA_IVEAI 參賽證明",
+      "tags": [
+        "智慧虛擬實境",
+        "人工智慧",
+        "課程投影片",
+        "作業"
+      ],
+      "double_links": [
+        "[[智慧虛擬實境]]",
+        "[[人工智慧]]"
+      ],
+      "reasoning": "此文件屬於課程投影片和作業類型，因此最適合歸檔在 Course_Materials/IVEAI 目錄下。命名上使用了課程名稱和副檔名以保持一致性。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/Course_Materials/IVEAI",
+        "total_files": 2,
+        "files": [
+          {
+            "relative_path": "TAICA_IVEAI 參賽證明.md",
+            "size_bytes": 1080,
+            "modified": "2026-11-10 13:03:37"
+          },
+          {
+            "relative_path": "TAICA_IVEAI_參賽證明.pdf",
+            "size_bytes": 136152,
+            "modified": "2026-11-10 13:03:19"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 25,
+        "files": [
+          {
+            "relative_path": "20261110強化學習與人機互動系統開發.m4a",
+            "size_bytes": 30722891,
+            "modified": "2026-11-10 11:46:37"
+          },
+          {
+            "relative_path": "DJI_20261106135354_0229_D.MP4",
+            "size_bytes": 1071137020,
+            "modified": "2026-11-06 13:56:11"
+          },
+          {
+            "relative_path": "DJI_20261106135938_0230_D.MP4",
+            "size_bytes": 465799292,
+            "modified": "2026-11-06 14:00:41"
+          },
+          {
+            "relative_path": "DJI_20261106140146_0231_D.MP4",
+            "size_bytes": 3618362104,
+            "modified": "2026-11-06 14:10:07"
+          },
+          {
+            "relative_path": "DJI_20261106141139_0232_D.MP4",
+            "size_bytes": 3783101060,
+            "modified": "2026-11-06 14:20:29"
+          },
+          {
+            "relative_path": "DJI_20261106142024_0233_D.MP4",
+            "size_bytes": 3782757559,
+            "modified": "2026-11-06 14:29:06"
+          },
+          {
+            "relative_path": "DJI_20261106142901_0234_D.MP4",
+            "size_bytes": 3785823494,
+            "modified": "2026-11-06 14:37:37"
+          },
+          {
+            "relative_path": "DJI_20261106143733_0235_D.MP4",
+            "size_bytes": 3782608084,
+            "modified": "2026-11-06 14:46:14"
+          },
+          {
+            "relative_path": "DJI_20261106144609_0236_D.MP4",
+            "size_bytes": 221264739,
+            "modified": "2026-11-06 14:46:44"
+          },
+          {
+            "relative_path": "DJI_20261106145917_0237_D.MP4",
+            "size_bytes": 3785121392,
+            "modified": "2026-11-06 15:07:56"
+          },
+          {
+            "relative_path": "DJI_20261106150752_0238_D.MP4",
+            "size_bytes": 3784406366,
+            "modified": "2026-11-06 15:16:54"
+          },
+          {
+            "relative_path": "DJI_20261106151651_0239_D.MP4",
+            "size_bytes": 3783423364,
+            "modified": "2026-11-06 15:25:46"
+          },
+          {
+            "relative_path": "DJI_20261106152541_0240_D.MP4",
+            "size_bytes": 488709769,
+            "modified": "2026-11-06 15:26:53"
+          },
+          {
+            "relative_path": "DJI_20261106153129_0241_D.MP4",
+            "size_bytes": 3784241441,
+            "modified": "2026-11-06 15:40:15"
+          },
+          {
+            "relative_path": "DJI_20261106154011_0242_D.MP4",
+            "size_bytes": 3784160614,
+            "modified": "2026-11-06 15:48:48"
+          },
+          {
+            "relative_path": "DJI_20261106154844_0243_D.MP4",
+            "size_bytes": 3785178875,
+            "modified": "2026-11-06 15:57:39"
+          },
+          {
+            "relative_path": "DJI_20261106155735_0244_D.MP4",
+            "size_bytes": 2672664500,
+            "modified": "2026-11-06 16:03:48"
+          },
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "Lecture_8_NVIDIA_Issac_Sim_with_ROS.pptx",
+            "size_bytes": 159962511,
+            "modified": "2026-11-10 09:21:07"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "封存.zip",
+            "size_bytes": 45801583098,
+            "modified": "2026-11-08 17:33:39"
+          },
+          {
+            "relative_path": "新錄音.m4a",
+            "size_bytes": 5786454,
+            "modified": "2026-11-09 13:07:21"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "act_1794287152",
+    "timestamp": "2026-11-10 13:05:52",
+    "timestamp_iso": "2026-11-10T13:05:52.251482",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "元盾資安演講筆記.pdf",
+      "size_bytes": 4303942,
+      "extension": ".pdf"
+    },
+    "destination": {
+      "category": "Course_Materials/IVEAI",
+      "sanitized_name": "TAICA_IVEAI_資安演講筆記.pdf",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/Course_Materials/IVEAI/TAICA_IVEAI_資安演講筆記.pdf"
+    },
+    "decision_metadata": {
+      "wiki_title": "TAICA_IVEAI_資安演講筆記",
+      "tags": [
+        "資安",
+        "演講筆記",
+        "智慧虛擬實境",
+        "人工智慧"
+      ],
+      "double_links": [
+        "[[資安]]",
+        "[[演講筆記]]"
+      ],
+      "reasoning": "此筆記屬於智慧虛擬實境與人工智慧課程的一部分，因此最適合放置在 Course_Materials/IVEAI 目錄下。命名方面，使用了課程名稱和主題來確保文件的清晰性和可識別性。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/Course_Materials/IVEAI",
+        "total_files": 4,
+        "files": [
+          {
+            "relative_path": "TAICA_IVEAI 參賽證明.md",
+            "size_bytes": 1080,
+            "modified": "2026-11-10 13:03:37"
+          },
+          {
+            "relative_path": "TAICA_IVEAI_參賽證明.pdf",
+            "size_bytes": 136152,
+            "modified": "2026-11-10 13:03:19"
+          },
+          {
+            "relative_path": "TAICA_IVEAI_資安演講筆記.md",
+            "size_bytes": 1170,
+            "modified": "2026-11-10 13:05:52"
+          },
+          {
+            "relative_path": "TAICA_IVEAI_資安演講筆記.pdf",
+            "size_bytes": 4303942,
+            "modified": "2026-11-10 13:05:39"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 25,
+        "files": [
+          {
+            "relative_path": "20261110強化學習與人機互動系統開發.m4a",
+            "size_bytes": 30722891,
+            "modified": "2026-11-10 11:46:37"
+          },
+          {
+            "relative_path": "DJI_20261106135354_0229_D.MP4",
+            "size_bytes": 1071137020,
+            "modified": "2026-11-06 13:56:11"
+          },
+          {
+            "relative_path": "DJI_20261106135938_0230_D.MP4",
+            "size_bytes": 465799292,
+            "modified": "2026-11-06 14:00:41"
+          },
+          {
+            "relative_path": "DJI_20261106140146_0231_D.MP4",
+            "size_bytes": 3618362104,
+            "modified": "2026-11-06 14:10:07"
+          },
+          {
+            "relative_path": "DJI_20261106141139_0232_D.MP4",
+            "size_bytes": 3783101060,
+            "modified": "2026-11-06 14:20:29"
+          },
+          {
+            "relative_path": "DJI_20261106142024_0233_D.MP4",
+            "size_bytes": 3782757559,
+            "modified": "2026-11-06 14:29:06"
+          },
+          {
+            "relative_path": "DJI_20261106142901_0234_D.MP4",
+            "size_bytes": 3785823494,
+            "modified": "2026-11-06 14:37:37"
+          },
+          {
+            "relative_path": "DJI_20261106143733_0235_D.MP4",
+            "size_bytes": 3782608084,
+            "modified": "2026-11-06 14:46:14"
+          },
+          {
+            "relative_path": "DJI_20261106144609_0236_D.MP4",
+            "size_bytes": 221264739,
+            "modified": "2026-11-06 14:46:44"
+          },
+          {
+            "relative_path": "DJI_20261106145917_0237_D.MP4",
+            "size_bytes": 3785121392,
+            "modified": "2026-11-06 15:07:56"
+          },
+          {
+            "relative_path": "DJI_20261106150752_0238_D.MP4",
+            "size_bytes": 3784406366,
+            "modified": "2026-11-06 15:16:54"
+          },
+          {
+            "relative_path": "DJI_20261106151651_0239_D.MP4",
+            "size_bytes": 3783423364,
+            "modified": "2026-11-06 15:25:46"
+          },
+          {
+            "relative_path": "DJI_20261106152541_0240_D.MP4",
+            "size_bytes": 488709769,
+            "modified": "2026-11-06 15:26:53"
+          },
+          {
+            "relative_path": "DJI_20261106153129_0241_D.MP4",
+            "size_bytes": 3784241441,
+            "modified": "2026-11-06 15:40:15"
+          },
+          {
+            "relative_path": "DJI_20261106154011_0242_D.MP4",
+            "size_bytes": 3784160614,
+            "modified": "2026-11-06 15:48:48"
+          },
+          {
+            "relative_path": "DJI_20261106154844_0243_D.MP4",
+            "size_bytes": 3785178875,
+            "modified": "2026-11-06 15:57:39"
+          },
+          {
+            "relative_path": "DJI_20261106155735_0244_D.MP4",
+            "size_bytes": 2672664500,
+            "modified": "2026-11-06 16:03:48"
+          },
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "Lecture_8_NVIDIA_Issac_Sim_with_ROS.pptx",
+            "size_bytes": 159962511,
+            "modified": "2026-11-10 09:21:07"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "封存.zip",
+            "size_bytes": 45801583098,
+            "modified": "2026-11-08 17:33:39"
+          },
+          {
+            "relative_path": "新錄音.m4a",
+            "size_bytes": 5786454,
+            "modified": "2026-11-09 13:07:21"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "event_289201169",
+    "timestamp": "2026-11-10 13:40:01",
+    "event_type": "DETACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 收到中斷信號，安全卸載並停止監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 25,
+      "files": [
+        {
+          "relative_path": "20261110強化學習與人機互動系統開發.m4a",
+          "size_bytes": 30722891,
+          "modified": "2026-11-10 11:46:37"
+        },
+        {
+          "relative_path": "DJI_20261106135354_0229_D.MP4",
+          "size_bytes": 1071137020,
+          "modified": "2026-11-06 13:56:11"
+        },
+        {
+          "relative_path": "DJI_20261106135938_0230_D.MP4",
+          "size_bytes": 465799292,
+          "modified": "2026-11-06 14:00:41"
+        },
+        {
+          "relative_path": "DJI_20261106140146_0231_D.MP4",
+          "size_bytes": 3618362104,
+          "modified": "2026-11-06 14:10:07"
+        },
+        {
+          "relative_path": "DJI_20261106141139_0232_D.MP4",
+          "size_bytes": 3783101060,
+          "modified": "2026-11-06 14:20:29"
+        },
+        {
+          "relative_path": "DJI_20261106142024_0233_D.MP4",
+          "size_bytes": 3782757559,
+          "modified": "2026-11-06 14:29:06"
+        },
+        {
+          "relative_path": "DJI_20261106142901_0234_D.MP4",
+          "size_bytes": 3785823494,
+          "modified": "2026-11-06 14:37:37"
+        },
+        {
+          "relative_path": "DJI_20261106143733_0235_D.MP4",
+          "size_bytes": 3782608084,
+          "modified": "2026-11-06 14:46:14"
+        },
+        {
+          "relative_path": "DJI_20261106144609_0236_D.MP4",
+          "size_bytes": 221264739,
+          "modified": "2026-11-06 14:46:44"
+        },
+        {
+          "relative_path": "DJI_20261106145917_0237_D.MP4",
+          "size_bytes": 3785121392,
+          "modified": "2026-11-06 15:07:56"
+        },
+        {
+          "relative_path": "DJI_20261106150752_0238_D.MP4",
+          "size_bytes": 3784406366,
+          "modified": "2026-11-06 15:16:54"
+        },
+        {
+          "relative_path": "DJI_20261106151651_0239_D.MP4",
+          "size_bytes": 3783423364,
+          "modified": "2026-11-06 15:25:46"
+        },
+        {
+          "relative_path": "DJI_20261106152541_0240_D.MP4",
+          "size_bytes": 488709769,
+          "modified": "2026-11-06 15:26:53"
+        },
+        {
+          "relative_path": "DJI_20261106153129_0241_D.MP4",
+          "size_bytes": 3784241441,
+          "modified": "2026-11-06 15:40:15"
+        },
+        {
+          "relative_path": "DJI_20261106154011_0242_D.MP4",
+          "size_bytes": 3784160614,
+          "modified": "2026-11-06 15:48:48"
+        },
+        {
+          "relative_path": "DJI_20261106154844_0243_D.MP4",
+          "size_bytes": 3785178875,
+          "modified": "2026-11-06 15:57:39"
+        },
+        {
+          "relative_path": "DJI_20261106155735_0244_D.MP4",
+          "size_bytes": 2672664500,
+          "modified": "2026-11-06 16:03:48"
+        },
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "Lecture_8_NVIDIA_Issac_Sim_with_ROS.pptx",
+          "size_bytes": 159962511,
+          "modified": "2026-11-10 09:21:07"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "封存.zip",
+          "size_bytes": 45801583098,
+          "modified": "2026-11-08 17:33:39"
+        },
+        {
+          "relative_path": "新錄音.m4a",
+          "size_bytes": 5786454,
+          "modified": "2026-11-09 13:07:21"
+        }
+      ]
+    }
+  },
+  {
+    "id": "event_289315730",
+    "timestamp": "2026-11-10 13:41:55",
+    "event_type": "ATTACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 成功掛載並啟動即時監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 26,
+      "files": [
+        {
+          "relative_path": "20261110強化學習與人機互動系統開發.m4a",
+          "size_bytes": 30722891,
+          "modified": "2026-11-10 11:46:37"
+        },
+        {
+          "relative_path": "DJI_20261106135354_0229_D.MP4",
+          "size_bytes": 1071137020,
+          "modified": "2026-11-06 13:56:11"
+        },
+        {
+          "relative_path": "DJI_20261106135938_0230_D.MP4",
+          "size_bytes": 465799292,
+          "modified": "2026-11-06 14:00:41"
+        },
+        {
+          "relative_path": "DJI_20261106140146_0231_D.MP4",
+          "size_bytes": 3618362104,
+          "modified": "2026-11-06 14:10:07"
+        },
+        {
+          "relative_path": "DJI_20261106141139_0232_D.MP4",
+          "size_bytes": 3783101060,
+          "modified": "2026-11-06 14:20:29"
+        },
+        {
+          "relative_path": "DJI_20261106142024_0233_D.MP4",
+          "size_bytes": 3782757559,
+          "modified": "2026-11-06 14:29:06"
+        },
+        {
+          "relative_path": "DJI_20261106142901_0234_D.MP4",
+          "size_bytes": 3785823494,
+          "modified": "2026-11-06 14:37:37"
+        },
+        {
+          "relative_path": "DJI_20261106143733_0235_D.MP4",
+          "size_bytes": 3782608084,
+          "modified": "2026-11-06 14:46:14"
+        },
+        {
+          "relative_path": "DJI_20261106144609_0236_D.MP4",
+          "size_bytes": 221264739,
+          "modified": "2026-11-06 14:46:44"
+        },
+        {
+          "relative_path": "DJI_20261106145917_0237_D.MP4",
+          "size_bytes": 3785121392,
+          "modified": "2026-11-06 15:07:56"
+        },
+        {
+          "relative_path": "DJI_20261106150752_0238_D.MP4",
+          "size_bytes": 3784406366,
+          "modified": "2026-11-06 15:16:54"
+        },
+        {
+          "relative_path": "DJI_20261106151651_0239_D.MP4",
+          "size_bytes": 3783423364,
+          "modified": "2026-11-06 15:25:46"
+        },
+        {
+          "relative_path": "DJI_20261106152541_0240_D.MP4",
+          "size_bytes": 488709769,
+          "modified": "2026-11-06 15:26:53"
+        },
+        {
+          "relative_path": "DJI_20261106153129_0241_D.MP4",
+          "size_bytes": 3784241441,
+          "modified": "2026-11-06 15:40:15"
+        },
+        {
+          "relative_path": "DJI_20261106154011_0242_D.MP4",
+          "size_bytes": 3784160614,
+          "modified": "2026-11-06 15:48:48"
+        },
+        {
+          "relative_path": "DJI_20261106154844_0243_D.MP4",
+          "size_bytes": 3785178875,
+          "modified": "2026-11-06 15:57:39"
+        },
+        {
+          "relative_path": "DJI_20261106155735_0244_D.MP4",
+          "size_bytes": 2672664500,
+          "modified": "2026-11-06 16:03:48"
+        },
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "Lecture_8_NVIDIA_Issac_Sim_with_ROS.pptx",
+          "size_bytes": 159962511,
+          "modified": "2026-11-10 09:21:07"
+        },
+        {
+          "relative_path": "tw.png",
+          "size_bytes": 457520,
+          "modified": "2026-11-10 13:41:48"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "封存.zip",
+          "size_bytes": 45801583098,
+          "modified": "2026-11-08 17:33:39"
+        },
+        {
+          "relative_path": "新錄音.m4a",
+          "size_bytes": 5786454,
+          "modified": "2026-11-09 13:07:21"
+        }
+      ]
+    }
+  },
+  {
+    "id": "act_1794289347",
+    "timestamp": "2026-11-10 13:42:27",
+    "timestamp_iso": "2026-11-10T13:42:27.217811",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "tw.png",
+      "size_bytes": 457520,
+      "extension": ".png"
+    },
+    "destination": {
+      "category": "General/Inbox",
+      "sanitized_name": "tw.png",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox/tw.png"
+    },
+    "decision_metadata": {
+      "wiki_title": "tw",
+      "tags": [
+        "圖像",
+        "PNG"
+      ],
+      "double_links": [],
+      "reasoning": "由於該檔案是二進制圖像文件，且無法從內容中提取出明確的主題或關鍵字，因此被分類到 General/Inbox 目錄下。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox",
+        "total_files": 2,
+        "files": [
+          {
+            "relative_path": "tw.md",
+            "size_bytes": 791,
+            "modified": "2026-11-10 13:42:27"
+          },
+          {
+            "relative_path": "tw.png",
+            "size_bytes": 457520,
+            "modified": "2026-11-10 13:42:13"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 25,
+        "files": [
+          {
+            "relative_path": "20261110強化學習與人機互動系統開發.m4a",
+            "size_bytes": 30722891,
+            "modified": "2026-11-10 11:46:37"
+          },
+          {
+            "relative_path": "DJI_20261106135354_0229_D.MP4",
+            "size_bytes": 1071137020,
+            "modified": "2026-11-06 13:56:11"
+          },
+          {
+            "relative_path": "DJI_20261106135938_0230_D.MP4",
+            "size_bytes": 465799292,
+            "modified": "2026-11-06 14:00:41"
+          },
+          {
+            "relative_path": "DJI_20261106140146_0231_D.MP4",
+            "size_bytes": 3618362104,
+            "modified": "2026-11-06 14:10:07"
+          },
+          {
+            "relative_path": "DJI_20261106141139_0232_D.MP4",
+            "size_bytes": 3783101060,
+            "modified": "2026-11-06 14:20:29"
+          },
+          {
+            "relative_path": "DJI_20261106142024_0233_D.MP4",
+            "size_bytes": 3782757559,
+            "modified": "2026-11-06 14:29:06"
+          },
+          {
+            "relative_path": "DJI_20261106142901_0234_D.MP4",
+            "size_bytes": 3785823494,
+            "modified": "2026-11-06 14:37:37"
+          },
+          {
+            "relative_path": "DJI_20261106143733_0235_D.MP4",
+            "size_bytes": 3782608084,
+            "modified": "2026-11-06 14:46:14"
+          },
+          {
+            "relative_path": "DJI_20261106144609_0236_D.MP4",
+            "size_bytes": 221264739,
+            "modified": "2026-11-06 14:46:44"
+          },
+          {
+            "relative_path": "DJI_20261106145917_0237_D.MP4",
+            "size_bytes": 3785121392,
+            "modified": "2026-11-06 15:07:56"
+          },
+          {
+            "relative_path": "DJI_20261106150752_0238_D.MP4",
+            "size_bytes": 3784406366,
+            "modified": "2026-11-06 15:16:54"
+          },
+          {
+            "relative_path": "DJI_20261106151651_0239_D.MP4",
+            "size_bytes": 3783423364,
+            "modified": "2026-11-06 15:25:46"
+          },
+          {
+            "relative_path": "DJI_20261106152541_0240_D.MP4",
+            "size_bytes": 488709769,
+            "modified": "2026-11-06 15:26:53"
+          },
+          {
+            "relative_path": "DJI_20261106153129_0241_D.MP4",
+            "size_bytes": 3784241441,
+            "modified": "2026-11-06 15:40:15"
+          },
+          {
+            "relative_path": "DJI_20261106154011_0242_D.MP4",
+            "size_bytes": 3784160614,
+            "modified": "2026-11-06 15:48:48"
+          },
+          {
+            "relative_path": "DJI_20261106154844_0243_D.MP4",
+            "size_bytes": 3785178875,
+            "modified": "2026-11-06 15:57:39"
+          },
+          {
+            "relative_path": "DJI_20261106155735_0244_D.MP4",
+            "size_bytes": 2672664500,
+            "modified": "2026-11-06 16:03:48"
+          },
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "Lecture_8_NVIDIA_Issac_Sim_with_ROS.pptx",
+            "size_bytes": 159962511,
+            "modified": "2026-11-10 09:21:07"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "封存.zip",
+            "size_bytes": 45801583098,
+            "modified": "2026-11-08 17:33:39"
+          },
+          {
+            "relative_path": "新錄音.m4a",
+            "size_bytes": 5786454,
+            "modified": "2026-11-09 13:07:21"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "event_289531434",
+    "timestamp": "2026-11-10 13:45:31",
+    "event_type": "DETACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 收到中斷信號，安全卸載並停止監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 25,
+      "files": [
+        {
+          "relative_path": "20261110強化學習與人機互動系統開發.m4a",
+          "size_bytes": 30722891,
+          "modified": "2026-11-10 11:46:37"
+        },
+        {
+          "relative_path": "DJI_20261106135354_0229_D.MP4",
+          "size_bytes": 1071137020,
+          "modified": "2026-11-06 13:56:11"
+        },
+        {
+          "relative_path": "DJI_20261106135938_0230_D.MP4",
+          "size_bytes": 465799292,
+          "modified": "2026-11-06 14:00:41"
+        },
+        {
+          "relative_path": "DJI_20261106140146_0231_D.MP4",
+          "size_bytes": 3618362104,
+          "modified": "2026-11-06 14:10:07"
+        },
+        {
+          "relative_path": "DJI_20261106141139_0232_D.MP4",
+          "size_bytes": 3783101060,
+          "modified": "2026-11-06 14:20:29"
+        },
+        {
+          "relative_path": "DJI_20261106142024_0233_D.MP4",
+          "size_bytes": 3782757559,
+          "modified": "2026-11-06 14:29:06"
+        },
+        {
+          "relative_path": "DJI_20261106142901_0234_D.MP4",
+          "size_bytes": 3785823494,
+          "modified": "2026-11-06 14:37:37"
+        },
+        {
+          "relative_path": "DJI_20261106143733_0235_D.MP4",
+          "size_bytes": 3782608084,
+          "modified": "2026-11-06 14:46:14"
+        },
+        {
+          "relative_path": "DJI_20261106144609_0236_D.MP4",
+          "size_bytes": 221264739,
+          "modified": "2026-11-06 14:46:44"
+        },
+        {
+          "relative_path": "DJI_20261106145917_0237_D.MP4",
+          "size_bytes": 3785121392,
+          "modified": "2026-11-06 15:07:56"
+        },
+        {
+          "relative_path": "DJI_20261106150752_0238_D.MP4",
+          "size_bytes": 3784406366,
+          "modified": "2026-11-06 15:16:54"
+        },
+        {
+          "relative_path": "DJI_20261106151651_0239_D.MP4",
+          "size_bytes": 3783423364,
+          "modified": "2026-11-06 15:25:46"
+        },
+        {
+          "relative_path": "DJI_20261106152541_0240_D.MP4",
+          "size_bytes": 488709769,
+          "modified": "2026-11-06 15:26:53"
+        },
+        {
+          "relative_path": "DJI_20261106153129_0241_D.MP4",
+          "size_bytes": 3784241441,
+          "modified": "2026-11-06 15:40:15"
+        },
+        {
+          "relative_path": "DJI_20261106154011_0242_D.MP4",
+          "size_bytes": 3784160614,
+          "modified": "2026-11-06 15:48:48"
+        },
+        {
+          "relative_path": "DJI_20261106154844_0243_D.MP4",
+          "size_bytes": 3785178875,
+          "modified": "2026-11-06 15:57:39"
+        },
+        {
+          "relative_path": "DJI_20261106155735_0244_D.MP4",
+          "size_bytes": 2672664500,
+          "modified": "2026-11-06 16:03:48"
+        },
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "Lecture_8_NVIDIA_Issac_Sim_with_ROS.pptx",
+          "size_bytes": 159962511,
+          "modified": "2026-11-10 09:21:07"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "封存.zip",
+          "size_bytes": 45801583098,
+          "modified": "2026-11-08 17:33:39"
+        },
+        {
+          "relative_path": "新錄音.m4a",
+          "size_bytes": 5786454,
+          "modified": "2026-11-09 13:07:21"
+        }
+      ]
+    }
+  }
+]

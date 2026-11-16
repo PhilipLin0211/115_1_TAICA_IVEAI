@@ -1,0 +1,42 @@
+name: Update Course Manifest
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'PPT/**'
+      - 'notes/**'
+      - '**/index.html'
+      - '**/project.meta.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run build_manifest.py
+        run: python3 scripts/build_manifest.py
+
+      - name: Commit updated data.json if changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          if [[ -n "$(git status --porcelain data.json)" ]]; then
+            git add data.json
+            git commit -m "chore: auto-update data.json manifest"
+            git push
+          else
+            echo "No changes to data.json"
+          fi

@@ -1,0 +1,194 @@
+{
+  "meta": {
+    "course": "115-1 TAICA_IVEAI 智慧虛擬實境與人工智慧",
+    "student": "林宸平 (M11552010)",
+    "department": "國立臺灣科技大學 人工智慧所",
+    "repoUrl": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI",
+    "lastUpdated": "2026-11-15 19:50 CST"
+  },
+  "assignments": [
+    {
+      "id": "hw1-packbeast",
+      "badge": "作業一 (HW 1) • 已發布",
+      "displayName": "用 Vibe Coding 做出一個互動網頁",
+      "subtitle": "《山岳馱獸包包 PackBeast Pro》登山輕量化負重與打包檢核 Web App",
+      "folderPath": "用 Vibe Coding 做出一個互動網頁",
+      "entryFile": "index.html",
+      "description": "針對台灣百岳、中級山與越野跑量身打造的全方位行前裝備與體能管理工具。結合五大系統裝備檢核、個人裝備資產庫、130+ 款裝備規格智慧搜尋、呆萌馱獸 SVG 動態表情回饋、保命裝備防呆機制與原生 Web Audio 音效合成引擎。",
+      "tags": [
+        "純前端單靜態頁",
+        "SVG 動態馱獸",
+        "1-to-1 Match Scoring",
+        "Web Audio API",
+        "LocalStorage",
+        "130+ 裝備資料庫"
+      ],
+      "links": [
+        {
+          "label": "線上體驗 (Live Demo)",
+          "url": "./用 Vibe Coding 做出一個互動網頁/index.html",
+          "type": "primary"
+        },
+        {
+          "label": "作業規格 (README)",
+          "url": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/tree/main/用%20Vibe%20Coding%20做出一個互動網頁#readme",
+          "type": "secondary",
+          "external": true
+        },
+        {
+          "label": "系統架構圖",
+          "url": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/用%20Vibe%20Coding%20做出一個互動網頁/ARCHITECTURE.md",
+          "type": "secondary",
+          "external": true
+        },
+        {
+          "label": "Google Colab 雲端執行",
+          "url": "https://colab.research.google.com/github/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/用%20Vibe%20Coding%20做出一個互動網頁/run_on_colab.ipynb",
+          "type": "colab",
+          "external": true
+        }
+      ]
+    },
+    {
+      "id": "hw2-agents-md",
+      "badge": "作業二 (HW 2) • 已發布",
+      "displayName": "建立一個自己的 AGENTS.md",
+      "subtitle": "VS Code Dark+ IDE 風格課程中心與自動化規範展示頁",
+      "folderPath": "建立一個自己的  AGENTS",
+      "entryFile": "index.html",
+      "description": "依照根目錄 AGENTS.md 規範設計的同風格子頁面，完整展示本課程入口站的 VS Code Dark+ 零透明度設計系統、自動化資料流架構（build_manifest.py + GitHub Actions）與未來擴充流程。",
+      "tags": [
+        "AGENTS.md",
+        "VS Code Dark+",
+        "零透明度實色",
+        "GitHub Actions",
+        "Markdown Rendering"
+      ],
+      "links": [
+        {
+          "label": "線上體驗 (Live Demo)",
+          "url": "./建立一個自己的  AGENTS/index.html",
+          "type": "primary"
+        },
+        {
+          "label": "檢視 AGENTS.md",
+          "url": "./AGENTS.md",
+          "type": "secondary",
+          "external": false
+        }
+      ]
+    },
+    {
+      "id": "final-local-ai-agent",
+      "badge": "學期期末專案 (Final Project) • 已發布",
+      "displayName": "本地 RAG 檔案管家與自動知識庫",
+      "subtitle": "Local AI File Agent —— 打造零隱私外洩的個人第二大腦系統",
+      "folderPath": "Local AI File Agent",
+      "entryFile": "index.html",
+      "description": "基於 macOS 本地環境與 Ollama 本地模型運算的 AI 檔案分類與向量檢索系統。背景常駐監聽 ~/Downloads 目錄，自動萃取文獻重點並透過 FAISS 向量資料庫進行語意比對，交由 Qwen 2.5 Coder 進行結構化決策與智慧歸檔，自動生成含雙向連結的 Obsidian LLMWiki 閱讀筆記。",
+      "tags": [
+        "100% 本地離線推論",
+        "Ollama Qwen 2.5 Coder",
+        "FAISS RAG",
+        "nomic-embed-text",
+        "Watchdog",
+        "Obsidian LLMWiki"
+      ],
+      "links": [
+        {
+          "label": "線上體驗 (Live Demo)",
+          "url": "./Local AI File Agent/index.html",
+          "type": "primary"
+        },
+        {
+          "label": "專案規格 (README)",
+          "url": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/tree/main/Local%20AI%20File%20Agent#readme",
+          "type": "secondary",
+          "external": true
+        },
+        {
+          "label": "驗收指引書 (GUIDE)",
+          "url": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/VERIFICATION_GUIDE.md",
+          "type": "secondary",
+          "external": true
+        },
+        {
+          "label": "系統架構圖",
+          "url": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/ARCHITECTURE.md",
+          "type": "secondary",
+          "external": true
+        },
+        {
+          "label": "Google Colab 雲端執行",
+          "url": "https://colab.research.google.com/github/PhilipLin0211/115_1_TAICA_IVEAI/blob/main/Local%20AI%20File%20Agent/run_on_colab.ipynb",
+          "type": "colab",
+          "external": true
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "id": "ppt-01",
+      "title": "01 如何不焦慮地學 AI",
+      "path": "./PPT/01如何不焦慮地學AI(學生點開顯示未發佈).pdf",
+      "sizeMB": "77.3 MB"
+    },
+    {
+      "id": "ppt-02",
+      "title": "02 神經網路的概念",
+      "path": "./PPT/02神經網路的概念.pdf",
+      "sizeMB": "86.3 MB"
+    },
+    {
+      "id": "ppt-03",
+      "title": "03 AI 為什麼每次都不一樣？",
+      "path": "./PPT/03AI為什麼每次都不一樣？.pdf",
+      "sizeMB": "61.7 MB"
+    },
+    {
+      "id": "ppt-04",
+      "title": "04 LLM 只是在猜下一個字？",
+      "path": "./PPT/04LLM只是在猜下一個字？.pdf",
+      "sizeMB": "68.9 MB"
+    },
+    {
+      "id": "ppt-05",
+      "title": "05 AI 怎麼記得前面說過什麼？",
+      "path": "./PPT/05AI怎麼記得前面說過什麼？.pdf",
+      "sizeMB": "42.8 MB"
+    },
+    {
+      "id": "ppt-06",
+      "title": "06 打造自己的對話機器人",
+      "path": "./PPT/06打造自己的對話機器人.pdf",
+      "sizeMB": "72.7 MB"
+    },
+    {
+      "id": "ppt-07",
+      "title": "07 讓 AI 看懂你的世界",
+      "path": "./PPT/07讓AI看懂你的世界.pdf",
+      "sizeMB": "44.9 MB"
+    },
+    {
+      "id": "ppt-08",
+      "title": "08 教 AI 做事的方法",
+      "path": "./PPT/08教AI做事的方法.pdf",
+      "sizeMB": "51.7 MB"
+    },
+    {
+      "id": "ppt-ta07",
+      "title": "第七週助教課實作講義",
+      "path": "./PPT/第七週助教課.pdf",
+      "sizeMB": "7.7 MB"
+    }
+  ],
+  "notes": [
+    {
+      "id": "note-w08-agents-md",
+      "title": "W08｜建立自己的 AGENTS.md 與自動化網站架構筆記",
+      "path": "./notes/W08_AGENTS_md_設計筆記.md"
+    }
+  ],
+  "videos": []
+}

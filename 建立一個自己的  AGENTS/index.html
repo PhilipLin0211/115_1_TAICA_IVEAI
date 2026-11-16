@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>作業二：建立一個自己的 AGENTS.md | TAICA_IVEAI 林宸平</title>
+  <meta name="description" content="115-1 TAICA_IVEAI 課程作業二：建立自己的 AGENTS.md 規範手冊與自動化資料流展示。嚴格遵循 VS Code Dark+ 零透明度實色規範。">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Marked.js for Markdown Rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       VS Code Dark+ 規範 — 100% 實色變數系統（嚴禁半透明 / 毛玻璃）
+       ========================================================================== */
+    :root {
+      --bg-titlebar: #323233;
+      --bg-editor: #1e1e1e;
+      --bg-card: #252526;
+      --bg-card-alt: #2a2d2e;
+      --bg-tabs: #2d2d2d;
+      --bg-tab-active: #1e1e1e;
+      --bg-tab-inactive: #2d2d2d;
+      --bg-hover: #2a2d2e;
+      --bg-active: #37373d;
+      --bg-input: #3c3c3c;
+      --bg-statusbar: #007acc;
+      --border-solid: #3c3c3c;
+      --border-dark: #191919;
+      --border-focus: #007fd4;
+
+      --text-main: #cccccc;
+      --text-bright: #ffffff;
+      --text-muted: #858585;
+      --text-dim: #6e6e6e;
+
+      --accent-blue: #569cd6;
+      --accent-teal: #4ec9b0;
+      --accent-yellow: #dcdcaa;
+      --accent-orange: #ce9178;
+      --accent-green: #6a9955;
+      --accent-purple: #c586c0;
+      --accent-red: #f48771;
+
+      --font-code: 'JetBrains Mono', Consolas, Monaco, monospace;
+      --font-ui: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-heading: 'Outfit', 'Noto Sans TC', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-editor);
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      font-size: 13px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: 1px solid var(--border-solid);
+      background-color: var(--bg-input);
+      color: var(--text-bright);
+      padding: 6px 14px;
+      font-size: 12px;
+      border-radius: 2px;
+      transition: background-color 0.15s ease;
+    }
+    button:hover {
+      background-color: var(--bg-active);
+    }
+    button.btn-primary {
+      background-color: #0e639c;
+      border-color: #1177bb;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    button.btn-primary:hover {
+      background-color: #1177bb;
+    }
+
+    /* Top Title Bar */
+    .titlebar {
+      height: 36px;
+      background-color: var(--bg-titlebar);
+      border-bottom: 1px solid var(--border-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .titlebar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .window-controls {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+    }
+    .window-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-close { background-color: #ff5f56; }
+    .dot-min { background-color: #ffbd2e; }
+    .dot-max { background-color: #27c93f; }
+
+    .app-icon-title {
+      font-family: var(--font-code);
+      font-weight: 600;
+      color: var(--text-bright);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .titlebar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .badge-tag {
+      background-color: #222222;
+      border: 1px solid var(--border-solid);
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+      color: var(--accent-teal);
+      font-family: var(--font-code);
+    }
+
+    /* Breadcrumbs Bar */
+    .breadcrumbs-bar {
+      height: 30px;
+      background-color: var(--bg-tabs);
+      border-bottom: 1px solid var(--border-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      font-size: 11.5px;
+      font-family: var(--font-code);
+    }
+    .breadcrumbs-path {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+    }
+    .breadcrumbs-path a {
+      color: var(--accent-blue);
+    }
+    .breadcrumbs-path span.current {
+      color: var(--text-bright);
+      font-weight: 600;
+    }
+
+    /* Main Container */
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 20px 60px;
+    }
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    /* Hero / Detail Card */
+    .detail-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-solid);
+      padding: 24px 28px;
+      margin-bottom: 24px;
+    }
+    .card-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background-color: #173824;
+      color: #4ec9b0;
+      border: 1px solid #235937;
+      font-size: 11px;
+      font-family: var(--font-code);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-bright);
+    }
+    .card-subtitle {
+      font-size: 14px;
+      color: var(--accent-orange);
+      margin-top: 4px;
+    }
+    .card-desc {
+      margin-top: 16px;
+      line-height: 1.8;
+      color: var(--text-main);
+      background-color: var(--bg-card-alt);
+      padding: 14px 18px;
+      border-left: 3px solid var(--accent-blue);
+    }
+    .tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 16px;
+    }
+    .tag-item {
+      background-color: #2e3235;
+      border: 1px solid var(--border-solid);
+      color: #9cdcfe;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-family: var(--font-code);
+    }
+
+    /* Section Styling */
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-solid);
+      padding-bottom: 8px;
+    }
+
+    /* Grid for Rules */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .rule-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-solid);
+      padding: 16px 20px;
+    }
+    .rule-header {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-teal);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-code);
+    }
+    .rule-body {
+      font-size: 12.5px;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    /* Architecture Flow Box */
+    .flow-box {
+      background-color: #141414;
+      border: 1px solid var(--border-solid);
+      padding: 20px;
+      margin-bottom: 24px;
+      font-family: var(--font-code);
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--text-main);
+      overflow-x: auto;
+    }
+    .flow-step {
+      margin-bottom: 12px;
+    }
+    .flow-step strong {
+      color: var(--accent-yellow);
+    }
+
+    /* Color Swatches Table */
+    .swatch-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+    .swatch-table th, .swatch-table td {
+      border: 1px solid var(--border-solid);
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .swatch-table th {
+      background-color: var(--bg-card-alt);
+      color: var(--text-bright);
+    }
+    .color-preview {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      vertical-align: middle;
+      margin-right: 8px;
+      border: 1px solid #000;
+    }
+
+    /* Markdown Render Area */
+    .markdown-container {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-solid);
+      padding: 24px 32px;
+      margin-bottom: 24px;
+    }
+    .markdown-container h1, .markdown-container h2, .markdown-container h3 {
+      color: var(--accent-blue);
+      margin-top: 20px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border-solid);
+      padding-bottom: 6px;
+    }
+    .markdown-container h1 { font-size: 20px; color: var(--text-bright); }
+    .markdown-container h2 { font-size: 16px; }
+    .markdown-container h3 { font-size: 14px; color: var(--accent-teal); }
+    .markdown-container ul, .markdown-container ol {
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+    .markdown-container li {
+      margin-bottom: 6px;
+    }
+    .markdown-container code {
+      background-color: #2d2d2d;
+      color: var(--accent-orange);
+      padding: 2px 6px;
+      font-family: var(--font-code);
+      font-size: 11.5px;
+      border: 1px solid var(--border-solid);
+    }
+    .markdown-container pre {
+      background-color: #141414;
+      border: 1px solid var(--border-solid);
+      padding: 14px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+    }
+    .markdown-container pre code {
+      background: transparent;
+      border: none;
+      padding: 0;
+      color: var(--text-bright);
+    }
+
+    /* Status Bar */
+    .statusbar {
+      height: 24px;
+      background-color: var(--bg-statusbar);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      font-size: 11px;
+      font-family: var(--font-code);
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .statusbar-left, .statusbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Title Bar -->
+  <header class="titlebar">
+    <div class="titlebar-left">
+      <div class="window-controls">
+        <span class="window-dot dot-close"></span>
+        <span class="window-dot dot-min"></span>
+        <span class="window-dot dot-max"></span>
+      </div>
+      <div class="app-icon-title">
+        <span style="color: var(--accent-blue);">⬡</span>
+        <span>TAICA_IVEAI</span>
+        <span style="color: var(--text-dim);">—</span>
+        <span>作業二：建立一個自己的 AGENTS.md</span>
+      </div>
+    </div>
+
+    <div class="titlebar-right">
+      <span class="badge-tag">VS Code Dark+ Solid</span>
+      <a href="../index.html">
+        <button class="btn-primary">← 返回首頁總覽</button>
+      </a>
+      <a href="../AGENTS.md" target="_blank">
+        <button>查看根目錄 AGENTS.md ↗</button>
+      </a>
+    </div>
+  </header>
+
+  <!-- 2. Breadcrumbs Bar -->
+  <div class="breadcrumbs-bar">
+    <div class="breadcrumbs-path">
+      <a href="../index.html">TAICA_IVEAI</a>
+      <span>&gt;</span>
+      <span>assignments</span>
+      <span>&gt;</span>
+      <span>建立一個自己的  AGENTS</span>
+      <span>&gt;</span>
+      <span class="current">index.html</span>
+    </div>
+    <div style="color: var(--text-muted);">
+      學生：林宸平 (M11552010)
+    </div>
+  </div>
+
+  <!-- 3. Content Area -->
+  <main class="content-area">
+    <div class="container">
+      <!-- Detail Hero Card -->
+      <div class="detail-card">
+        <div class="card-badge">作業二 (HW 2) • 已發布</div>
+        <div class="card-title">建立一個自己的 AGENTS.md</div>
+        <div class="card-subtitle">VS Code Dark+ IDE 風格課程中心與自動化規範展示頁</div>
+        
+        <div class="card-desc">
+          本子頁面嚴格依據專案根目錄之 <code>AGENTS.md</code> 規範打造，展示 100% 實色（無透明、無毛玻璃）之 VS Code Dark+ 設計語言、
+          資料驅動架構（<code>data.json</code>）與自動化工作流（<code>scripts/build_manifest.py</code> + GitHub Actions）。
+        </div>
+
+        <div class="tags-row">
+          <span class="tag-item">AGENTS.md 規範驅動</span>
+          <span class="tag-item">VS Code Dark+</span>
+          <span class="tag-item">100% 實色零透明</span>
+          <span class="tag-item">GitHub Actions 自動化</span>
+          <span class="tag-item">Markdown 即時渲染</span>
+        </div>
+
+        <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href="../index.html"><button class="btn-primary">← 返回主課程總管首頁</button></a>
+          <button onclick="scrollToSection('sec-specs')">檢視規範清單 ↓</button>
+          <button onclick="scrollToSection('sec-automation')">自動化工作流 ↓</button>
+          <button onclick="scrollToSection('sec-raw-md')">渲染 AGENTS.md 內容 ↓</button>
+        </div>
+      </div>
+
+      <!-- Section: Specifications -->
+      <section id="sec-specs" style="margin-bottom: 30px;">
+        <div class="section-title">
+          <span>🎨</span>
+          <span>一、VS Code Dark+ 零透明度實色設計系統規範</span>
+        </div>
+        <div class="rules-grid">
+          <div class="rule-card">
+            <div class="rule-header">🚫 絕對禁令</div>
+            <div class="rule-body">
+              嚴禁在任何 CSS 中使用 <code>rgba()</code>、<code>hsla()</code>、<code>opacity &lt; 1</code>、<code>backdrop-filter: blur()</code>。所有背景、卡片、邊框皆須為實色。
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-header">🧱 標準背景調色盤</div>
+            <div class="rule-body">
+              編輯區使用 <code>#1e1e1e</code>、側邊欄使用 <code>#252526</code>、活動列 <code>#333333</code>、分頁列 <code>#2d2d2d</code>、卡片 <code>#252526</code>。
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-header">🖋️ 字體與語意色</div>
+            <div class="rule-body">
+              程式碼與樹狀結構使用 <code>JetBrains Mono</code>；中文內文使用 <code>Noto Sans TC</code>；英文標題使用 <code>Outfit</code>。
+            </div>
+          </div>
+        </div>
+
+        <!-- Color Palette Table -->
+        <div class="detail-card" style="padding: 16px 20px;">
+          <div style="font-weight: 700; color: var(--text-bright); margin-bottom: 8px;">標準色彩變數對照表</div>
+          <table class="swatch-table">
+            <thead>
+              <tr>
+                <th>變數名稱</th>
+                <th>實色色碼 (Hex)</th>
+                <th>色彩預覽</th>
+                <th>用途說明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>--bg-editor</code></td>
+                <td>#1e1e1e</td>
+                <td><span class="color-preview" style="background: #1e1e1e;"></span></td>
+                <td>主編輯器背景底色</td>
+              </tr>
+              <tr>
+                <td><code>--bg-sidebar</code></td>
+                <td>#252526</td>
+                <td><span class="color-preview" style="background: #252526;"></span></td>
+                <td>檔案總管側邊欄</td>
+              </tr>
+              <tr>
+                <td><code>--bg-activity</code></td>
+                <td>#333333</td>
+                <td><span class="color-preview" style="background: #333333;"></span></td>
+                <td>最左側活動按鈕列</td>
+              </tr>
+              <tr>
+                <td><code>--bg-tabs</code></td>
+                <td>#2d2d2d</td>
+                <td><span class="color-preview" style="background: #2d2d2d;"></span></td>
+                <td>頂部分頁列與標籤底色</td>
+              </tr>
+              <tr>
+                <td><code>--bg-statusbar</code></td>
+                <td>#007acc</td>
+                <td><span class="color-preview" style="background: #007acc;"></span></td>
+                <td>底部實色狀態列 (VS Code Blue)</td>
+              </tr>
+              <tr>
+                <td><code>--border-solid</code></td>
+                <td>#3c3c3c</td>
+                <td><span class="color-preview" style="background: #3c3c3c;"></span></td>
+                <td>所有面板與卡片實色邊框</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section: Automation Architecture -->
+      <section id="sec-automation" style="margin-bottom: 30px;">
+        <div class="section-title">
+          <span>⚙️</span>
+          <span>二、自動化資料流架構（build_manifest.py + GitHub Actions）</span>
+        </div>
+        <div class="flow-box">
+<div class="flow-step"><strong>[Step 1 檔案異動]</strong> 將新講義放入 <code>PPT/*.pdf</code>，或在 <code>notes/*.md</code> 建立新筆記，或新增作業資料夾。</div>
+<div class="flow-step"><strong>[Step 2 自動觸發]</strong> 檔案推送到 GitHub <code>main</code> 分支，觸發 <code>.github/workflows/update-manifest.yml</code>。</div>
+<div class="flow-step"><strong>[Step 3 掃描建置]</strong> 執行 <code>python3 scripts/build_manifest.py</code>，智慧解析筆記標題、檔案大小與作業中繼檔。</div>
+<div class="flow-step"><strong>[Step 4 寫入清單]</strong> 自動產生最新的 <code>data.json</code> 並自動 Commit / Push 回儲存庫。</div>
+<div class="flow-step"><strong>[Step 5 靜態呈現]</strong> 前端 <code>index.html</code> 透過 <code>fetch('data.json')</code> 取得最新清單，自動更新左側檔案樹與內容！</div>
+        </div>
+      </section>
+
+      <!-- Section: Rendered AGENTS.md -->
+      <section id="sec-raw-md">
+        <div class="section-title">
+          <span>📜</span>
+          <span>三、根目錄 AGENTS.md 完整規範即時渲染</span>
+        </div>
+        <div class="markdown-container" id="agents-md-render-box">
+          <div style="color: var(--text-muted); font-family: var(--font-code);">載入 AGENTS.md 規範內容中...</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- 4. Status Bar -->
+  <footer class="statusbar">
+    <div class="statusbar-left">
+      <span>⑂ main*</span>
+      <span>VS Code Dark+ (Solid)</span>
+      <span>規範合規率: 100%</span>
+    </div>
+    <div class="statusbar-right">
+      <span>UTF-8</span>
+      <span>LF</span>
+      <span>HTML / Marked.js</span>
+    </div>
+  </footer>
+
+  <script>
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Load & Render AGENTS.md
+    window.addEventListener('DOMContentLoaded', async () => {
+      const renderBox = document.getElementById('agents-md-render-box');
+      try {
+        const res = await fetch('../AGENTS.md?t=' + Date.now());
+        if (res.ok) {
+          const text = await res.text();
+          renderBox.innerHTML = marked.parse(text);
+          return;
+        }
+      } catch (e) {
+        console.warn('Cannot fetch ../AGENTS.md directly (file:// restriction), using embedded content.');
+      }
+
+      // Fallback embedded text if file:// protocol prevents fetch
+      const fallbackMd = `# AGENTS.md — 115-1 TAICA_IVEAI 課程作業與知識整合中心開發規範
+
+> 本文件為 AI Agent 維護與擴充本專案的最高指導原則。任何修改、重構或新增頁面／內容前，請先完整閱讀本文件與 \`data.json\`。
+
+## 1. 專案目的與核心架構
+本專案為國立臺灣科技大學（NTUST）人工智慧所 **115-1《智慧虛擬實境與人工智慧 (TAICA_IVEAI)》** 課程入口網站與學習知識庫（GitHub Pages 靜態託管）。
+
+採用 **「資料驅動（\`data.json\`）＋ 純靜態自動化（\`scripts/build_manifest.py\` + GitHub Actions）」** 架構：
+- 首頁（\`index.html\`）不寫死作業卡片、講義或筆記清單，而是讀取 \`data.json\` 動態渲染左側檔案樹與中央編輯區。
+- 新增 PDF 講義至 \`PPT/\`、新增 \`.md\` 筆記至 \`notes/\` 或新增作業資料夾後，由自動化腳本或 GitHub Actions 更新 \`data.json\`，網頁即自動同步顯示。
+
+## 2. 網頁整體視覺風格規範（VS Code Dark+ 零透明度標準）
+- **嚴禁使用任何半透明或毛玻璃效果**：禁止使用 \`rgba()\`、\`hsla()\`、\`opacity < 1\`、\`backdrop-filter: blur()\` 或半透明漸層，所有背景、邊框、卡片與按鈕皆須為 **100% 實色（Solid Colors）**。
+- **標準 CSS 變數**：
+  - \`--bg-editor: #1e1e1e\`（主編輯區）
+  - \`--bg-sidebar: #252526\`（左側檔案總管）
+  - \`--bg-activity: #333333\`（最左側活動列）
+  - \`--bg-tabs: #2d2d2d\`（分頁列與標題列）
+  - \`--bg-hover: #2a2d2e\` / \`--bg-active: #37373d\`
+  - \`--bg-statusbar: #007acc\`（底部狀態列）
+  - \`--border-solid: #3c3c3c\`（實色邊框）
+  - \`--text-main: #cccccc\` / \`--text-bright: #ffffff\` / \`--text-muted: #858585\`
+  - \`--accent-blue: #569cd6\` / \`--accent-teal: #4ec9b0\` / \`--accent-yellow: #dcdcaa\` / \`--accent-orange: #ce9178\`
+- **字體**：程式碼與檔案樹用 \`JetBrains Mono\`；中文內文用 \`Noto Sans TC\`；英文標題用 \`Outfit\`。
+
+## 3. 頁面結構（IDE 版型規範）
+1. **Title Bar**：顯示課程名稱、學生資訊（\`M11552010 林宸平\`）與「匯出 \`data.json\`」按鈕。
+2. **Activity Bar（48px）**：切換「檔案總管」、「新增影片連結／Markdown 筆記」、「專案顯示名稱管理」。
+3. **Explorer Sidebar（270px）**：可折疊資料夾樹，對應 \`assignments/\`、\`PPT/\`、\`notes/\`、\`videos\` 與 \`AGENTS.md\`。
+4. **Editor Group**：頂部為分頁列與麵包屑路徑，中央依選取項目顯示作業詳情、PDF 講義與關聯影片、或即時渲染的 \`notes/*.md\` 筆記（使用 \`marked.js\`）。
+5. **Status Bar（24px）**：實色 \`#007acc\`，顯示分支與作業／講義／筆記數量統計。
+
+## 4. 檔案命名、放置與改名規則
+- **新作業資料夾**：放置於根目錄（建議英文 kebab-case），內部必須包含 \`index.html\`，可選配 \`project.meta.json\`。
+- **顯示名稱與實體路徑分離**：若想修改專案名稱而不改資料夾，只需調整 \`data.json\` 的 \`displayName\`（可在網頁直接修改後匯出 \`data.json\`）；若更改實體資料夾名稱，執行 \`python3 scripts/build_manifest.py\` 即可自動更新。
+- **上課筆記（\`notes/\`）**：一律使用 \`.md\` 檔案，建議命名 \`W{週次}_{主題}.md\`，首行使用 \`# 標題\`。
+- **課程講義（\`PPT/\`）**：直接放入 \`.pdf\` 檔案即可自動納入掃描。
+
+## 5. AI 修改或新增內容的強制工作流
+1. **先讀規範**：先讀取 \`AGENTS.md\` 與 \`data.json\`。
+2. **嚴守實色**：禁止在任何新增或修改的 CSS 中使用半透明色彩。
+3. **新增作業**：建立 \`<作業資料夾>/index.html\`（套用相同 VS Code Dark+ 實色變數與返回首頁麵包屑），再執行 \`python3 scripts/build_manifest.py\` 更新 \`data.json\` 並同步更新 \`README.md\`。
+4. **保留自訂資料**：更新 \`data.json\` 時，必須保留既有的 \`displayName\` 與 \`videos\` 影片連結。`;
+      renderBox.innerHTML = marked.parse(fallbackMd);
+    });
+  </script>
+</body>
+</html>
+
