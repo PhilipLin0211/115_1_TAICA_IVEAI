@@ -1072,6 +1072,11 @@
 
       <!-- Panel: Explorer -->
       <div class="sidebar-content" id="panel-explorer">
+        <!-- Filter Search Box -->
+        <div style="padding: 6px 10px; border-bottom: 1px solid var(--border-dark); background-color: var(--bg-sidebar-header);">
+          <input type="text" id="sidebar-filter-input" placeholder="🔍 快速篩選檔案 / 講義..." oninput="handleSidebarFilter(this.value)" style="font-size: 11.5px; padding: 4px 8px; background-color: #1e1e1e; border: 1px solid var(--border-solid);">
+        </div>
+
         <!-- Root Project Overview -->
         <div class="tree-item" id="tree-overview" onclick="openOverviewTab()"
           style="padding: 6px 14px; border-bottom: 1px solid var(--border-dark);">
@@ -1238,16 +1243,26 @@
         },
         {
           "id": "hw2-agents-md",
-          "badge": "作業二 (HW 2) • 已發布",
-          "displayName": "建立一個自己的 AGENTS.md",
-          "subtitle": "VS Code Dark+ IDE 風格課程中心與自動化規範展示頁",
+          "badge": "作業二 (HW 2) • 全站課程管理中樞",
+          "displayName": "建立一個自己的 AGENTS.md (全站課程管理中樞)",
+          "subtitle": "VS Code Dark+ 零透明度 IDE 課程總管與自動化系統 (Meta-Project)",
           "folderPath": "建立一個自己的  AGENTS",
           "entryFile": "index.html",
-          "description": "依照根目錄 AGENTS.md 規範設計的同風格子頁面，完整展示本課程入口站的 VS Code Dark+ 零透明度設計系統、自動化資料流架構（build_manifest.py + GitHub Actions）與未來擴充流程。",
-          "tags": ["AGENTS.md", "VS Code Dark+", "零透明度實色", "GitHub Actions", "Markdown Rendering"],
+          "description": "本項作業成果即為整個 TAICA_IVEAI 課程作業與知識入口網站本體（Meta-Project Infrastructure）。嚴格遵循專案根目錄 AGENTS.md 規範手冊打造，整合 100% 實色 VS Code Dark+ 設計系統、data.json 資料驅動架構、LocalStorage 本機即時暫存、檔案總管即時搜尋與 GitHub Actions 自動建置守護流程。",
+          "tags": [
+            "課程管理中樞 (Meta-Project)",
+            "AGENTS.md 規範手冊",
+            "VS Code Dark+",
+            "100% 實色零透明",
+            "LocalStorage 暫存",
+            "檔案即時搜尋",
+            "GitHub Actions CI/CD"
+          ],
           "links": [
-            { "label": "線上體驗 (Live Demo)", "url": "./建立一個自己的  AGENTS/index.html", "type": "primary" },
-            { "label": "檢視 AGENTS.md", "url": "./AGENTS.md", "type": "secondary", "external": false }
+            { "label": "線上體驗 (Live Demo)", "url": "./index.html", "type": "primary" },
+            { "label": "系統架構圖 (ARCHITECTURE)", "url": "./建立一個自己的  AGENTS/README.md", "type": "secondary" },
+            { "label": "檢視 AGENTS.md", "url": "./AGENTS.md", "type": "secondary", "external": false },
+            { "label": "W08 自動化筆記", "url": "./notes/W08_AGENTS_md_設計筆記.md", "type": "secondary", "external": false }
           ]
         },
         {
@@ -1313,12 +1328,87 @@
       });
     });
 
-    async function loadDataJson() {
+    /* ==========================================================================
+       LocalStorage & Persistence System
+       ========================================================================== */
+    const STORAGE_KEY = 'taica_course_manifest_cache';
+
+    function syncToLocalStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(courseData));
+        console.log('[Manifest] Synced to LocalStorage.');
+        updateStatusBar();
+      } catch (err) {
+        console.warn('[Manifest] Failed to sync to LocalStorage', err);
+      }
+    }
+
+    function resetToRemoteManifest() {
+      if (confirm('確定要清除瀏覽器本機的暫存修改，恢復為伺服器原始版本嗎？')) {
+        localStorage.removeItem(STORAGE_KEY);
+        loadDataJson(true).then(() => {
+          renderSidebar();
+          updateStatusBar();
+          if (activeTabId) {
+            const currentTab = openTabs.find(t => t.id === activeTabId);
+            if (currentTab) renderEditorStage(currentTab);
+          }
+          alert('已成功恢復為伺服器原始版本！');
+        });
+      }
+    }
+
+    function importDataJsonFile(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (!parsed.assignments || !parsed.materials) {
+            throw new Error('缺少 assignments 或 materials 必要清單');
+          }
+          courseData = parsed;
+          syncToLocalStorage();
+          renderSidebar();
+          updateStatusBar();
+          if (activeTabId === 'data-json') {
+            const currentTab = openTabs.find(t => t.id === 'data-json');
+            if (currentTab) renderEditorStage(currentTab);
+          }
+          alert('data.json 檔案匯入成功並已儲存至本機！');
+        } catch (err) {
+          alert('匯入失敗：' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    let currentFilterQuery = '';
+    function handleSidebarFilter(query) {
+      currentFilterQuery = (query || '').trim().toLowerCase();
+      renderSidebar();
+    }
+
+    async function loadDataJson(forceRemote = false) {
+      if (!forceRemote) {
+        const localCached = localStorage.getItem(STORAGE_KEY);
+        if (localCached) {
+          try {
+            courseData = JSON.parse(localCached);
+            console.log('[Manifest] Loaded from localStorage cache.');
+            return;
+          } catch (e) {
+            console.warn('[Manifest] localStorage parse error, falling back to network.');
+          }
+        }
+      }
+
       try {
         const res = await fetch('data.json?t=' + Date.now());
         if (res.ok) {
           const json = await res.json();
-          // 合併自訂修改
           courseData = json;
           console.log('[Manifest] Loaded data.json successfully.');
         } else {
@@ -1330,13 +1420,21 @@
     }
 
     /* ==========================================================================
-       Sidebar Rendering
+       Sidebar Rendering (with Quick Filter)
        ========================================================================== */
     function renderSidebar() {
       // 1. Assignments
       const assignList = document.getElementById('tree-assignments-list');
       assignList.innerHTML = '';
-      courseData.assignments.forEach(item => {
+      const filteredAssignments = currentFilterQuery
+        ? courseData.assignments.filter(item =>
+            item.displayName.toLowerCase().includes(currentFilterQuery) ||
+            item.folderPath.toLowerCase().includes(currentFilterQuery) ||
+            (item.tags && item.tags.some(t => t.toLowerCase().includes(currentFilterQuery)))
+          )
+        : courseData.assignments;
+
+      filteredAssignments.forEach(item => {
         const div = document.createElement('div');
         div.className = `tree-item ${activeTabId === item.id ? 'active' : ''}`;
         div.onclick = () => openAssignmentTab(item);
@@ -1346,12 +1444,19 @@
         `;
         assignList.appendChild(div);
       });
-      document.getElementById('count-assignments').innerText = courseData.assignments.length;
+      document.getElementById('count-assignments').innerText = filteredAssignments.length;
+      if (currentFilterQuery && filteredAssignments.length > 0) {
+        document.getElementById('sec-assignments').classList.remove('collapsed');
+      }
 
       // 2. Materials
       const matList = document.getElementById('tree-materials-list');
       matList.innerHTML = '';
-      courseData.materials.forEach(item => {
+      const filteredMaterials = currentFilterQuery
+        ? courseData.materials.filter(m => m.title.toLowerCase().includes(currentFilterQuery))
+        : courseData.materials;
+
+      filteredMaterials.forEach(item => {
         const div = document.createElement('div');
         div.className = `tree-item ${activeTabId === item.id ? 'active' : ''}`;
         div.onclick = () => openMaterialTab(item);
@@ -1361,12 +1466,19 @@
         `;
         matList.appendChild(div);
       });
-      document.getElementById('count-materials').innerText = courseData.materials.length;
+      document.getElementById('count-materials').innerText = filteredMaterials.length;
+      if (currentFilterQuery && filteredMaterials.length > 0) {
+        document.getElementById('sec-materials').classList.remove('collapsed');
+      }
 
       // 3. Notes
       const notesList = document.getElementById('tree-notes-list');
       notesList.innerHTML = '';
-      courseData.notes.forEach(item => {
+      const filteredNotes = currentFilterQuery
+        ? courseData.notes.filter(n => n.title.toLowerCase().includes(currentFilterQuery))
+        : courseData.notes;
+
+      filteredNotes.forEach(item => {
         const div = document.createElement('div');
         div.className = `tree-item ${activeTabId === item.id ? 'active' : ''}`;
         div.onclick = () => openNoteTab(item);
@@ -1376,15 +1488,22 @@
         `;
         notesList.appendChild(div);
       });
-      document.getElementById('count-notes').innerText = courseData.notes.length;
+      document.getElementById('count-notes').innerText = filteredNotes.length;
+      if (currentFilterQuery && filteredNotes.length > 0) {
+        document.getElementById('sec-notes').classList.remove('collapsed');
+      }
 
       // 4. Videos
       const vidList = document.getElementById('tree-videos-list');
       vidList.innerHTML = '';
-      if (!courseData.videos || courseData.videos.length === 0) {
-        vidList.innerHTML = `<div style="padding: 6px 24px; color: var(--text-dim); font-size: 11px;">尚無新增影片 (點擊活動列 ➕ 新增)</div>`;
+      const filteredVideos = currentFilterQuery
+        ? (courseData.videos || []).filter(v => v.title.toLowerCase().includes(currentFilterQuery))
+        : (courseData.videos || []);
+
+      if (filteredVideos.length === 0) {
+        vidList.innerHTML = `<div style="padding: 6px 24px; color: var(--text-dim); font-size: 11px;">${currentFilterQuery ? '無符合的影片' : '尚無新增影片 (點擊活動列 ➕ 新增)'}</div>`;
       } else {
-        courseData.videos.forEach(item => {
+        filteredVideos.forEach(item => {
           const div = document.createElement('div');
           div.className = `tree-item ${activeTabId === item.id ? 'active' : ''}`;
           div.onclick = () => openVideoTab(item);
@@ -1395,7 +1514,10 @@
           vidList.appendChild(div);
         });
       }
-      document.getElementById('count-videos').innerText = (courseData.videos || []).length;
+      document.getElementById('count-videos').innerText = filteredVideos.length;
+      if (currentFilterQuery && filteredVideos.length > 0) {
+        document.getElementById('sec-videos').classList.remove('collapsed');
+      }
 
       // 5. Sidebar displayNames list
       renderDisplayNamesManager();
@@ -1446,6 +1568,7 @@
     function updateAssignmentDisplayName(idx, newVal) {
       if (!newVal.trim()) return;
       courseData.assignments[idx].displayName = newVal.trim();
+      syncToLocalStorage();
       renderSidebar();
       // 如果當前開啟的 tab 是此項目，更新標題
       const tab = openTabs.find(t => t.id === courseData.assignments[idx].id);
@@ -1836,21 +1959,27 @@
 
     function renderDataJsonView(container) {
       const jsonStr = JSON.stringify(courseData, null, 2);
+      const isCached = !!localStorage.getItem(STORAGE_KEY);
       container.innerHTML = `
         <div class="view-card-wrap">
           <div class="vs-hero">
             <div class="vs-hero-header">
               <div>
-                <div class="vs-hero-title">data.json 編輯與即時檢視</div>
-                <div class="vs-hero-subtitle">本站所有清單、講義、筆記與自訂影片的核心 Manifest</div>
+                <div class="vs-hero-title">data.json 資料管理與即時檢視</div>
+                <div class="vs-hero-subtitle">本站所有清單、講義、筆記與自訂影片的核心 Manifest（支援本機 LocalStorage 即時暫存）</div>
               </div>
-              <div style="display: flex; gap: 8px;">
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                 <button class="btn-primary" onclick="saveEditedDataJson()">套用編輯</button>
-                <button class="btn-success" onclick="exportDataJson()">↓ 匯出 data.json 檔案</button>
+                <label class="action-btn secondary" style="cursor: pointer; margin: 0;">
+                  📂 匯入 JSON
+                  <input type="file" accept=".json" onchange="importDataJsonFile(event)" style="display: none;">
+                </label>
+                <button class="btn-success" onclick="exportDataJson()">↓ 匯出 data.json</button>
+                <button onclick="resetToRemoteManifest()" title="清除本機快取，恢復成伺服器原始資料">↻ 重設快取</button>
               </div>
             </div>
             <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
-              提示：您可以直接在下方編輯器修改 JSON 內容，點選「套用編輯」即可即時在網頁中生效，並點選「匯出 data.json」下載取代本機檔案。
+              提示：您可以直接在下方編輯器修改 JSON 內容，或點選「📂 匯入 JSON」載入現有檔案。本系統會即時將修改同步於 LocalStorage，並可隨時點選「匯出 data.json」下載保存。${isCached ? '<br><span style="color: var(--accent-yellow);">● 目前正在使用瀏覽器本機快取資料</span>' : ''}
             </p>
           </div>
 
@@ -1866,9 +1995,10 @@
       try {
         const parsed = JSON.parse(txt);
         courseData = parsed;
+        syncToLocalStorage();
         renderSidebar();
         updateStatusBar();
-        alert('data.json 已成功套用至當前工作階段！請記得點選右上角「匯出 data.json」將實體檔案下載儲存。');
+        alert('data.json 已成功套用並儲存至本機 LocalStorage！請記得點選右上角「匯出 data.json」下載保存。');
       } catch (err) {
         alert('JSON 格式解析錯誤，請檢查語法：' + err.message);
       }
@@ -1939,6 +2069,7 @@
       const newVideo = { id: newId, title, url, desc };
       courseData.videos = courseData.videos || [];
       courseData.videos.push(newVideo);
+      syncToLocalStorage();
 
       renderSidebar();
       updateStatusBar();
@@ -1995,6 +2126,7 @@
       if (content) {
         fileContentCache[path] = content;
       }
+      syncToLocalStorage();
 
       renderSidebar();
       updateStatusBar();
@@ -2075,7 +2207,11 @@
       const mCount = courseData.materials ? courseData.materials.length : 0;
       const nCount = courseData.notes ? courseData.notes.length : 0;
       const vCount = courseData.videos ? courseData.videos.length : 0;
-      document.getElementById('status-counts').innerText = `${aCount} 作業 • ${mCount} 講義 • ${nCount} 筆記 • ${vCount} 影片`;
+      const isCached = !!localStorage.getItem(STORAGE_KEY);
+      document.getElementById('status-counts').innerHTML = `
+        <span>${aCount} 作業 • ${mCount} 講義 • ${nCount} 筆記 • ${vCount} 影片</span>
+        ${isCached ? '<span style="color: var(--accent-yellow); margin-left: 8px;" title="瀏覽器已暫存本機修改，點擊可重設或匯出" onclick="openDataJsonViewer()">● 本機自訂暫存中</span>' : ''}
+      `;
       if (courseData.meta && courseData.meta.lastUpdated) {
         document.getElementById('status-last-updated').innerText = courseData.meta.lastUpdated;
       }

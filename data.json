@@ -4,7 +4,7 @@
     "student": "林宸平 (M11552010)",
     "department": "國立臺灣科技大學 人工智慧所",
     "repoUrl": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI",
-    "lastUpdated": "2026-11-16 09:52 CST"
+    "lastUpdated": "2026-11-16 10:04 CST"
   },
   "assignments": [
     {
@@ -51,28 +51,42 @@
     },
     {
       "id": "hw2-agents-md",
-      "badge": "作業二 (HW 2) • 已發布",
-      "displayName": "建立一個自己的 AGENTS.md",
-      "subtitle": "VS Code Dark+ IDE 風格課程中心與自動化規範展示頁",
+      "badge": "作業二 (HW 2) • 全站課程管理中樞",
+      "displayName": "建立一個自己的 AGENTS.md (全站課程管理中樞)",
+      "subtitle": "VS Code Dark+ 零透明度 IDE 課程總管與自動化系統 (Meta-Project)",
       "folderPath": "建立一個自己的  AGENTS",
       "entryFile": "index.html",
-      "description": "依照根目錄 AGENTS.md 規範設計的同風格子頁面，完整展示本課程入口站的 VS Code Dark+ 零透明度設計系統、自動化資料流架構（build_manifest.py + GitHub Actions）與未來擴充流程。",
+      "description": "本項作業成果即為整個 TAICA_IVEAI 課程作業與知識入口網站本體（Meta-Project Infrastructure）。嚴格遵循專案根目錄 AGENTS.md 規範手冊打造，整合 100% 實色 VS Code Dark+ 設計系統、data.json 資料驅動架構、LocalStorage 本機即時暫存、檔案總管即時搜尋與 GitHub Actions 自動建置守護流程。",
       "tags": [
-        "AGENTS.md",
+        "課程管理中樞 (Meta-Project)",
+        "AGENTS.md 規範手冊",
         "VS Code Dark+",
-        "零透明度實色",
-        "GitHub Actions",
-        "Markdown Rendering"
+        "100% 實色零透明",
+        "LocalStorage 暫存",
+        "檔案即時搜尋",
+        "GitHub Actions CI/CD"
       ],
       "links": [
         {
           "label": "線上體驗 (Live Demo)",
-          "url": "./建立一個自己的  AGENTS/index.html",
+          "url": "./index.html",
           "type": "primary"
+        },
+        {
+          "label": "系統架構圖 (ARCHITECTURE)",
+          "url": "./建立一個自己的  AGENTS/README.md",
+          "type": "secondary",
+          "external": false
         },
         {
           "label": "檢視 AGENTS.md",
           "url": "./AGENTS.md",
+          "type": "secondary",
+          "external": false
+        },
+        {
+          "label": "W08 自動化架構筆記",
+          "url": "./notes/W08_AGENTS_md_設計筆記.md",
           "type": "secondary",
           "external": false
         }
