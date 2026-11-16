@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>115-1 TAICA_IVEAI 課程作業與知識整合中心 | 國立臺灣科技大學 林宸平</title>
-  <meta name="description" content="國立臺灣科技大學 人工智慧所 115-1 智慧虛擬實境與人工智慧 (TAICA_IVEAI) 課程作業集與成果導航中心。嚴格遵循 VS Code Dark+ 零透明度實色規範。">
+  <title>115-1 生成式AI：文字與圖像生成的原理與實務 課程作業與知識整合中心 | 國立臺灣科技大學 林宸平</title>
+  <meta name="description" content="國立臺灣科技大學 人工智慧所 115-1 生成式AI：文字與圖像生成的原理與實務 (TAICA_IVEAI) 課程作業集與成果導航中心。嚴格遵循 VS Code Dark+ 零透明度實色規範。">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -546,7 +546,7 @@
       </div>
       <div class="app-icon-title">
         <span style="color: var(--accent-blue);">⬡</span>
-        <span>115-1 TAICA_IVEAI</span>
+        <span>115-1 生成式AI：文字與圖像生成的原理與實務</span>
         <span style="color: var(--text-dim);">—</span>
         <span>林宸平 (M11552010)</span>
       </div>
@@ -585,7 +585,7 @@
         <div class="hero-top">
           <div>
             <div class="hero-badge">國立臺灣科技大學 • 人工智慧所</div>
-            <h1 class="hero-title">115-1 智慧虛擬實境與人工智慧 (TAICA_IVEAI)</h1>
+            <h1 class="hero-title">115-1 生成式AI：文字與圖像生成的原理與實務</h1>
             <div class="hero-subtitle">課程作業集、投影片講義與自動化知識中心</div>
           </div>
           <div>
@@ -712,7 +712,7 @@
        ========================================================================== */
     const FALLBACK_DATA = {
       "meta": {
-        "course": "115-1 TAICA_IVEAI 智慧虛擬實境與人工智慧",
+        "course": "115-1 生成式AI：文字與圖像生成的原理與實務",
         "student": "林宸平 (M11552010)",
         "department": "國立臺灣科技大學 人工智慧所",
         "repoUrl": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI",
@@ -892,7 +892,7 @@
         if (path.includes('W08')) {
           text = `# W08｜建立自己的 AGENTS.md 與自動化網站架構筆記\n\n## 本週核心觀念：從 Vibe Coding 走向可持續擴充\n\n- **Vibe Coding**：目標是快速把「單一網頁」做出來，每次修改都要重新描述上下文。\n- **AGENTS.md 規範開發**：先定義好**設計系統（CSS 變數）**、**資料夾結構**、**資料格式（\`data.json\`）**與**AI 執行流程**，讓後續新增頁面或內容時能保持完全一致的風格。\n\n## 本站自動化連動機制\n\n1. **檔案總管資料來源**：首頁讀取根目錄的 \`data.json\`，自動渲染作業、講義與 \`notes/\` 底下的 \`.md\` 筆記。\n2. **GitHub Actions 自動掃描**：只要把新的 PDF 放進 \`PPT/\`，或把新的 \`.md\` 放進 \`notes/\` 並推上 GitHub，\`scripts/build_manifest.py\` 就會自動更新 \`data.json\`。\n3. **網頁自訂功能**：可在網頁左側面板直接新增**上課影片連結**、撰寫新筆記或修改專案顯示名稱（\`displayName\`），再透過上方 **「匯出 data.json」** 覆蓋儲存。`;
         } else {
-          text = `# AGENTS.md — 115-1 TAICA_IVEAI 課程作業與知識整合中心開發規範\n\n> 本文件為 AI Agent 維護與擴充本專案的最高指導原則。任何修改、重構或新增頁面／內容前，請先完整閱讀本文件與 \`data.json\`。\n\n## 1. 專案目的與核心架構\n國立臺灣科技大學 (NTUST) 人工智慧所 115-1《智慧虛擬實境與人工智慧 (TAICA_IVEAI)》課程入口網站與學習知識庫。\n採用「資料驅動（\`data.json\`）＋ 純靜態自動化（\`scripts/build_manifest.py\` + GitHub Actions）」架構。\n\n## 2. 網頁整體視覺風格規範（VS Code Dark+ 零透明度標準）\n- 嚴禁使用任何半透明或毛玻璃效果：禁止使用 \`rgba()\`、\`hsla()\`、\`opacity < 1\`、\`backdrop-filter: blur()\`，所有背景、邊框、卡片皆須為 100% 實色。\n- 標準變數：\`--bg-editor: #1e1e1e\`、\`--bg-card: #252526\`、\`--bg-statusbar: #007acc\`、\`--border-solid: #3c3c3c\`。`;
+          text = `# AGENTS.md — 115-1 生成式AI：文字與圖像生成的原理與實務 課程作業與知識整合中心開發規範\n\n> 本文件為 AI Agent 維護與擴充本專案的最高指導原則。任何修改、重構或新增頁面／內容前，請先完整閱讀本文件與 \`data.json\`。\n\n## 1. 專案目的與核心架構\n國立臺灣科技大學 (NTUST) 人工智慧所 115-1《生成式AI：文字與圖像生成的原理與實務》課程入口網站與學習知識庫。\n採用「資料驅動（\`data.json\`）＋ 純靜態自動化（\`scripts/build_manifest.py\` + GitHub Actions）」架構。\n\n## 2. 網頁整體視覺風格規範（VS Code Dark+ 零透明度標準）\n- 嚴禁使用任何半透明或毛玻璃效果：禁止使用 \`rgba()\`、\`hsla()\`、\`opacity < 1\`、\`backdrop-filter: blur()\`，所有背景、邊框、卡片皆須為 100% 實色。\n- 標準變數：\`--bg-editor: #1e1e1e\`、\`--bg-card: #252526\`、\`--bg-statusbar: #007acc\`、\`--border-solid: #3c3c3c\`。`;
         }
       }
 

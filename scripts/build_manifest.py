@@ -23,7 +23,7 @@ def load_existing_data() -> dict:
             return json.load(f)
     return {
         "meta": {
-            "course": "115-1 TAICA_IVEAI 智慧虛擬實境與人工智慧",
+            "course": "115-1 生成式AI：文字與圖像生成的原理與實務",
             "student": "林宸平 (M11552010)",
             "repoUrl": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI",
         },

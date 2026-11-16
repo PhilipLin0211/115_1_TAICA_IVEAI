@@ -1,6 +1,6 @@
 # 作業二：建立一個自己的 AGENTS.md (HW 2)
 
-> **課程**：115-1 智慧虛擬實境與人工智慧 (TAICA_IVEAI)  
+> **課程**：115-1 生成式AI：文字與圖像生成的原理與實務 (TAICA_IVEAI)  
 > **學生**：國立臺灣科技大學 人工智慧所 林宸平 (M11552010)  
 > **線上體驗**：👉 [https://philiplin0211.github.io/115_1_TAICA_IVEAI/建立一個自己的%20%20AGENTS/](https://philiplin0211.github.io/115_1_TAICA_IVEAI/%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E8%87%AA%E5%B7%B1%E7%9A%84%20%20AGENTS/)  
 > **規範手冊**：👉 [根目錄 AGENTS.md](../AGENTS.md)
