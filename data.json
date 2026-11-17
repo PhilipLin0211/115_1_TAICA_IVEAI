@@ -4,7 +4,7 @@
     "student": "林宸平 (M11552010)",
     "department": "國立臺灣科技大學 人工智慧所",
     "repoUrl": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI",
-    "lastUpdated": "2026-11-17 14:32 CST"
+    "lastUpdated": "2026-11-17 14:35 CST"
   },
   "assignments": [
     {
@@ -99,13 +99,15 @@
       "subtitle": "Local AI File Agent —— 打造零隱私外洩的個人第二大腦系統",
       "folderPath": "Local AI File Agent",
       "entryFile": "index.html",
-      "description": "基於 macOS 本地環境與 Ollama 本地模型運算的 AI 檔案分類與向量檢索系統。背景常駐監聽 ~/Downloads 目錄，自動萃取文獻重點並透過 FAISS 向量資料庫進行語意比對，交由 Qwen 2.5 Coder 進行結構化決策與智慧歸檔，自動生成含雙向連結的 Obsidian LLMWiki 閱讀筆記。",
+      "description": "基於 macOS 本地環境與 Ollama 本地模型運算的 AI 檔案管家。具備全格式記憶體虛擬轉譯（純 RAM 零磁碟殘留）、二階段粗到細路由、HDBSCAN 自適應主題聚合探索與動態資料夾掛載功能。結合 FAISS 向量檢索、Qwen 2.5 Coder 決策與 Obsidian LLMWiki，自動建構安全進化的個人第二大腦。",
       "tags": [
         "100% 本地離線推論",
-        "Ollama Qwen 2.5 Coder",
-        "FAISS RAG",
-        "nomic-embed-text",
-        "Watchdog",
+        "記憶體虛擬轉譯",
+        "二階段智慧路由",
+        "HDBSCAN 主題聚合",
+        "動態資料夾掛載",
+        "FAISS 向量 RAG",
+        "MOVE-ONLY 權限隔離",
         "Obsidian LLMWiki"
       ],
       "links": [

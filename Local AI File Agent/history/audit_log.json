@@ -1391,5 +1391,707 @@
         }
       ]
     }
+  },
+  {
+    "id": "event_895747843",
+    "timestamp": "2026-11-17 14:09:07",
+    "event_type": "ATTACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 成功掛載並啟動即時監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 7,
+      "files": [
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "Johnson Sun - NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques (2026-11-11).pdf",
+          "size_bytes": 24232405,
+          "modified": "2026-11-17 11:58:08"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "受試者招募意願QR code.png",
+          "size_bytes": 4625,
+          "modified": "2026-11-16 14:45:14"
+        }
+      ]
+    }
+  },
+  {
+    "id": "event_895792623",
+    "timestamp": "2026-11-17 14:09:52",
+    "event_type": "DETACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 收到中斷信號，安全卸載並停止監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 7,
+      "files": [
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "Johnson Sun - NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques (2026-11-11).pdf",
+          "size_bytes": 24232405,
+          "modified": "2026-11-17 11:58:08"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "受試者招募意願QR code.png",
+          "size_bytes": 4625,
+          "modified": "2026-11-16 14:45:14"
+        }
+      ]
+    }
+  },
+  {
+    "id": "event_896352136",
+    "timestamp": "2026-11-17 14:19:12",
+    "event_type": "ATTACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 成功掛載並啟動即時監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 7,
+      "files": [
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "Johnson Sun - NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques (2026-11-11).pdf",
+          "size_bytes": 24232405,
+          "modified": "2026-11-17 11:58:08"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "受試者招募意願QR code.png",
+          "size_bytes": 4625,
+          "modified": "2026-11-16 14:45:14"
+        }
+      ]
+    }
+  },
+  {
+    "id": "act_1794896397",
+    "timestamp": "2026-11-17 14:19:57",
+    "timestamp_iso": "2026-11-17T14:19:57.765933",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "全端網頁設計.docx",
+      "size_bytes": 2013013,
+      "extension": ".docx"
+    },
+    "destination": {
+      "category": "Dev_Notes/Frontend",
+      "sanitized_name": "2023_JohnnyChao_Full_Web_Design.docx",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/Dev_Notes/Frontend/2023_JohnnyChao_Full_Web_Design.docx"
+    },
+    "decision_metadata": {
+      "wiki_title": "全端網頁設計",
+      "tags": [
+        "前端技術",
+        "SPA",
+        "安全性"
+      ],
+      "double_links": [
+        "[[單頁式應用程式]]",
+        "[[安全性邊界]]"
+      ],
+      "reasoning": "該文件主要討論前端技術和安全性問題，因此最適合歸類於 Dev_Notes/Frontend 目錄。命名方面，使用了作者名稱和年份來確保檔案名稱的唯一性和可識別性。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/Dev_Notes/Frontend",
+        "total_files": 2,
+        "files": [
+          {
+            "relative_path": "2023_JohnnyChao_Full_Web_Design.docx",
+            "size_bytes": 2013013,
+            "modified": "2026-11-17 14:19:35"
+          },
+          {
+            "relative_path": "全端網頁設計.md",
+            "size_bytes": 1112,
+            "modified": "2026-11-17 14:19:57"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 9,
+        "files": [
+          {
+            "relative_path": "2026 RL Paper List .xlsx",
+            "size_bytes": 302546,
+            "modified": "2026-11-17 14:19:41"
+          },
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "Johnson Sun - NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques (2026-11-11) (1).pdf",
+            "size_bytes": 24232405,
+            "modified": "2026-11-17 14:19:53"
+          },
+          {
+            "relative_path": "Johnson Sun - NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques (2026-11-11).pdf",
+            "size_bytes": 24232405,
+            "modified": "2026-11-17 11:58:08"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "受試者招募意願QR code.png",
+            "size_bytes": 4625,
+            "modified": "2026-11-16 14:45:14"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "act_1794896409",
+    "timestamp": "2026-11-17 14:20:09",
+    "timestamp_iso": "2026-11-17T14:20:09.862360",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "2026 RL Paper List .xlsx",
+      "size_bytes": 302546,
+      "extension": ".xlsx"
+    },
+    "destination": {
+      "category": "General/Inbox",
+      "sanitized_name": "2026 RL Paper List.xlsx",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox/2026 RL Paper List.xlsx"
+    },
+    "decision_metadata": {
+      "wiki_title": "2026 RL Paper List",
+      "tags": [
+        "機器學習",
+        "強化學習",
+        "研究文獻"
+      ],
+      "double_links": [
+        "[[機器學習]]",
+        "[[強化學習]]"
+      ],
+      "reasoning": "該檔案為一個研究文獻清單，內容涉及強化學習領域，因此不適合直接放入特定的技術或課程分類中。為了保持文件的清晰與有序，建議暫時存放在General/Inbox目錄下。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox",
+        "total_files": 4,
+        "files": [
+          {
+            "relative_path": "2026 RL Paper List.md",
+            "size_bytes": 1036,
+            "modified": "2026-11-17 14:20:09"
+          },
+          {
+            "relative_path": "2026 RL Paper List.xlsx",
+            "size_bytes": 302546,
+            "modified": "2026-11-17 14:19:41"
+          },
+          {
+            "relative_path": "tw.md",
+            "size_bytes": 791,
+            "modified": "2026-11-10 13:42:27"
+          },
+          {
+            "relative_path": "tw.png",
+            "size_bytes": 457520,
+            "modified": "2026-11-10 13:42:13"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 8,
+        "files": [
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "Johnson Sun - NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques (2026-11-11) (1).pdf",
+            "size_bytes": 24232405,
+            "modified": "2026-11-17 14:19:53"
+          },
+          {
+            "relative_path": "Johnson Sun - NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques (2026-11-11).pdf",
+            "size_bytes": 24232405,
+            "modified": "2026-11-17 11:58:08"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "受試者招募意願QR code.png",
+            "size_bytes": 4625,
+            "modified": "2026-11-16 14:45:14"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "act_1794896426",
+    "timestamp": "2026-11-17 14:20:26",
+    "timestamp_iso": "2026-11-17T14:20:26.086210",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "Johnson Sun - NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques (2026-11-11) (1).pdf",
+      "size_bytes": 24232405,
+      "extension": ".pdf"
+    },
+    "destination": {
+      "category": "AI_Research/NLP",
+      "sanitized_name": "Johnson_Sun_NVIDIA_Isaac_Platform_for_Robotics_and_GPU_Optimization_Techniques_2026-11-11.pdf",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/AI_Research/NLP/Johnson_Sun_NVIDIA_Isaac_Platform_for_Robotics_and_GPU_Optimization_Techniques_2026-11-11.pdf"
+    },
+    "decision_metadata": {
+      "wiki_title": "NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques",
+      "tags": [
+        "AI",
+        "Robotics",
+        "GPU",
+        "Optimization"
+      ],
+      "double_links": [
+        "[[NVIDIA]]",
+        "[[Isaac Platform]]",
+        "[[Robotics]]"
+      ],
+      "reasoning": "該文件主要涉及 NVIDIA 的 AI 平台及其在機器人和 GPU 优化方面的工作，因此最適合分類到 AI_Research/NLP 目錄下。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/AI_Research/NLP",
+        "total_files": 2,
+        "files": [
+          {
+            "relative_path": "Johnson_Sun_NVIDIA_Isaac_Platform_for_Robotics_and_GPU_Optimization_Techniques_2026-11-11.pdf",
+            "size_bytes": 24232405,
+            "modified": "2026-11-17 14:19:53"
+          },
+          {
+            "relative_path": "NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques.md",
+            "size_bytes": 1284,
+            "modified": "2026-11-17 14:20:26"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 7,
+        "files": [
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "Johnson Sun - NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques (2026-11-11).pdf",
+            "size_bytes": 24232405,
+            "modified": "2026-11-17 11:58:08"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "受試者招募意願QR code.png",
+            "size_bytes": 4625,
+            "modified": "2026-11-16 14:45:14"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "act_1794896517",
+    "timestamp": "2026-11-17 14:21:57",
+    "timestamp_iso": "2026-11-17T14:21:57.630148",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "NTUT_DD_111360209_ch_0.pdf",
+      "size_bytes": 608720,
+      "extension": ".pdf"
+    },
+    "destination": {
+      "category": "General/Inbox",
+      "sanitized_name": "NTUT_DD_111360209_ch_0.pdf",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox/NTUT_DD_111360209_ch_0.pdf"
+    },
+    "decision_metadata": {
+      "wiki_title": "国立臺北科技大學 學士學位證書",
+      "tags": [
+        "學位證書",
+        "台科大",
+        "林宸平"
+      ],
+      "double_links": [],
+      "reasoning": "該檔案為學位證書，不涉及技術或研究內容，因此適合存放在General/Inbox目錄中。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox",
+        "total_files": 6,
+        "files": [
+          {
+            "relative_path": "2026 RL Paper List.md",
+            "size_bytes": 1036,
+            "modified": "2026-11-17 14:20:09"
+          },
+          {
+            "relative_path": "2026 RL Paper List.xlsx",
+            "size_bytes": 302546,
+            "modified": "2026-11-17 14:19:41"
+          },
+          {
+            "relative_path": "NTUT_DD_111360209_ch_0.pdf",
+            "size_bytes": 608720,
+            "modified": "2026-11-17 14:21:46"
+          },
+          {
+            "relative_path": "tw.md",
+            "size_bytes": 791,
+            "modified": "2026-11-10 13:42:27"
+          },
+          {
+            "relative_path": "tw.png",
+            "size_bytes": 457520,
+            "modified": "2026-11-10 13:42:13"
+          },
+          {
+            "relative_path": "国立臺北科技大學 學士學位證書.md",
+            "size_bytes": 911,
+            "modified": "2026-11-17 14:21:57"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 7,
+        "files": [
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "Johnson Sun - NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques (2026-11-11).pdf",
+            "size_bytes": 24232405,
+            "modified": "2026-11-17 11:58:08"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "受試者招募意願QR code.png",
+            "size_bytes": 4625,
+            "modified": "2026-11-16 14:45:14"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "act_1794896582",
+    "timestamp": "2026-11-17 14:23:02",
+    "timestamp_iso": "2026-11-17T14:23:02.850685",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "MCP Cline.docx",
+      "size_bytes": 219106,
+      "extension": ".docx"
+    },
+    "destination": {
+      "category": "Dev_Notes/Backend",
+      "sanitized_name": "MCP_Cline.docx",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/Dev_Notes/Backend/MCP_Cline.docx"
+    },
+    "decision_metadata": {
+      "wiki_title": "MCP Cline 設定與開發指南",
+      "tags": [
+        "AI",
+        "Cline",
+        "MCP",
+        "Python"
+      ],
+      "double_links": [
+        "[[MCP]]",
+        "[[Cline]]"
+      ],
+      "reasoning": "本文主要涉及 AI 與開發工具的設置，因此最適合放在 Dev_Notes/Backend 目錄下。命名為 MCP_Cline.docx 是為了清晰地反映文件內容。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/Dev_Notes/Backend",
+        "total_files": 2,
+        "files": [
+          {
+            "relative_path": "MCP Cline 設定與開發指南.md",
+            "size_bytes": 1013,
+            "modified": "2026-11-17 14:23:02"
+          },
+          {
+            "relative_path": "MCP_Cline.docx",
+            "size_bytes": 219106,
+            "modified": "2026-11-17 14:22:48"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 7,
+        "files": [
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "Johnson Sun - NVIDIA Isaac Platform for Robotics and GPU Optimization Techniques (2026-11-11).pdf",
+            "size_bytes": 24232405,
+            "modified": "2026-11-17 11:58:08"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "受試者招募意願QR code.png",
+            "size_bytes": 4625,
+            "modified": "2026-11-16 14:45:14"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "event_896860759",
+    "timestamp": "2026-11-17 14:27:40",
+    "event_type": "DETACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 收到中斷信號，安全卸載並停止監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 6,
+      "files": [
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "受試者招募意願QR code.png",
+          "size_bytes": 4625,
+          "modified": "2026-11-16 14:45:14"
+        }
+      ]
+    }
   }
 ]

@@ -82,13 +82,17 @@
 
 ## 🌟 期末專案亮點摘要：《本地 RAG 檔案管家與自動知識庫 (Local AI File Agent)》
 
-* **核心技術**：100% 本地端離線推論（Ollama Qwen 2.5 Coder + nomic-embed-text）、FAISS 向量資料庫、Python watchdog、Obsidian LLMWiki。
+* **核心技術**：100% 本地端離線推論（Ollama Qwen 2.5 Coder + nomic-embed-text）、FAISS 向量資料庫、HDBSCAN 無監督密度分群、Python watchdog、Obsidian LLMWiki。
 * **特色功能**：
   1. **背景自動監控與防呆觸發**：macOS `~/Downloads` FSEvents 即時監聽，智慧排除 `.crdownload` 等暫存檔。
-  2. **文本語意深度萃取**：PyMuPDF 擷取關鍵摘要，有效控管 Prompt Token 預算。
-  3. **FAISS 向量 RAG 檢索**：語意維度比對過往文獻，自動判斷最適歸檔路徑與命名。
-  4. **Obsidian LLMWiki 第二大腦建置**：自動產出結構化 Markdown 筆記、雙向連結 `[[雙向連結]]` 與標籤，並動態更新 `index.md`。
-  5. **100% 隱私安全**：完全於本機晶片運行，免聯網、無資料洩漏風險與 API 費用。
+  2. **全格式純記憶體虛擬 Markdown 轉譯 (In-Memory Virtual Markdown)**：PDF、DOCX、CSV、ZIP、Code 全程於 RAM (`io.StringIO`) 結構化轉譯，零磁碟殘留，原始檔案 100% 毫髮無傷。
+  3. **二階段粗到細智慧路由 (Two-Stage Coarse-to-Fine Router)**：Stage 1 安裝檔／影音免 LLM 推論直接分流；Stage 2 候選類別剪枝聚焦推理，消除幻覺。
+  4. **FAISS 向量 RAG 檢索**：語意維度比對過往文獻，自動判斷最適歸檔路徑與命名。
+  5. **HDBSCAN 自適應主題聚合與冷啟動探索**：無須 `.pt`/`.pkl` 權重，高維向量空間密度分群，自動洞察使用者習慣並推薦新分類目錄。
+  6. **動態目錄掛載與優雅卸載 (Dynamic Mounting & Safe Detach)**：支援 `-w` 任意自訂目錄或 `-i` 終端機拖曳掛載，`Ctrl + C` 優雅退出並記錄 DETACH 快照。
+  7. **嚴格 MOVE-ONLY 權限隔離防禦**：底層限制 Agent 僅具備搬移權限，任何刪除、竄改或執行意圖 100% 硬性阻擋。
+  8. **Obsidian LLMWiki 第二大腦建置**：自動產出結構化 Markdown 筆記、雙向連結 `[[概念]]` 與標籤，並動態維護 `index.md` 與 `log.md`。
+  9. **100% 隱私安全與零費用**：完全於 Apple Silicon 本機晶片運行，免聯網、無資料洩漏風險與 Token API 費用。
 
 👉 更多詳細內容請見 [Local AI File Agent/README.md](./Local%20AI%20File%20Agent/README.md) 與 [線上即時體驗](https://philiplin0211.github.io/115_1_TAICA_IVEAI/Local%20AI%20File%20Agent/)。
 
