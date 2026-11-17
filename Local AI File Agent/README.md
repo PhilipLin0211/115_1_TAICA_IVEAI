@@ -119,9 +119,10 @@ graph TD
 | **大語言模型** | **Qwen 2.5 Coder 7B** / Llama 3 | 代碼與 JSON 結構化解析力強大，能穩定遵循 Schema 產生決策 |
 | **向量嵌入模型** | **nomic-embed-text** / BGE-M3 | 高效 768 維度文本嵌入模型，具備長文本語意表徵優勢 |
 | **向量資料庫** | **FAISS (CPU/Metal)** | Facebook AI 本地高維度向量檢索庫，零服務負擔、毫秒級比對 |
+| **自適應學習與主題聚合** | **HDBSCAN (`scikit-learn` / `numpy`)** | 無監督密度分群演算法，免預訓練權重模型，即時洞察文獻分群並自動推薦新興分類目錄 |
 | **檔案系統監聽** | **Python `watchdog`** | 基於 macOS FSEvents 的低功耗事件通知機制 |
-| **文件內容萃取** | **`PyMuPDF` (fitz)**, `python-docx` | 高速解析 PDF 文本、元數據、章節段落 |
-| **Agent 編排框架** | **LangChain** / LlamaIndex | 向量化索引建構、Prompt 模板、Agent Tool 路由調用 |
+| **文件內容萃取** | **全格式記憶體轉譯 (`pymupdf4llm` / `python-docx` / `csv`)** | 純 RAM 記憶體結構化 Markdown 轉譯，零磁碟殘留，原始檔案毫髮無傷 |
+| **Agent 編排框架** | **LangChain** / LlamaIndex | 向量化索引建構、Prompt 模板、二階段路由器與 Agent 決策管線 |
 | **知識管理生態** | **Obsidian (Markdown LLMWiki)** | 本地純文字 Markdown 庫，支援雙向圖譜網路與離線搜尋 |
 
 ---
@@ -266,7 +267,7 @@ ollama pull nomic-embed-text
 
 進入專案資料夾：
 ```bash
-cd "Local AI File Agent"
+cd "/Users/philiplin/Documents/NTUST/Course/115_1_TAICA_IVEAI/Local AI File Agent"
 ```
 
 #### 模式 A：掛載至您「指定的自訂資料夾」（推薦常用）
