@@ -77,28 +77,37 @@ graph TD
 ```
 
 1. **自動監聽與非同步喚醒 (Auto-Sorting Watchdog)**：
-   * 背景監聽 macOS `~/Downloads` 目錄變更事件。
+   * 背景監聽 macOS 指定監聽目錄（預設 `~/Downloads`，亦支援動態指定任何自訂資料夾）。
    * 自動過濾瀏覽器下載中的暫存檔（如 `.crdownload`, `.tmp`, `.part`），確保檔案完全寫入磁碟後才觸發 Agent。
-2. **多格式文本萃取與 Metadata 解析 (Text Extraction)**：
-   * 支援 PDF、Word (`.docx`)、純文字 (`.txt`)、Markdown (`.md`)、原始碼檔。
-   * 運用 `PyMuPDF` (fitz) 高速擷取首頁、摘要與目錄結構，搭配 `python-magic` 嚴謹判斷 MIME 格式，防止副檔名偽裝。
-3. **RAG 向量知識庫比對 (Vector Retrieval)**：
+2. **全格式記憶體虛擬 Markdown 解析 (In-Memory Virtual Markdown，零磁碟殘留)**：
+   * 支援 PDF、Word (`.docx`)、表格 (`.csv`)、壓縮檔 (`.zip`/`.tar`)、原始碼檔、安裝套件與媒體等多種格式。
+   * **全程於記憶體（RAM / `io.StringIO`）中轉換為虛擬 Markdown 結構**，讀取完成即釋放，**絕不在磁碟產生任何多餘的 `.md` 檔案，且 100% 保持原始檔案完整不變**。
+3. **二階段由粗到細智慧路由 (Two-Stage Coarse-to-Fine Router)**：
+   * **Stage 1（粗分類短路）**：對安裝檔（`.dmg`, `.pkg`）、多媒體等固定格式進行毫秒級規則直通，節省 100% LLM 運算消耗。
+   * **Stage 2（細分類剪枝）**：透過關鍵字特徵剪枝（Category Pruning），將候選目錄收斂至 2~4 個相關類別，引導 LLM 精準推理，避免模型因類別過多而產生幻覺。
+4. **HDBSCAN 自適應主題聚合與冷啟動探索 (HDBSCAN Topic Discovery)**：
+   * 無需預先訓練 `.pkl` 或 `.pt` 權重模型！透過密度分群演算法（HDBSCAN，並提供純 NumPy 餘弦密度兜底）即時計算知識庫高維向量特徵。
+   * 隨時透過 `--cluster-analysis` 洞察文獻分群，自動發掘使用者習慣與新興主題，動態建議新增分類目錄。
+5. **動態資料夾掛載與優雅卸載 (Dynamic Mounting & Safe Detach)**：
+   * 支援命令列 `-w / --watch` 指定任意資料夾掛載，或使用 `-i / --interactive` 進行互動式終端機拖曳掛載。
+   * 按下 `Ctrl + C` 即可優雅卸載（Detach），自動記錄卸載快照於審計紀錄，不留任何孤兒行程。
+6. **RAG 向量知識庫比對 (Vector Retrieval)**：
    * 透過 Ollama `nomic-embed-text` 生成 768 維語意向量。
    * 進入本地輕量級向量庫 `FAISS` 進行餘弦相似度 (Cosine Similarity) 檢索，比對知識庫內現存文獻，判斷最匹配之分類目錄。
-4. **本地 LLM 結構化推理決策 (Structured Agent Reasoning)**：
+7. **本地 LLM 結構化推理決策 (Structured Agent Reasoning)**：
    * 搭載 `qwen2.5-coder:7b` (或 Llama 3)，具備卓越的嚴格 JSON 格式輸出與條件推理能力。
    * Agent 自動輸出具體行動方針：包括目標路徑、正規化命名、語意標籤與重要度評分。
-5. **LLMWiki 個人知識庫建構 (Obsidian Integration)**：
+8. **LLMWiki 個人知識庫建構 (Obsidian Integration)**：
    * 借鑑 LLMWiki 概念，自動在 Obsidian 筆記庫中產出對應閱讀筆記。
    * 筆記包含 YAML Frontmatter 中繼資料、核心重點摘要、以及 Obsidian 核心語法 `[[雙向連結]]` 與 `#標籤`，自動維護總目錄 `index.md` 與歷程紀錄 `log.md`。
-6. **極致隱私與離線運作 (100% Local & Zero Cost)**：
+9. **極致隱私與離線運作 (100% Local & Zero Cost)**：
    * 所有文本分析、Embedding 與模型推論均在本地 Mac 晶片 (Apple Silicon / Metal) 完成，免聯網、免 Token 計費、零個資外洩風險。
-7. **嚴格最小權限防護 (MOVE-Only Permission Boundary)**：
-   * 遵循「最小權限原則 (Principle of Least Privilege)」，系統底層硬性限定 Agent **僅有移動檔案 (MOVE) 權限**。
-   * 絕無刪除 (DELETE)、覆寫 (OVERWRITE)、竄改檔案內容 (MODIFY) 或執行代碼之權限，杜絕誤刪或安全性破壞風險。
-8. **每次動作完整紀錄與資料夾目錄快照 (Audit History & Directory Snapshots)**：
-   * 每次觸發搬移時，自動在 `history/audit_log.json` 與 Obsidian `log.md` 寫入審計條目。
-   * 同步記錄該次動作當下「來源下載資料夾」與「目標分類資料夾」的完整**檔案目錄快照 (Directory Snapshot)**，供隨時追溯與回溯。
+10. **嚴格最小權限防護 (MOVE-Only Permission Boundary)**：
+    * 遵循「最小權限原則 (Principle of Least Privilege)」，系統底層硬性限定 Agent **僅有移動檔案 (MOVE) 權限**。
+    * 絕無刪除 (DELETE)、覆寫 (OVERWRITE)、竄改檔案內容 (MODIFY) 或執行代碼之權限，杜絕誤刪或安全性破壞風險。
+11. **每次動作完整紀錄與資料夾目錄快照 (Audit History & Directory Snapshots)**：
+    * 每次觸發搬移時，自動在 `history/audit_log.json` 與 Obsidian `log.md` 寫入審計條目。
+    * 同步記錄該次動作當下「來源監聽資料夾」與「目標分類資料夾」的完整**檔案目錄快照 (Directory Snapshot)**，供隨時追溯與回溯。
 
 ---
 
@@ -193,20 +202,25 @@ ollama pull nomic-embed-text
 ### 3. 專案目錄結構
 ```text
 Local AI File Agent/
-├── README.md              # 專案規格說明文件 (本檔)
+├── README.md              # 專案規格與完整操作說明書 (本檔)
+├── VERIFICATION_GUIDE.md  # 驗收指引與各週實測手冊
+├── ARCHITECTURE.md        # 系統架構圖與狀態機規格說明
+├── PROGRESS.md            # 開發進度與歷程記錄
 ├── index.html             # 期末專案互動演示網頁 (GitHub Pages Demo)
-├── main.py                # 系統常駐進入點與 Watchdog 監聽設定
+├── main.py                # 系統常駐進入點、Watchdog 監聽與掛載管理
 ├── config.yaml            # 目標資料夾、Obsidian Vault 路徑設定
 ├── agent/
 │   ├── __init__.py
-│   ├── llm_caller.py      # Ollama API 接口封裝與 JSON 解析
-│   ├── rag_engine.py      # FAISS 向量索引建立與檢索器
-│   └── prompt_template.py # 智慧分類與摘要生成 Prompt
+│   ├── llm_caller.py      # 二階段路由 (Stage 1 短路 + Stage 2 剪枝) 與 Ollama API 調用
+│   ├── rag_engine.py      # FAISS 向量索引建立與語意檢索器
+│   ├── cluster_analyzer.py# HDBSCAN 自適應主題聚合與冷啟動新興分類探索器
+│   └── prompt_template.py # 結構化分類與摘要生成 Prompt
 ├── utils/
 │   ├── __init__.py
-│   ├── file_parser.py     # PDF/Word/TXT 內容擷取與長度截斷
-│   ├── file_mover.py      # 具防覆蓋防呆機制的檔案搬移函式
-│   └── wiki_builder.py    # Obsidian Markdown 筆記與 Index 維護器
+│   ├── file_parser.py     # 全格式記憶體虛擬 Markdown 轉換器 (純 RAM 運作、零磁碟殘留)
+│   ├── file_mover.py      # MOVE-ONLY 權限隔離搬移器與目錄快照稽核器
+│   └── wiki_builder.py    # Obsidian Markdown 雙向連結筆記維護器
+├── history/               # 系統歷程與目錄快照儲存庫 (audit_log.json)
 └── vector_store/          # FAISS 本地持久化索引目錄
 ```
 
@@ -215,6 +229,9 @@ Local AI File Agent/
 本專案提供完整的每週單元與壓力測試工具，可直接於終端機執行驗證：
 
 ```bash
+# 【記憶體虛擬 Markdown、二階段路由與 HDBSCAN 主題聚合驗收】(100% 通過)
+python3 test_inmemory_markdown_and_cluster.py
+
 # 【第一週驗收】端到端核心管線與 MOVE-ONLY 權限阻擋測試 (8/8 通過)
 python3 test_pipeline.py
 
@@ -226,19 +243,109 @@ python3 test_week3_integration.py
 
 # 【第四週驗收】全系統極限壓力、高併發連續處理與邊界條件測試 (6/6 全勝)
 python3 test_week4_stress.py
+```
 
-# -------------------------------------------------------------
-# 【實機常駐執行】支援動態資料夾掛載與安全模擬模式
-# -------------------------------------------------------------
-# 模式 A：安全模擬模式 (Dry-Run：印出決策，不實際搬移檔案)
-python3 main.py --dry-run
+---
 
-# 模式 B：動態掛載至指定資料夾 (如桌面或自訂目錄)
+## 📖 實際執行操作說明書 (Practical Operation Manual)
+
+本 Agent 支援靈活的「即插即用（Plug & Play）」機制，您可以將 Agent 掛載到電腦中的任何指定資料夾進行自動監聽整理，隨時可安全卸載停止。
+
+### 步驟 1：啟動前檢查環境與本地模型
+在終端機確認 Ollama 服務已在背景啟動，且必備模型已就緒：
+```bash
+# 檢查 Ollama 服務
+ollama list
+
+# 若尚未下載模型，請執行：
+ollama pull qwen2.5-coder:7b
+ollama pull nomic-embed-text
+```
+
+### 步驟 2：選擇掛載模式啟動 Agent
+
+進入專案資料夾：
+```bash
+cd "Local AI File Agent"
+```
+
+#### 模式 A：掛載至您「指定的自訂資料夾」（推薦常用）
+透過 `-w` 或 `--watch` 參數，指定您想要 Agent 管轄的任何目錄（例如桌面 `~/Desktop`、下載夾或專案工作區）：
+```bash
+# 範例 1：掛載至桌面
 python3 main.py -w "~/Desktop"
 
-# 模式 C：互動式引導掛載
+# 範例 2：掛載至特定專案暫存夾
+python3 main.py -w "/Users/philiplin/Documents/MyProject/inbox"
+```
+啟動後終端機會印出：
+```text
+============================================================
+  🧠 本地 RAG 檔案管家 (Local AI File Agent) 啟動中...
+  📂 監聽目錄: /Users/philiplin/Desktop
+  🎯 目標歸檔: /Users/philiplin/Obsidian_Vault
+  📑 虛擬轉譯: 記憶體 Markdown 解析 (純 RAM 零殘留)
+  🛡️ 權限模式: MOVE-ONLY (僅允許搬移，嚴禁刪改原檔)
+============================================================
+```
+
+#### 模式 B：互動式拖曳掛載（最直覺省力）
+若不確定路徑，使用 `-i` 或 `--interactive` 模式：
+```bash
 python3 main.py -i
 ```
+終端機會提示：
+```text
+👉 請輸入或拖曳欲監聽的資料夾路徑至此 (直接按 Enter 預設監聽 ~/Downloads):
+```
+此時直接從 macOS Finder 將任何資料夾拖入終端機視窗，按下 Enter 即可自動掛載！
+
+#### 模式 C：掛載至預設下載資料夾（Default）
+不加任何參數時，預設監聽使用者的 `~/Downloads`：
+```bash
+python3 main.py
+```
+
+#### 模式 D：安全模擬模式（Dry-Run）
+初次使用或想測試分類決策時，加上 `--dry-run` 旗標：
+```bash
+python3 main.py -w "~/Desktop" --dry-run
+```
+此模式下 Agent 會進行完整文本萃取、向量檢索與 LLM 決策，並將分析結果與預定搬移路徑印在螢幕上，**但絕不移動實體檔案**。
+
+#### 模式 E：HDBSCAN 主題聚類與新興主題探索
+當知識庫中已有歸檔文獻時，可隨時執行聚類分析，發掘潛在的新主題分類：
+```bash
+python3 main.py --cluster-analysis
+```
+系統會根據文獻的高維語意密度自動分群，並推薦新目錄名稱（例如 `Cluster 0: LLM_Reasoning`、`Cluster 1: Diffusion_Vision`）。
+
+### 步驟 3：體驗自動化即時處理
+Agent 啟動後即處於常駐監聽狀態。現在請嘗試：
+1. 將一份 PDF（例如論文、技術報告）、Word 或表格檔案丟入剛剛掛載的資料夾。
+2. Watchdog 偵測到新檔案並確認寫入完成後：
+   - **記憶體虛擬轉換**：自動在 RAM 轉譯成虛擬 Markdown 結構，原檔案毫髮無傷，亦不留下實體 `.md`。
+   - **二階段智慧路由**：安裝檔／媒體自動短路快速分類；複雜文件經過剪枝後由本地 LLM 精準推理。
+   - **安全搬移**：安全將檔案移入 `~/Obsidian_Vault/<分類目錄>/`。
+   - **知識庫生成**：在 `~/Obsidian_Vault/Wiki_Notes/` 產生包含雙向連結 `[[...]]` 的專屬導讀筆記，並更新 `index.md` 與 `log.md`。
+
+### 步驟 4：停止 Agent 與安全卸載 (Detach)
+當您不再需要 Agent 監聽該資料夾時，只需在終端機按下：
+```bash
+Ctrl + C
+```
+系統會優雅終止監聽緒並自動將卸載時間與目錄狀態記錄至 `history/audit_log.json`：
+```text
+🛑 收到中斷訊號，正在卸載監聽並停止 Agent...
+📝 成功記錄卸載生命週期審計快照: 監聽目錄已安全解除掛載。
+✨ Agent 已安全退出。
+```
+**隨時想再次使用，只要重新執行 `python3 main.py -w <資料夾路徑>` 即可隨插隨用！**
+
+### 步驟 5：檢查結果與審計紀錄
+- **分類後的實體檔案**：可至 `~/Obsidian_Vault/` 查看各主題子資料夾。
+- **第二大腦筆記**：用 Obsidian 打開該目錄，即可見自動生成的導讀筆記與雙向連結圖譜。
+- **目錄快照審計**：可查看 `Local AI File Agent/history/audit_log.json`，完整保留每次搬移前後的來源與目標資料夾完整檔案清單快照。
 
 ---
 
