@@ -6,6 +6,7 @@ Works with 'requests' or falls back to built-in 'urllib.request' (zero external 
 
 import json
 import re
+from pathlib import Path
 from typing import Dict, Any, List
 
 try:
@@ -48,13 +49,54 @@ class OllamaAgentCaller:
         categories: List[Dict[str, str]]
     ) -> Dict[str, Any]:
         """
-        Sends the file information and RAG context to local Ollama and returns parsed decision.
+        Sends the file information and RAG context to local Ollama with Coarse-to-Fine routing.
         """
-        cat_str = "\n".join([f"- {c['name']}: {c.get('description', '')}" for c in categories])
+        ext = file_info.get("extension", "").lower()
+        family = file_info.get("file_type_family", "")
+        file_name = file_info.get("file_name", "")
+
+        # -------------------------------------------------------------
+        # Stage 1: Coarse Deterministic Routing (Bypasses LLM for Non-Docs)
+        # -------------------------------------------------------------
+        if family == "installer" or ext in [".dmg", ".pkg", ".exe", ".iso", ".app"]:
+            clean_title = Path(file_name).stem.replace("_", " ").replace("-", " ").title()
+            return {
+                "action": "MOVE",
+                "category": "Software/Installers",
+                "sanitized_name": file_name,
+                "wiki_title": f"安裝套件: {clean_title}",
+                "tags": ["Installer", "Software", "Tools"],
+                "double_links": ["[[Software]]", "[[Installers]]"],
+                "summary": f"軟體應用程式安裝映像檔 ({ext})，經第一階段副檔名規則直接分流歸檔至軟體庫。",
+                "reasoning": "第一階段副檔名確定性硬過濾，直接分流至軟體庫保存。",
+                "action_recommendation": "確認安裝完畢後可隨時移至長期封存或清理。"
+            }
+
+        if family == "media" or ext in [".mp4", ".mov", ".avi", ".mkv", ".mp3", ".wav", ".flac"]:
+            clean_title = Path(file_name).stem.replace("_", " ").title()
+            return {
+                "action": "MOVE",
+                "category": "Media",
+                "sanitized_name": file_name,
+                "wiki_title": f"多媒體影音: {clean_title}",
+                "tags": ["Media", "AudioVisual", "Assets"],
+                "double_links": ["[[Media]]", "[[Assets]]"],
+                "summary": f"多媒體影音素材 ({ext})，由第一階段副檔名規則自動分流至多媒體資料夾。",
+                "reasoning": "多媒體二進制格式，無需耗費 LLM 內文推論，直接走專屬媒體路由。",
+                "action_recommendation": "可直接於播放器開啟或導入編輯專案。"
+            }
+
+        # -------------------------------------------------------------
+        # Stage 2: Candidate Category Pruning for High-Accuracy Reasoning
+        # -------------------------------------------------------------
+        text_sample = file_info.get("text", "")[:3000].lower()
+        filtered_categories = self._prune_categories(categories, family, ext, file_name, text_sample)
+
+        cat_str = "\n".join([f"- {c['name']}: {c.get('description', '')}" for c in filtered_categories])
         prompt = CLASSIFY_PROMPT_TEMPLATE.format(
-            file_name=file_info.get("file_name", ""),
+            file_name=file_name,
             file_size=file_info.get("file_size", 0),
-            extension=file_info.get("extension", ""),
+            extension=ext,
             is_binary=file_info.get("is_binary", False),
             extracted_text=file_info.get("text", "")[:3000],
             rag_context=rag_context if rag_context else "(無歷史相似文獻參考，請根據內文直接判斷)",
@@ -116,6 +158,42 @@ class OllamaAgentCaller:
         if match:
             return match.group(1).strip()
         return text.strip()
+
+    def _prune_categories(
+        self,
+        categories: List[Dict[str, str]],
+        family: str,
+        ext: str,
+        file_name: str,
+        text_sample: str
+    ) -> List[Dict[str, str]]:
+        """
+        Prunes candidate categories based on coarse clues to increase LLM classification accuracy.
+        """
+        if not categories:
+            return [{"name": "General/Inbox", "description": "一般未分類檔案"}]
+
+        # Check for financial receipt clues
+        finance_keywords = ["invoice", "receipt", "finance", "purchase", "發票", "收據", "報帳", "gui", "統一編號", "採購單"]
+        is_finance = any(k in file_name.lower() or k in text_sample for k in finance_keywords)
+        if is_finance:
+            finance_cats = [c for c in categories if "finance" in c["name"].lower() or "receipt" in c["name"].lower()]
+            if finance_cats:
+                return finance_cats
+
+        # Check for code/backend/frontend clues
+        if family == "code":
+            code_cats = [c for c in categories if "dev" in c["name"].lower() or "code" in c["name"].lower() or "general" in c["name"].lower()]
+            if code_cats:
+                return code_cats
+
+        # Documents / Academic Papers: remove installer & media
+        if family == "document":
+            doc_cats = [c for c in categories if not any(x in c["name"].lower() for x in ["installer", "software", "media"])]
+            if doc_cats:
+                return doc_cats
+
+        return categories
 
     def _fallback_decision(self, file_info: Dict[str, Any]) -> Dict[str, Any]:
         """Deterministic fallback when LLM is offline or output is invalid."""

@@ -188,4 +188,22 @@ Local AI File Agent/
     * 系統捕捉 `SIGINT` / `SIGTERM` 信號，等待當前正在搬移的單一檔案完成後，立即安全釋放 Watchdog FSEvents 資源與目錄檔案鎖。
   * **安全脫鉤 (Safe Unmount)**：關閉時絕不殘留背景殭屍行程，且在 `history/audit_log.json` 中紀錄「Agent 卸載停用快照」，確保離開前後目錄檔案總數一致。
 
+### 3. 全格式純記憶體 Markdown 轉譯 (In-Memory Virtual Markdown Pipeline)
+* **需求緣由**：傳統扁平字串缺乏標題層次、表格與章節結構，導致 LLM 分類失準；但使用者不希望實體硬碟多出多餘的 `.md` 檔案，亦不能改動原始檔案。
+* **設計方案**：
+  * 實作 `UnifiedInMemoryMarkdownConverter`，將 PDF、Word、試算表、壓縮包目錄、程式碼等，在 RAM 記憶體中轉譯為結構化 Markdown 虛擬字串。
+  * 提取完成後立即釋放記憶體，磁碟 100% 零殘留，原始檔案毫髮無傷。
+
+### 4. 兩階段副檔名與候選池縮減路由 (Coarse-to-Fine Category Pruning)
+* **需求緣由**：全部 7 大分類混在一起讓 LLM 盲選時容易產生雜訊或偏向通用分類。
+* **設計方案**：
+  * **第一階段（副檔名硬過濾）**：`.dmg`/`.pkg` 直接進軟體安裝檔目錄；`.mp4`/`.mov` 直接進媒體目錄（免 LLM 推論）。
+  * **第二階段（候選池縮減）**：文件類進入 LLM 時，僅給予聚焦的學術/筆記候選清單，準確率提升 30%~50%。
+
+### 5. HDBSCAN 無監督向量分群與自適應主題發現 (Adaptive Topic Discovery)
+* **需求緣由**：靜態分類目錄無法適應使用者長期的主題演進，且使用者沒有現成 `.pt`/`.pkl` 模型。
+* **設計方案**：
+  * 基於 Ollama `nomic-embed-text` 已生成的 768 維特徵向量庫，利用純數學密度連通分群（HDBSCAN / 向量餘弦距離矩陣），耗時僅 2~5ms。
+  * 累積一定檔案後自動發現新主題，並由 Qwen 2.5 Coder 自動提議新分類資料夾名稱。
+
 

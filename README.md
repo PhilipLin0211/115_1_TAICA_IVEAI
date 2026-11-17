@@ -38,8 +38,9 @@
 ├── .github/workflows/                       # GitHub Actions 自動化工作流
 │   └── update-manifest.yml                  # 檔案推播自動觸發 manifest 重新建置
 ├── notes/                                   # 課程實作與學習筆記 (Markdown)
-│   └── W08_AGENTS_md_設計筆記.md             # W08 建立自己的 AGENTS.md 筆記
-├── PPT/                                     # 課程教材講義 (01 ~ 08 週投影片與助教課)
+│   ├── W08_AGENTS_md_設計筆記.md             # W08 建立自己的 AGENTS.md 筆記
+│   └── W08_系統架構與操作指南.md             # 全站介面操作說明、架構流程圖與檔案職責手冊
+├── PPT/                                     # 課程教材講義 (01 ~ 10 週投影片與助教課)
 │   ├── 01如何不焦慮地學AI(學生點開顯示未發佈).pdf
 │   ├── 02神經網路的概念.pdf
 │   ├── 03AI為什麼每次都不一樣？.pdf
@@ -48,6 +49,8 @@
 │   ├── 06打造自己的對話機器人.pdf
 │   ├── 07讓AI看懂你的世界.pdf
 │   ├── 08教AI做事的方法.pdf
+│   ├── 09換你當老闆.pdf
+│   ├── 10把你的工作拆成AI能做的流程.pdf
 │   └── 第七週助教課.pdf
 │
 ├── 建立一個自己的  AGENTS/                   # 【作業二】建立一個自己的 AGENTS.md 子頁面
@@ -121,9 +124,58 @@
 
 ---
 
+## 🧭 系統操作說明與架構指南 (System Operations & Architecture)
+
+> 完整詳細文件請參閱專用手冊：[notes/W08_系統架構與操作指南.md](./notes/W08_系統架構與操作指南.md)（已整合於線上網頁側邊欄動態閱讀）。
+
+### 1. 核心檔案與目錄職責對照表
+
+| 檔案 / 目錄路徑 | 類型 / 技術 | 核心職責與功能說明 | 關聯性與資料流 |
+| :--- | :--- | :--- | :--- |
+| `index.html` | 前端單頁應用 (SPA) | VS Code Dark+ 零透明度實色 IDE 主入口。負責讀取 `data.json`、渲染樹狀檔案總管、分頁標籤管理、即時搜尋過濾、PDF/影片內嵌播放、Markdown 動態渲染與 LocalStorage 快取管理。 | 讀取 `data.json`、`notes/*.md`、`PPT/*.pdf`；維護 LocalStorage |
+| `data.json` | 核心資料庫 (Manifest) | 全站資料驅動中樞。儲存課程資訊、作業路徑與標籤、講義清單（大小/路徑）、筆記清單與關聯教學影片。 | 由 `build_manifest.py` 自動生成，供 `index.html` 動態載入 |
+| `AGENTS.md` | 規範與準則 | AI Agent 開發守則與設計規範。嚴格規定零透明度實色標準、版型尺寸規格與工作流程。 | 指導所有 AI Agent 與協作者進行代碼維護與擴充 |
+| `README.md` | 儲存庫總說明 | 專案對外展示說明文件。收錄作業總表、目錄結構樹、技術特點、操作手冊與更新日誌。 | 訪客與評分老師查閱入口 |
+| `scripts/build_manifest.py` | 自動化維護腳本 (Python 3) | 掃描根目錄作業資料夾、`PPT/` 講義與 `notes/` 筆記，自動計算檔案大小與提取標題，更新 `data.json`。 | 開發者本機執行或 GitHub Actions 雲端自動執行 |
+| `.github/workflows/update-manifest.yml` | CI/CD 工作流 (GitHub Actions) | 監聽 `main` 分支推播。當有講義、筆記或作業更新時，自動在雲端執行掃描腳本並觸發 GitHub Pages 部署。 | 實現「推播即更新」的零維護自動化發布 |
+| `PPT/` | 靜態資源目錄 (PDF) | 存放課程投影片講義（如 01 ~ 10 週講義與助教課講義）。 | 放入 PDF 後經掃描腳本自動納入網站選單 |
+| `notes/` | 知識庫目錄 (Markdown) | 存放課程學習筆記與系統操作指南。首行以 `# 標題` 命名，由 `marked.js` 即時解析渲染。 | 由腳本掃描納入側邊欄「筆記與心得」 |
+| `建立一個自己的  AGENTS/` | 作業二 / 系統本體 | 本次作業成果，同時作為整個課程管理系統的 Meta-Project 架構本體。 | 既是獨立作業，亦為全站架構藍本 |
+| `用 Vibe Coding 做出一個互動網頁/` | 作業一專案資料夾 | 第一週作業成果，提供獨立互動網頁與展示。 | 透過主頁卡片按鈕開啟獨立體驗 |
+| `Local AI File Agent/` | 課堂實作專案資料夾 | 本地 RAG AI 檔案處理代理人專案。 | 課堂實作展示成果 |
+| `Messenger for IG/` | 課堂實作專案資料夾 | Instagram 聊天機器人代理人實作專案。 | 課堂實作展示成果 |
+
+---
+
+### 2. 系統資料流與 CI/CD 運作流程圖
+
+```mermaid
+flowchart TD
+    subgraph Client ["瀏覽器端 (index.html)"]
+        Load["使用者開啟網頁"] --> Cache{"LocalStorage<br/>是否有暫存修改?"}
+        Cache -- 是 --> ReadCache["讀取本地快取資料"]
+        Cache -- 否 --> Fetch["fetch('data.json')"]
+        ReadCache --> Render["動態渲染 VS Code IDE 版型<br/>(Explorer / Tabs / Editor / StatusBar)"]
+        Fetch --> Render
+        Render --> UserInteract["使用者互動：即時過濾、預覽 PDF、閱讀筆記、自訂修改"]
+    end
+
+    subgraph Automation ["自動化資料流 (Python & CI/CD)"]
+        AddFiles["新增講義至 PPT/<br/>或新增筆記至 notes/"] --> Scan["scripts/build_manifest.py 掃描"]
+        Scan --> GenManifest["產生最新 data.json"]
+        GenManifest --> Push["git push origin main"]
+        Push --> Actions["GitHub Actions 雲端工作流"]
+        Actions --> Deploy["GitHub Pages 全球 CDN 發布 (HTTP 200)"]
+    end
+```
+
+---
+
 ## 📅 更新日誌（Changelog）
 
 ### 2026-11-16 更新
+- **新增系統操作指南與架構手冊**：建立 [`notes/W08_系統架構與操作指南.md`](./notes/W08_系統架構與操作指南.md)，收錄五大區域操作說明、3 大 Mermaid 流程圖與完整檔案職責對照表，並同步納入網站動態閱讀。
+- **講義庫擴充**：新增第 09 週（`09換你當老闆.pdf`）與第 10 週（`10把你的工作拆成AI能做的流程.pdf`）講義，`data.json` 自動更新至 11 份教材。
 - **課程名稱統一修正**：全站更新為「生成式AI：文字與圖像生成的原理與實務」。
 - **作業二定位升級 (Meta-Project)**：將作業二直接升級為「全站課程資料管理中樞」，Live Demo 與全站主入口合而為一。
 - **檔案總管即時搜尋 (Quick Filter)**：在側邊欄加入關鍵字篩選框，支援快速過濾作業、講義、筆記與影片。

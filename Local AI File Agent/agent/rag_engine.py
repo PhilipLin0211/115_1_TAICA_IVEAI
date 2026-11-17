@@ -199,6 +199,11 @@ class LocalRagEngine:
             if existing.get("title") == title:
                 existing["category"] = category
                 existing["summary"] = summary
+                if not existing.get("embedding"):
+                    embed_text = f"Title: {title}\nCategory: {category}\nSummary: {summary}"
+                    vec = self.get_embedding(embed_text)
+                    if vec and any(v != 0.0 for v in vec):
+                        existing["embedding"] = vec
                 self._save()
                 return
 

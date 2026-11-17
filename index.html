@@ -1073,8 +1073,11 @@
       <!-- Panel: Explorer -->
       <div class="sidebar-content" id="panel-explorer">
         <!-- Filter Search Box -->
-        <div style="padding: 6px 10px; border-bottom: 1px solid var(--border-dark); background-color: var(--bg-sidebar-header);">
-          <input type="text" id="sidebar-filter-input" placeholder="🔍 快速篩選檔案 / 講義..." oninput="handleSidebarFilter(this.value)" style="font-size: 11.5px; padding: 4px 8px; background-color: #1e1e1e; border: 1px solid var(--border-solid);">
+        <div
+          style="padding: 6px 10px; border-bottom: 1px solid var(--border-dark); background-color: var(--bg-sidebar-header);">
+          <input type="text" id="sidebar-filter-input" placeholder="🔍 快速篩選檔案 / 講義..."
+            oninput="handleSidebarFilter(this.value)"
+            style="font-size: 11.5px; padding: 4px 8px; background-color: #1e1e1e; border: 1px solid var(--border-solid);">
         </div>
 
         <!-- Root Project Overview -->
@@ -1363,7 +1366,7 @@
       if (!file) return;
 
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         try {
           const parsed = JSON.parse(e.target.result);
           if (!parsed.assignments || !parsed.materials) {
@@ -1428,10 +1431,10 @@
       assignList.innerHTML = '';
       const filteredAssignments = currentFilterQuery
         ? courseData.assignments.filter(item =>
-            item.displayName.toLowerCase().includes(currentFilterQuery) ||
-            item.folderPath.toLowerCase().includes(currentFilterQuery) ||
-            (item.tags && item.tags.some(t => t.toLowerCase().includes(currentFilterQuery)))
-          )
+          item.displayName.toLowerCase().includes(currentFilterQuery) ||
+          item.folderPath.toLowerCase().includes(currentFilterQuery) ||
+          (item.tags && item.tags.some(t => t.toLowerCase().includes(currentFilterQuery)))
+        )
         : courseData.assignments;
 
       filteredAssignments.forEach(item => {

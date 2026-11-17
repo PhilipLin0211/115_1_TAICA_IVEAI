@@ -24,6 +24,7 @@ from utils.wiki_builder import create_obsidian_note
 from utils.audit_logger import AuditLogger
 from agent.llm_caller import OllamaAgentCaller
 from agent.rag_engine import LocalRagEngine
+from agent.cluster_analyzer import TopicClusterAnalyzer
 
 
 class DownloadFolderHandler(FileSystemEventHandler):
@@ -191,8 +192,32 @@ def main():
     parser.add_argument("--config", default="config.yaml", help="Path to configuration yaml")
     parser.add_argument("-w", "--watch", help="Override watch directory (e.g. ~/Desktop or custom folder)")
     parser.add_argument("-i", "--interactive", action="store_true", help="Interactively prompt for directory to watch")
+    parser.add_argument("--cluster-analysis", action="store_true", help="Run HDBSCAN topic discovery on local knowledge base")
     parser.add_argument("--vault", help="Override Obsidian vault directory")
     args = parser.parse_args()
+
+    # HDBSCAN Unsupervised Cluster Analysis Mode
+    if args.cluster_analysis:
+        print("=" * 65)
+        print("🔮 Local AI File Agent - HDBSCAN 自適應主題聚合與目錄演進分析")
+        print("=" * 65)
+        analyzer = TopicClusterAnalyzer()
+        report = analyzer.fit_clusters(min_cluster_size=2)
+        print(f"📊 分析狀態: {report.get('status')} | 運算引擎: {report.get('algorithm')}")
+        print(f"📁 納入分析文件數: {report.get('total_documents', 0)} 筆")
+        print(f"🎯 發現高密度聚類數: {report.get('clusters_count', 0)} 群 | 孤立雜訊數: {report.get('noise_count', 0)}")
+        
+        suggestions = analyzer.discover_emerging_topics(min_cluster_size=2)
+        if suggestions:
+            print("\n💡 【系統新目錄演進建議】:")
+            for s in suggestions:
+                print(f"  ✨ 建議開闢目錄: `{s['suggested_new_category']}` ({s['document_count']} 篇文獻聚集)")
+                print(f"     原因: {s['recommendation_reason']}")
+                print(f"     成員範例: {s['member_titles'][:3]}")
+        else:
+            print("\nℹ️ 目前向量庫分佈均勻或文件數量尚少，維持現有分類架構即可。")
+        print("=" * 65)
+        return
 
     cfg_file = Path(args.config)
     if not cfg_file.exists():

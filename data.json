@@ -4,7 +4,7 @@
     "student": "林宸平 (M11552010)",
     "department": "國立臺灣科技大學 人工智慧所",
     "repoUrl": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI",
-    "lastUpdated": "2026-11-16 10:05 CST"
+    "lastUpdated": "2026-11-17 13:40 CST"
   },
   "assignments": [
     {
@@ -191,6 +191,18 @@
       "sizeMB": "51.7 MB"
     },
     {
+      "id": "ppt-09",
+      "title": "09換你當老闆",
+      "path": "./PPT/09換你當老闆.pdf",
+      "sizeMB": "39.4 MB"
+    },
+    {
+      "id": "ppt-10",
+      "title": "10把你的工作拆成AI能做的流程",
+      "path": "./PPT/10把你的工作拆成AI能做的流程.pdf",
+      "sizeMB": "36.5 MB"
+    },
+    {
       "id": "ppt-ta07",
       "title": "第七週助教課實作講義",
       "path": "./PPT/第七週助教課.pdf",
@@ -202,6 +214,11 @@
       "id": "note-w08-agents-md",
       "title": "W08｜建立自己的 AGENTS.md 與自動化網站架構筆記",
       "path": "./notes/W08_AGENTS_md_設計筆記.md"
+    },
+    {
+      "id": "note-w08_系統架構與操作指南",
+      "title": "課程作業與知識整合中心 — 系統操作指南與架構手冊",
+      "path": "./notes/W08_系統架構與操作指南.md"
     }
   ],
   "videos": []
