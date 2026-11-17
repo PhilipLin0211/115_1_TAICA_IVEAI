@@ -49,6 +49,9 @@ python3 main.py
 * 👉 **開啟筆記本**：[run_on_colab.ipynb](./run_on_colab.ipynb)
 * 點擊儲存格上方「Open in Colab」圖示即可依序一鍵執行！
 
+> [!TIP]
+> 關於**動態掛載至指定資料夾 (`-w`)**、**終端機互動拖曳掛載 (`-i`)** 與 **HDBSCAN 主題聚合分析 (`--cluster-analysis`)** 之進階日常操作指南，請參閱 [README.md 實際執行操作說明書](./README.md)。
+
 ---
 
 ### 1.2 設定檔調整與目錄綁定 (`config.yaml`)
