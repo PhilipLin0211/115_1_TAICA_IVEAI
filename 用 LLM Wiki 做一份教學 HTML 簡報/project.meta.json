@@ -1,0 +1,43 @@
+{
+  "id": "hw3-llm-wiki-slides",
+  "badge": "作業三 (HW 3) • 已發布",
+  "displayName": "用 LLM Wiki 做一份教學 HTML 簡報",
+  "subtitle": "AI Agents 是什麼？零基礎搞懂自主型代理人互動教學簡報",
+  "folderPath": "用 LLM Wiki 做一份教學 HTML 簡報",
+  "entryFile": "index.html",
+  "description": "針對「AI Agents（自主型語言模型代理人）」領域，蒐集 5 篇經典文獻與工程指南（Lilian Weng、ReAct、Toolformer、Anthropic Building Agents、Generative Agents）建立結構化 LLM Wiki 知識庫，產製零基礎友善的 10 頁式互動 HTML 教學簡報與獨立 GitHub Pages 網站。",
+  "tags": [
+    "LLM Wiki 知識庫",
+    "互動教學 HTML 簡報",
+    "AI Agents",
+    "ReAct 思考決策",
+    "Tool Use",
+    "GitHub Pages"
+  ],
+  "links": [
+    {
+      "label": "線上簡報 (GitHub Pages)",
+      "url": "https://PhilipLin0211.github.io/llm-wiki-vae-diffusion/",
+      "type": "primary",
+      "external": true
+    },
+    {
+      "label": "獨立專案 Repo (GitHub)",
+      "url": "https://github.com/PhilipLin0211/llm-wiki-vae-diffusion",
+      "type": "secondary",
+      "external": true
+    },
+    {
+      "label": "LLM Wiki 知識庫成果",
+      "url": "https://PhilipLin0211.github.io/llm-wiki-vae-diffusion/wiki/index.md",
+      "type": "secondary",
+      "external": true
+    },
+    {
+      "label": "本地預覽 (Live Demo)",
+      "url": "./用 LLM Wiki 做一份教學 HTML 簡報/index.html",
+      "type": "secondary",
+      "external": false
+    }
+  ]
+}

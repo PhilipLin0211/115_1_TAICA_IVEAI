@@ -4,7 +4,7 @@
     "student": "林宸平 (M11552010)",
     "department": "國立臺灣科技大學 人工智慧所",
     "repoUrl": "https://github.com/PhilipLin0211/115_1_TAICA_IVEAI",
-    "lastUpdated": "2026-11-17 14:35 CST"
+    "lastUpdated": "2026-11-24 10:11 CST"
   },
   "assignments": [
     {
@@ -87,6 +87,49 @@
         {
           "label": "W08 自動化架構筆記",
           "url": "./notes/W08_AGENTS_md_設計筆記.md",
+          "type": "secondary",
+          "external": false
+        }
+      ]
+    },
+    {
+      "id": "hw3-llm-wiki-slides",
+      "badge": "作業三 (HW 3) • 已發布",
+      "displayName": "用 LLM Wiki 做一份教學 HTML 簡報",
+      "subtitle": "AI Agents 是什麼？零基礎搞懂自主型代理人互動教學簡報",
+      "folderPath": "用 LLM Wiki 做一份教學 HTML 簡報",
+      "entryFile": "index.html",
+      "description": "針對「AI Agents（自主型語言模型代理人）」領域，蒐集 5 篇經典文獻與工程指南（Lilian Weng、ReAct、Toolformer、Anthropic Building Agents、Generative Agents）建立結構化 LLM Wiki 知識庫，產製零基礎友善的 10 頁式互動 HTML 教學簡報與獨立 GitHub Pages 網站。",
+      "tags": [
+        "LLM Wiki 知識庫",
+        "互動教學 HTML 簡報",
+        "AI Agents",
+        "ReAct 思考決策",
+        "Tool Use",
+        "GitHub Pages"
+      ],
+      "links": [
+        {
+          "label": "線上簡報 (GitHub Pages)",
+          "url": "https://PhilipLin0211.github.io/llm-wiki-vae-diffusion/",
+          "type": "primary",
+          "external": true
+        },
+        {
+          "label": "獨立專案 Repo (GitHub)",
+          "url": "https://github.com/PhilipLin0211/llm-wiki-vae-diffusion",
+          "type": "secondary",
+          "external": true
+        },
+        {
+          "label": "LLM Wiki 知識庫成果",
+          "url": "https://PhilipLin0211.github.io/llm-wiki-vae-diffusion/wiki/index.md",
+          "type": "secondary",
+          "external": true
+        },
+        {
+          "label": "本地預覽 (Live Demo)",
+          "url": "./用 LLM Wiki 做一份教學 HTML 簡報/index.html",
           "type": "secondary",
           "external": false
         }
@@ -203,6 +246,24 @@
       "title": "10把你的工作拆成AI能做的流程",
       "path": "./PPT/10把你的工作拆成AI能做的流程.pdf",
       "sizeMB": "36.5 MB"
+    },
+    {
+      "id": "ppt-11",
+      "title": "11從VAE開始的冒險旅程",
+      "path": "./PPT/11從VAE開始的冒險旅程.pdf",
+      "sizeMB": "51.0 MB"
+    },
+    {
+      "id": "ppt-12",
+      "title": "AI助教課1117_compressed",
+      "path": "./PPT/AI助教課1117_compressed.pdf",
+      "sizeMB": "2.1 MB"
+    },
+    {
+      "id": "ppt-13",
+      "title": "GenAI_Week10_助教課",
+      "path": "./PPT/GenAI_Week10_助教課.pdf",
+      "sizeMB": "6.0 MB"
     },
     {
       "id": "ppt-ta07",

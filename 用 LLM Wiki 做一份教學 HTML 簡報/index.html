@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Agents 是什麼？從聊天機器人到自主數位特助的演進</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --primary: #4f46e5;
+      --primary-light: #eef2ff;
+      --accent: #e11d48;
+      --accent-light: #ffe4e6;
+      --teal: #0d9488;
+      --teal-light: #ccfbf1;
+      --amber: #d97706;
+      --amber-light: #fef3c7;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    header {
+      padding: 12px 28px;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+    .badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
+    .progress-bar { height: 4px; background: var(--border); width: 100%; }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--teal));
+      transition: width 0.3s ease;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 36px;
+      overflow-y: auto;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1040px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 34px 42px;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
+      animation: fadeIn 0.25s ease;
+    }
+    .slide.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-tag {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 4px 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    h1 { font-size: 2.15rem; color: var(--text); line-height: 1.3; margin-bottom: 14px; }
+    h2 { font-size: 1.65rem; color: var(--text); margin-bottom: 14px; line-height: 1.35; }
+    p { font-size: 1.06rem; line-height: 1.7; color: #334155; margin-bottom: 14px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+    .box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .box h3 { font-size: 1.08rem; color: var(--primary); margin-bottom: 8px; }
+    .analogy {
+      background: var(--teal-light);
+      border-left: 5px solid var(--teal);
+      padding: 13px 18px;
+      border-radius: 10px;
+      margin: 14px 0;
+      color: #115e59;
+      font-weight: 500;
+    }
+    .diagram {
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+      margin: 14px 0;
+    }
+    ul { padding-left: 22px; line-height: 1.75; font-size: 1.03rem; }
+    li { margin-bottom: 6px; }
+    .wiki-ref {
+      margin-top: 18px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    footer {
+      padding: 13px 28px;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 0.94rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    button:disabled { opacity: 0.35; cursor: not-allowed; }
+    button.secondary { background: #e2e8f0; color: var(--text); }
+    button.chip {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      margin-right: 6px;
+      margin-bottom: 8px;
+    }
+    button.chip.active-chip { background: var(--primary); color: #fff; }
+    .sim-output {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-top: 8px;
+    }
+    @media (max-width: 768px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .slide { padding: 22px; }
+      h1 { font-size: 1.55rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div><strong>LLM Wiki 教學簡報</strong> ｜ AI Agents 是什麼？</div>
+    <div class="badge" id="slideCounter">1 / 10</div>
+  </header>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 10%;"></div></div>
+
+  <main>
+    <!-- Slide 1 -->
+    <section class="slide active">
+      <div class="slide-tag">封面 ｜ 零基礎 AI Agent 導論</div>
+      <h1>AI Agents 是什麼？<br><span style="color: var(--primary);">從「只會聊天的顧問」到「能動手辦事的數位特助」</span></h1>
+      <p>你一定用過 ChatGPT 寫文章或問問題，但你有沒有想過：如何讓 AI 自己上網查即時資料、按計算機驗證數字、修改檔案，一路做到任務完成為止？這就是 <strong>AI Agent（自主型代理人）</strong>！</p>
+      <div class="analogy">
+        💡 <strong>本課核心公式</strong>：<code>AI Agent = LLM（大腦） + Planning（規劃） + Memory（記憶） + Tool Use（工具）</code>
+      </div>
+      <div class="wiki-ref">
+        <span>知識庫來源：<code>wiki/index.md</code>（收錄 5 篇權威技術文獻）</span>
+        <span>操作提示：按鍵盤 ← / → 鍵或下方按鈕翻頁</span>
+      </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide">
+      <div class="slide-tag">01. 核心定義與演進</div>
+      <h2>傳統 Chatbot vs. AI Agent：差別在哪裡？</h2>
+      <p>傳統聊天機器人就像「被關在沒有網路與計算機房間裡的百科全書」——只能靠記憶回答；而 AI Agent 則走出了房間，擁有工具箱與行動迴圈。</p>
+      <div class="grid-2">
+        <div class="box" style="background: #fff1f2; border-color: #fda4af;">
+          <h3 style="color: #be123c;">💬 傳統 Chatbot（被動問答）</h3>
+          <ul>
+            <li><strong>單輪互動</strong>：你問一句，它憑預訓練記憶答一句。</li>
+            <li><strong>能力受限</strong>：不知道今天天氣、複雜算數易出錯。</li>
+            <li><strong>只說不做</strong>：只能給你文字建議，無法直接幫你操作軟體。</li>
+          </ul>
+        </div>
+        <div class="box" style="background: #f0fdfa; border-color: #5eead4;">
+          <h3 style="color: #0f766e;">🤖 AI Agent（自主閉環執行）</h3>
+          <ul>
+            <li><strong>目標導向</strong>：給定一個大目標，自己拆解步驟並推進。</li>
+            <li><strong>連結真實世界</strong>：主動搜尋網路、查資料庫、跑程式碼。</li>
+            <li><strong>自我修正</strong>：發現工具回傳錯誤時，會調整策略重試。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="wiki-ref">
+        <span>Wiki 條目：<code>wiki/concepts/01-what-is-an-ai-agent.md</code></span>
+        <span>引用：[[src-01, src-04]]</span>
+      </div>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide">
+      <div class="slide-tag">01. 系統總覽架構</div>
+      <h2>解剖一隻 AI Agent 的四大核心器官</h2>
+      <p>根據 Lilian Weng 的經典架構剖析，一個完整的 LLM Agent 是以大型語言模型（LLM）為中央大腦，向外連接三大關鍵能力：</p>
+      <div class="diagram">
+        <svg width="100%" height="185" viewBox="0 0 780 185">
+          <!-- Center LLM -->
+          <rect x="290" y="55" width="200" height="75" rx="16" fill="#4f46e5"/>
+          <text x="390" y="88" text-anchor="middle" font-weight="bold" font-size="16" fill="#fff">LLM 中央大腦</text>
+          <text x="390" y="110" text-anchor="middle" font-size="12" fill="#e0e7ff">理解意圖・邏輯推理・決策</text>
+
+          <!-- Planning -->
+          <rect x="30" y="15" width="195" height="65" rx="12" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+          <text x="127" y="42" text-anchor="middle" font-weight="bold" fill="#92400e">1. Planning 規劃</text>
+          <text x="127" y="62" text-anchor="middle" font-size="12" fill="#78350f">任務拆解・ReAct・自我反思</text>
+          <line x1="225" y1="55" x2="288" y2="80" stroke="#64748b" stroke-width="2"/>
+
+          <!-- Memory -->
+          <rect x="30" y="105" width="195" height="65" rx="12" fill="#ccfbf1" stroke="#0d9488" stroke-width="2"/>
+          <text x="127" y="132" text-anchor="middle" font-weight="bold" fill="#115e59">2. Memory 記憶</text>
+          <text x="127" y="152" text-anchor="middle" font-size="12" fill="#134e4a">短期視窗 + 長期向量資料庫</text>
+          <line x1="225" y1="130" x2="288" y2="105" stroke="#64748b" stroke-width="2"/>
+
+          <!-- Tools -->
+          <rect x="555" y="55" width="195" height="75" rx="12" fill="#ffe4e6" stroke="#e11d48" stroke-width="2"/>
+          <text x="652" y="86" text-anchor="middle" font-weight="bold" fill="#9f1239">3. Tool Use 工具</text>
+          <text x="652" y="106" text-anchor="middle" font-size="12" fill="#881337">搜尋・計算機・程式・API</text>
+          <line x1="490" y1="92" x2="553" y2="92" stroke="#64748b" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="wiki-ref">
+        <span>Wiki 條目：<code>wiki/concepts/01-what-is-an-ai-agent.md</code></span>
+        <span>引用：[[src-01]]</span>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide">
+      <div class="slide-tag">02. 任務規劃 Planning</div>
+      <h2>器官一：大腦如何拆解複雜任務？</h2>
+      <p>人類面對「籌備一場研討會」不會想一口氣做完，而是拆成「訂場地、邀講者、發報名表」。AI Agent 也是透過兩大規劃技巧解決難題：</p>
+      <div class="grid-2">
+        <div class="box">
+          <h3>🪜 子目標拆解（Subgoal Decomposition）</h3>
+          <p>利用 <strong>Chain-of-Thought（思維鏈）</strong> 或 <strong>Tree-of-Thoughts（思維樹）</strong>，把一個龐大模糊的指令，切分成一連串具體可執行的小步驟。</p>
+        </div>
+        <div class="box">
+          <h3>🪞 自我反思（Self-Reflection）</h3>
+          <p>參考 <strong>Reflexion</strong> 機制：當某個步驟執行失敗或結果不合理時，Agent 會把錯誤經驗寫進記憶，修正下一步策略，而不是盲目重複同樣的錯誤。</p>
+        </div>
+      </div>
+      <div class="wiki-ref">
+        <span>Wiki 條目：<code>wiki/concepts/02-planning-and-react.md</code></span>
+        <span>引用：[[src-01]]</span>
+      </div>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="slide">
+      <div class="slide-tag">02. ReAct 推理與行動迴圈</div>
+      <h2>經典範式：ReAct 怎麼讓 AI「邊想邊做」？</h2>
+      <p>2022 年發表的 <strong>ReAct（Reasoning + Acting）</strong> 發現：只會思考容易胡說八道（幻覺），只會行動容易迷失方向。把兩者交錯結合，就能形成嚴謹的解題迴圈：</p>
+      <div style="margin-top: 10px;">
+        <button class="chip active-chip" id="btnStep1" onclick="showReactStep(1)">Step 1: Thought（思考）</button>
+        <button class="chip" id="btnStep2" onclick="showReactStep(2)">Step 2: Action（行動）</button>
+        <button class="chip" id="btnStep3" onclick="showReactStep(3)">Step 3: Observation（觀察）</button>
+        <button class="chip" id="btnStep4" onclick="showReactStep(4)">Step 4: Final Answer（整合回答）</button>
+        <div class="sim-output" id="reactOutput">
+          [Thought] 使用者問「台北今天適合穿短袖嗎？」我不知道今天的即時氣溫，必須先查詢台北天氣預報。
+        </div>
+      </div>
+      <div class="analogy">
+        🔍 <strong>為什麼這很重要？</strong> 每個決策都有白紙黑字的 <code>Thought</code> 軌跡，人類工程師能一眼看懂 AI 為什麼呼叫這個工具，大幅提升可信度！
+      </div>
+      <div class="wiki-ref">
+        <span>Wiki 條目：<code>wiki/concepts/02-planning-and-react.md</code></span>
+        <span>引用：[[src-02]]</span>
+      </div>
+    </section>
+
+    <!-- Slide 6 -->
+    <section class="slide">
+      <div class="slide-tag">03. 記憶架構 Memory</div>
+      <h2>器官二：如何治好 AI 的「金魚腦」？</h2>
+      <p>大型語言模型每次對話都有「記憶容量上限（Context Window）」，聊太長就會忘記開頭。AI Agent 模仿人類大腦，建立雙層記憶系統：</p>
+      <div class="grid-2">
+        <div class="box">
+          <h3>🗒️ 短期記憶（Short-term Memory）</h3>
+          <p>就是模型當下的 <strong>Context Window（上下文視窗）</strong>，用來暫存「這輪任務剛查到的資料」與「最近幾句對話」，就像桌上的便利貼，拿取最快但空間有限。</p>
+        </div>
+        <div class="box">
+          <h3>🗄️ 長期記憶（Long-term Memory）</h3>
+          <p>把過去幾週的筆記與經驗轉成特徵向量，存進外部 <strong>向量資料庫（Vector DB）</strong>。需要時再用語意檢索（RAG）精準撈出來，容量幾乎無限！</p>
+        </div>
+      </div>
+      <div class="analogy">
+        🏘️ <strong>史丹佛《Generative Agents》啟發</strong>：研究人員在虛擬小鎮讓 25 位 AI 居民生活，發現除了靠語意檢索記憶，還要評估「新近度」與「重要性」，並定期做「反思摘要」，才能維持長期人格！
+      </div>
+      <div class="wiki-ref">
+        <span>Wiki 條目：<code>wiki/concepts/03-memory-architecture.md</code></span>
+        <span>引用：[[src-01, src-05]]</span>
+      </div>
+    </section>
+
+    <!-- Slide 7 -->
+    <section class="slide">
+      <div class="slide-tag">04. 工具使用 Tool Use</div>
+      <h2>器官三：裝上手腳，讓 AI 呼叫外部工具</h2>
+      <p>既然語言模型本質上不擅長心算、也不知道即時股價，最聰明的做法就是<strong>「把專業的事交給專業工具」</strong>：</p>
+      <ul>
+        <li><strong>Function Calling（函數呼叫）</strong>：模型不直接瞎猜答案，而是輸出一串標準指令（例如 <code>calculator("3847 * 912")</code>），交由外部程式執行後把精確數字傳回給模型。</li>
+        <li><strong>Toolformer 自我學習</strong>：Meta 論文證明，AI 可以透過自我監督學習，自己測試「在文章哪裡插入計算機或搜尋 API 能讓預測更準」，無師自通學會用工具！</li>
+        <li><strong>ACI（代理人電腦介面）設計</strong>：工具說明書與參數命名必須像設計給人類的 UI 一樣直覺防呆，否則模型很容易傳錯參數格式。</li>
+      </ul>
+      <div class="wiki-ref">
+        <span>Wiki 條目：<code>wiki/concepts/04-tool-use-and-actions.md</code></span>
+        <span>引用：[[src-01, src-03, src-04]]</span>
+      </div>
+    </section>
+
+    <!-- Slide 8 -->
+    <section class="slide">
+      <div class="slide-tag">05. 工程實務選型（Anthropic 指南）</div>
+      <h2>關鍵觀念：Workflows vs. Autonomous Agents</h2>
+      <p>Anthropic 工程團隊在《Building Effective Agents》中提醒開發者：<strong>不要為了做 Agent 而硬做 Agent！</strong> 系統設計其實分成兩條路線：</p>
+      <div class="grid-2">
+        <div class="box" style="border-top: 4px solid var(--primary);">
+          <h3>⚙️ Workflows（預先編排工作流）</h3>
+          <p><strong>定義</strong>：由工程師寫好固定程式碼步驟，LLM 只在特定關卡負責分析、翻譯或檢查。</p>
+          <p><strong>優點</strong>：路徑可預測、穩定度高、成本可控，適合 80% 以上的企業自動化任務。</p>
+        </div>
+        <div class="box" style="border-top: 4px solid var(--accent);">
+          <h3>🧭 Autonomous Agents（自主代理人）</h3>
+          <p><strong>定義</strong>：不寫死執行路線，讓 LLM 自己決定要呼叫幾次工具、何時停止。</p>
+          <p><strong>優點</strong>：極具彈性，適合開放式研究或複雜除錯（如自動寫程式修 Bug），但需設步數上限防失控。</p>
+        </div>
+      </div>
+      <div class="wiki-ref">
+        <span>Wiki 條目：<code>wiki/concepts/05-workflows-vs-autonomous-agents.md</code></span>
+        <span>引用：[[src-04]]</span>
+      </div>
+    </section>
+
+    <!-- Slide 9 -->
+    <section class="slide">
+      <div class="slide-tag">05. 常見 Workflow 設計模式</div>
+      <h2>業界最實用的三種 Agentic Workflow 模式</h2>
+      <p>在實際開發中，將不同功能的 LLM 節點串接起來，往往比單一巨大模型更可靠：</p>
+      <div class="grid-3">
+        <div class="box">
+          <h3>1. Prompt Chaining<br>（提示鏈流水線）</h3>
+          <p>把任務拆成「大綱生成 $\rightarrow$ 檢查格式 Gate $\rightarrow$ 擴寫內文」，每一步都先驗收再往下走。</p>
+        </div>
+        <div class="box">
+          <h3>2. Routing<br>（智慧路由分流）</h3>
+          <p>先用輕量模型判斷問題類型（退款 / 技術支援 / 閒聊），再派發給對應的專家模型處理。</p>
+        </div>
+        <div class="box">
+          <h3>3. Evaluator-Optimizer<br>（生成與審查迴圈）</h3>
+          <p>一個 AI 負責產出草稿，另一個 AI 扮演嚴格審稿員挑毛病，退回修改直到達標為止！</p>
+        </div>
+      </div>
+      <div class="analogy">
+        ✨ <strong>彩蛋</strong>：我們這次製作「LLM Wiki $\rightarrow$ 教學 HTML 簡報」的作業流程，正是標準的 <strong>Prompt Chaining + Evaluator-Optimizer</strong> 混合架構！
+      </div>
+      <div class="wiki-ref">
+        <span>Wiki 條目：<code>wiki/concepts/05-workflows-vs-autonomous-agents.md</code></span>
+        <span>引用：[[src-04]]</span>
+      </div>
+    </section>
+
+    <!-- Slide 10 -->
+    <section class="slide">
+      <div class="slide-tag">總結 ｜ 知識地圖回顧</div>
+      <h2>一張表帶走 AI Agent 核心精華</h2>
+      <div class="box" style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.94rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--primary); color: var(--primary);">
+              <th style="padding: 10px;">核心模組</th>
+              <th style="padding: 10px;">生活化角色</th>
+              <th style="padding: 10px;">代表技術 / 論文</th>
+              <th style="padding: 10px;">解決的關鍵問題</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 10px;"><strong>LLM 大腦</strong></td>
+              <td style="padding: 10px;">專案總指揮</td>
+              <td style="padding: 10px;">Claude / GPT / Gemini</td>
+              <td style="padding: 10px;">理解模糊需求並統籌決策</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 10px;"><strong>Planning 規劃</strong></td>
+              <td style="padding: 10px;">工作拆解清單</td>
+              <td style="padding: 10px;">CoT / ReAct / Reflexion</td>
+              <td style="padding: 10px;">邊想邊做，降低幻覺並從錯誤修正</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 10px;"><strong>Memory 記憶</strong></td>
+              <td style="padding: 10px;">便利貼 + 檔案櫃</td>
+              <td style="padding: 10px;">Context Window + Vector DB</td>
+              <td style="padding: 10px;">突破對話長度限制，實現長期記憶</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 10px;"><strong>Tool Use 工具</strong></td>
+              <td style="padding: 10px;">雙手與工具箱</td>
+              <td style="padding: 10px;">Function Calling / Toolformer</td>
+              <td style="padding: 10px;">取得即時資訊、精確計算與操作軟體</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px;"><strong>工程選型</strong></td>
+              <td style="padding: 10px;">SOP vs. 自由探索</td>
+              <td style="padding: 10px;">Anthropic Workflows vs. Agents</td>
+              <td style="padding: 10px;">在穩定成本與自主彈性間取得平衡</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wiki-ref">
+        <span>完整知識庫：<code>wiki/index.md</code>（5 篇網路技術文獻、5 篇概念條目）</span>
+        <span>感謝聆聽！Q&A</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <button class="secondary" id="prevBtn" onclick="changeSlide(-1)" disabled>← 上一頁</button>
+    <div style="font-size: 0.85rem; color: var(--muted);">115-1 TAICA 生成式 AI 作業 ｜ 知識來源：LLM Wiki（AI Agents）</div>
+    <button id="nextBtn" onclick="changeSlide(1)">下一頁 →</button>
+  </footer>
+
+  <script>
+    let current = 0;
+    const slides = document.querySelectorAll('.slide');
+    const counter = document.getElementById('slideCounter');
+    const fill = document.getElementById('progressFill');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function render() {
+      slides.forEach((s, i) => s.classList.toggle('active', i === current));
+      counter.textContent = `${current + 1} / ${slides.length}`;
+      fill.style.width = `${((current + 1) / slides.length) * 100}%`;
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === slides.length - 1;
+    }
+
+    function changeSlide(dir) {
+      current = Math.max(0, Math.min(slides.length - 1, current + dir));
+      render();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+      if (e.key === 'ArrowLeft') changeSlide(-1);
+    });
+
+    const reactSteps = {
+      1: '[Thought] 使用者問「台北今天適合穿短袖嗎？」我不知道今天的即時氣溫，必須先查詢台北天氣預報。',
+      2: '[Action] 呼叫工具：get_weather(city="Taipei", date="today")',
+      3: '[Observation] 工具回傳：{"temp_high": 24, "temp_low": 18, "condition": "多雲時晴，晚間偏涼"}',
+      4: '[Final Answer] 台北今天白天最高溫 24°C，白天穿短袖很舒適，但晚上會降到 18°C，建議隨身帶一件薄外套！'
+    };
+
+    function showReactStep(step) {
+      document.getElementById('reactOutput').textContent = reactSteps[step];
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById(`btnStep${i}`).classList.toggle('active-chip', i === step);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+# Byte-compiled / optimized / binary files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+.venv/
+env/
+ENV/
+
+# Playwright & Browser Sessions (CRITICAL: Contains private IG session / cookies)
+agent-browser/user_data_dir/
+agent-browser/.auth/
+agent-browser/recordings/
+agent-browser/videos/
+agent-browser/traces/
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+*.p8
+*.pem
+*.key
+*.local.md
+
+# Database
+backend-relay/*.db
+backend-relay/*.sqlite
+backend-relay/*.sqlite3
+backend-relay/data/
+
+# Node / JS
+node_modules/
+npm-debug.log*
+
+# iOS / Xcode
+*.xcuserstate
+project.xcworkspace/xcuserdata/
+*.xcuserdatad/
+DerivedData/
+.build/
+
+# OS Specific
+.DS_Store
+Thumbs.db
+desktop.ini

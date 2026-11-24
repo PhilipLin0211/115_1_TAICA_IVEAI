@@ -2093,5 +2093,1110 @@
         }
       ]
     }
+  },
+  {
+    "id": "event_980841126",
+    "timestamp": "2026-11-18 13:47:21",
+    "event_type": "ATTACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 成功掛載並啟動即時監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 7,
+      "files": [
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "pedal-weekly-tasks.md",
+          "size_bytes": 8104,
+          "modified": "2026-11-18 13:46:29"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "受試者招募意願QR code.png",
+          "size_bytes": 4625,
+          "modified": "2026-11-16 14:45:14"
+        }
+      ]
+    }
+  },
+  {
+    "id": "event_2878200",
+    "timestamp": "2026-11-18 19:54:38",
+    "event_type": "DETACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 收到中斷信號，安全卸載並停止監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 7,
+      "files": [
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "pedal-weekly-tasks.md",
+          "size_bytes": 8104,
+          "modified": "2026-11-18 13:46:29"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "受試者招募意願QR code.png",
+          "size_bytes": 4625,
+          "modified": "2026-11-16 14:45:14"
+        }
+      ]
+    }
+  },
+  {
+    "id": "event_3140080",
+    "timestamp": "2026-11-18 19:59:00",
+    "event_type": "ATTACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 成功掛載並啟動即時監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 7,
+      "files": [
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "pedal-weekly-tasks.md",
+          "size_bytes": 8104,
+          "modified": "2026-11-18 13:46:29"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "受試者招募意願QR code.png",
+          "size_bytes": 4625,
+          "modified": "2026-11-16 14:45:14"
+        }
+      ]
+    }
+  },
+  {
+    "id": "act_1795003168",
+    "timestamp": "2026-11-18 19:59:28",
+    "timestamp_iso": "2026-11-18T19:59:28.647742",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "師大投稿自行車踏頻與齒輪比.zip",
+      "size_bytes": 42079634,
+      "extension": ".zip"
+    },
+    "destination": {
+      "category": "General/Inbox",
+      "sanitized_name": "自行車踏頻與齒輪比.zip",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox/自行車踏頻與齒輪比.zip"
+    },
+    "decision_metadata": {
+      "wiki_title": "自行車踏頻與齒輪比",
+      "tags": [
+        "自行車",
+        "運動科學",
+        "機械工程"
+      ],
+      "double_links": [
+        "[[自行車]]",
+        "[[運動科學]]"
+      ],
+      "reasoning": "該檔案主要包含研究論文，內容涉及機械工程和運動科學領域，因此難以直接歸類至特定的 AI 研究或課程目錄。為了保持文件的完整性和可訪問性，建議暫時存放在 General/Inbox 目錄下。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox",
+        "total_files": 2,
+        "files": [
+          {
+            "relative_path": "自行車踏頻與齒輪比.md",
+            "size_bytes": 1083,
+            "modified": "2026-11-18 19:59:28"
+          },
+          {
+            "relative_path": "自行車踏頻與齒輪比.zip",
+            "size_bytes": 42079634,
+            "modified": "2026-11-18 19:59:09"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 8,
+        "files": [
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "pedal-weekly-tasks.md",
+            "size_bytes": 8104,
+            "modified": "2026-11-18 13:46:29"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "受試者招募意願QR code.png",
+            "size_bytes": 4625,
+            "modified": "2026-11-16 14:45:14"
+          },
+          {
+            "relative_path": "師大投稿自行車踏頻與齒輪比/The Effect of Different Cadence and Gear Ratio on Pedal Force and Riding Stability.enl",
+            "size_bytes": 53248,
+            "modified": "2026-10-01 20:21:32"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "event_3261535",
+    "timestamp": "2026-11-18 20:01:01",
+    "event_type": "DETACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 收到中斷信號，安全卸載並停止監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 8,
+      "files": [
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "pedal-weekly-tasks.md",
+          "size_bytes": 8104,
+          "modified": "2026-11-18 13:46:29"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "受試者招募意願QR code.png",
+          "size_bytes": 4625,
+          "modified": "2026-11-16 14:45:14"
+        },
+        {
+          "relative_path": "師大投稿自行車踏頻與齒輪比/The Effect of Different Cadence and Gear Ratio on Pedal Force and Riding Stability.enl",
+          "size_bytes": 53248,
+          "modified": "2026-10-01 20:21:32"
+        }
+      ]
+    }
+  },
+  {
+    "id": "event_3279216",
+    "timestamp": "2026-11-18 20:01:19",
+    "event_type": "ATTACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 成功掛載並啟動即時監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 8,
+      "files": [
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "pedal-weekly-tasks.md",
+          "size_bytes": 8104,
+          "modified": "2026-11-18 13:46:29"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "受試者招募意願QR code.png",
+          "size_bytes": 4625,
+          "modified": "2026-11-16 14:45:14"
+        },
+        {
+          "relative_path": "師大投稿自行車踏頻與齒輪比/The Effect of Different Cadence and Gear Ratio on Pedal Force and Riding Stability.enl",
+          "size_bytes": 53248,
+          "modified": "2026-10-01 20:21:32"
+        }
+      ]
+    }
+  },
+  {
+    "id": "act_1795070037",
+    "timestamp": "2026-11-19 14:33:57",
+    "timestamp_iso": "2026-11-19T14:33:57.579766",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "exoskeleton-assistance-presentation-v2.pptx",
+      "size_bytes": 99818,
+      "extension": ".pptx"
+    },
+    "destination": {
+      "category": "General/Inbox",
+      "sanitized_name": "exoskeleton-assistance-presentation-v2.pptx",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox/exoskeleton-assistance-presentation-v2.pptx"
+    },
+    "decision_metadata": {
+      "wiki_title": "Exoskeleton Assistance Presentation v2",
+      "tags": [
+        "Presentation",
+        "Exoskeleton",
+        "Assistance"
+      ],
+      "double_links": [
+        "[[Exoskeleton]]",
+        "[[Assistance]]"
+      ],
+      "reasoning": "該檔案名稱包含 'presentation'，且內容涉及外骨骼技術，因此最適宜放入 General/Inbox 目錄。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox",
+        "total_files": 2,
+        "files": [
+          {
+            "relative_path": "Exoskeleton Assistance Presentation v2.md",
+            "size_bytes": 956,
+            "modified": "2026-11-19 14:33:57"
+          },
+          {
+            "relative_path": "exoskeleton-assistance-presentation-v2.pptx",
+            "size_bytes": 99818,
+            "modified": "2026-11-19 14:33:28"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 8,
+        "files": [
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "pedal-weekly-tasks.md",
+            "size_bytes": 8104,
+            "modified": "2026-11-18 13:46:29"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "受試者招募意願QR code.png",
+            "size_bytes": 4625,
+            "modified": "2026-11-16 14:45:14"
+          },
+          {
+            "relative_path": "師大投稿自行車踏頻與齒輪比/The Effect of Different Cadence and Gear Ratio on Pedal Force and Riding Stability.enl",
+            "size_bytes": 53248,
+            "modified": "2026-10-01 20:21:32"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "act_1795076145",
+    "timestamp": "2026-11-19 16:15:45",
+    "timestamp_iso": "2026-11-19T16:15:45.768714",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "project-workflow.zip",
+      "size_bytes": 2992,
+      "extension": ".zip"
+    },
+    "destination": {
+      "category": "Course_Materials/IVEAI",
+      "sanitized_name": "TAICA_IVEAI_Skill.md",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/Course_Materials/IVEAI/TAICA_IVEAI_Skill.md"
+    },
+    "decision_metadata": {
+      "wiki_title": "TAICA_IVEAI Skill",
+      "tags": [
+        "智慧虛擬實境",
+        "人工智慧",
+        "課程投影片"
+      ],
+      "double_links": [
+        "[[智慧虛擬實境]]",
+        "[[人工智慧]]"
+      ],
+      "reasoning": "此檔案屬於台科大 TAICA_IVEAI 智慧虛擬實境與人工智慧課程的投影片之一，因此應歸類於 Course_Materials/IVEAI 目錄下。命名上使用了課程名稱和技能文件名稱，以確保清晰易懂。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/Course_Materials/IVEAI",
+        "total_files": 2,
+        "files": [
+          {
+            "relative_path": "TAICA_IVEAI Skill.md",
+            "size_bytes": 1132,
+            "modified": "2026-11-19 16:15:45"
+          },
+          {
+            "relative_path": "TAICA_IVEAI_Skill.md",
+            "size_bytes": 2992,
+            "modified": "2026-11-19 16:15:12"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 8,
+        "files": [
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "pedal-weekly-tasks.md",
+            "size_bytes": 8104,
+            "modified": "2026-11-18 13:46:29"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "受試者招募意願QR code.png",
+            "size_bytes": 4625,
+            "modified": "2026-11-16 14:45:14"
+          },
+          {
+            "relative_path": "師大投稿自行車踏頻與齒輪比/The Effect of Different Cadence and Gear Ratio on Pedal Force and Riding Stability.enl",
+            "size_bytes": 53248,
+            "modified": "2026-10-01 20:21:32"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "act_1795076225",
+    "timestamp": "2026-11-19 16:17:05",
+    "timestamp_iso": "2026-11-19T16:17:05.726256",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "20261119機器學習.m4a",
+      "size_bytes": 26933772,
+      "extension": ".m4a"
+    },
+    "destination": {
+      "category": "General/Inbox",
+      "sanitized_name": "20261119機器學習.m4a",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox/20261119機器學習.m4a"
+    },
+    "decision_metadata": {
+      "wiki_title": "20261119機器學習",
+      "tags": [
+        "機器學習",
+        "音頻文件",
+        "未解析"
+      ],
+      "double_links": [
+        "[[機器學習]]"
+      ],
+      "reasoning": "由於該檔案是二進制格式且未解析，無法確定其具體內容。根據命名規則，暫時將其放入 General/Inbox 目錄。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox",
+        "total_files": 4,
+        "files": [
+          {
+            "relative_path": "20261119機器學習.m4a",
+            "size_bytes": 26933772,
+            "modified": "2026-11-19 16:16:24"
+          },
+          {
+            "relative_path": "20261119機器學習.md",
+            "size_bytes": 898,
+            "modified": "2026-11-19 16:17:05"
+          },
+          {
+            "relative_path": "Exoskeleton Assistance Presentation v2.md",
+            "size_bytes": 956,
+            "modified": "2026-11-19 14:33:57"
+          },
+          {
+            "relative_path": "exoskeleton-assistance-presentation-v2.pptx",
+            "size_bytes": 99818,
+            "modified": "2026-11-19 14:33:28"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 11,
+        "files": [
+          {
+            "relative_path": "20261119機器學習2.m4a",
+            "size_bytes": 21376028,
+            "modified": "2026-11-19 16:16:31"
+          },
+          {
+            "relative_path": "20261119機器學習3.m4a",
+            "size_bytes": 9146602,
+            "modified": "2026-11-19 16:16:34"
+          },
+          {
+            "relative_path": "20261119機器學習4.m4a",
+            "size_bytes": 14600494,
+            "modified": "2026-11-19 16:16:39"
+          },
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "pedal-weekly-tasks.md",
+            "size_bytes": 8104,
+            "modified": "2026-11-18 13:46:29"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "受試者招募意願QR code.png",
+            "size_bytes": 4625,
+            "modified": "2026-11-16 14:45:14"
+          },
+          {
+            "relative_path": "師大投稿自行車踏頻與齒輪比/The Effect of Different Cadence and Gear Ratio on Pedal Force and Riding Stability.enl",
+            "size_bytes": 53248,
+            "modified": "2026-10-01 20:21:32"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "act_1795076247",
+    "timestamp": "2026-11-19 16:17:27",
+    "timestamp_iso": "2026-11-19T16:17:27.424241",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "20261119機器學習2.m4a",
+      "size_bytes": 21376028,
+      "extension": ".m4a"
+    },
+    "destination": {
+      "category": "General/Inbox",
+      "sanitized_name": "20261119機器學習2.m4a",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox/20261119機器學習2.m4a"
+    },
+    "decision_metadata": {
+      "wiki_title": "20261119機器學習",
+      "tags": [
+        "機器學習",
+        "音頻檔案",
+        "未解析"
+      ],
+      "double_links": [
+        "[[機器學習]]",
+        "[[未解析]]"
+      ],
+      "reasoning": "該檔案為音頻檔案，且無法解析其內容。根據 RAG 檢索結果，與一般文件類似度最高，因此歸類至 General/Inbox。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox",
+        "total_files": 5,
+        "files": [
+          {
+            "relative_path": "20261119機器學習.m4a",
+            "size_bytes": 26933772,
+            "modified": "2026-11-19 16:16:24"
+          },
+          {
+            "relative_path": "20261119機器學習.md",
+            "size_bytes": 918,
+            "modified": "2026-11-19 16:17:27"
+          },
+          {
+            "relative_path": "20261119機器學習2.m4a",
+            "size_bytes": 21376028,
+            "modified": "2026-11-19 16:16:31"
+          },
+          {
+            "relative_path": "Exoskeleton Assistance Presentation v2.md",
+            "size_bytes": 956,
+            "modified": "2026-11-19 14:33:57"
+          },
+          {
+            "relative_path": "exoskeleton-assistance-presentation-v2.pptx",
+            "size_bytes": 99818,
+            "modified": "2026-11-19 14:33:28"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 10,
+        "files": [
+          {
+            "relative_path": "20261119機器學習3.m4a",
+            "size_bytes": 9146602,
+            "modified": "2026-11-19 16:16:34"
+          },
+          {
+            "relative_path": "20261119機器學習4.m4a",
+            "size_bytes": 14600494,
+            "modified": "2026-11-19 16:16:39"
+          },
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "pedal-weekly-tasks.md",
+            "size_bytes": 8104,
+            "modified": "2026-11-18 13:46:29"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "受試者招募意願QR code.png",
+            "size_bytes": 4625,
+            "modified": "2026-11-16 14:45:14"
+          },
+          {
+            "relative_path": "師大投稿自行車踏頻與齒輪比/The Effect of Different Cadence and Gear Ratio on Pedal Force and Riding Stability.enl",
+            "size_bytes": 53248,
+            "modified": "2026-10-01 20:21:32"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "act_1795076270",
+    "timestamp": "2026-11-19 16:17:50",
+    "timestamp_iso": "2026-11-19T16:17:50.263495",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "20261119機器學習3.m4a",
+      "size_bytes": 9146602,
+      "extension": ".m4a"
+    },
+    "destination": {
+      "category": "General/Inbox",
+      "sanitized_name": "20261119機器學習3.m4a",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox/20261119機器學習3.m4a"
+    },
+    "decision_metadata": {
+      "wiki_title": "20261119機器學習音頻檔案",
+      "tags": [
+        "機器學習",
+        "音頻",
+        "未解析"
+      ],
+      "double_links": [
+        "[[機器學習]]",
+        "[[音頻]]"
+      ],
+      "reasoning": "該檔案為未解析的二進制音頻文件，根據 RAG 檢索結果，與一般性文件類似度最高。因此，暫時將其歸類於 General/Inbox 目錄。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox",
+        "total_files": 7,
+        "files": [
+          {
+            "relative_path": "20261119機器學習.m4a",
+            "size_bytes": 26933772,
+            "modified": "2026-11-19 16:16:24"
+          },
+          {
+            "relative_path": "20261119機器學習.md",
+            "size_bytes": 918,
+            "modified": "2026-11-19 16:17:27"
+          },
+          {
+            "relative_path": "20261119機器學習2.m4a",
+            "size_bytes": 21376028,
+            "modified": "2026-11-19 16:16:31"
+          },
+          {
+            "relative_path": "20261119機器學習3.m4a",
+            "size_bytes": 9146602,
+            "modified": "2026-11-19 16:16:34"
+          },
+          {
+            "relative_path": "20261119機器學習音頻檔案.md",
+            "size_bytes": 1000,
+            "modified": "2026-11-19 16:17:50"
+          },
+          {
+            "relative_path": "Exoskeleton Assistance Presentation v2.md",
+            "size_bytes": 956,
+            "modified": "2026-11-19 14:33:57"
+          },
+          {
+            "relative_path": "exoskeleton-assistance-presentation-v2.pptx",
+            "size_bytes": 99818,
+            "modified": "2026-11-19 14:33:28"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 9,
+        "files": [
+          {
+            "relative_path": "20261119機器學習4.m4a",
+            "size_bytes": 14600494,
+            "modified": "2026-11-19 16:16:39"
+          },
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "pedal-weekly-tasks.md",
+            "size_bytes": 8104,
+            "modified": "2026-11-18 13:46:29"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "受試者招募意願QR code.png",
+            "size_bytes": 4625,
+            "modified": "2026-11-16 14:45:14"
+          },
+          {
+            "relative_path": "師大投稿自行車踏頻與齒輪比/The Effect of Different Cadence and Gear Ratio on Pedal Force and Riding Stability.enl",
+            "size_bytes": 53248,
+            "modified": "2026-10-01 20:21:32"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "act_1795076293",
+    "timestamp": "2026-11-19 16:18:13",
+    "timestamp_iso": "2026-11-19T16:18:13.334217",
+    "action_executed": "MOVE",
+    "permission_guard": {
+      "allowed_scope": "MOVE_ONLY",
+      "verified": true,
+      "status": "PASSED"
+    },
+    "source": {
+      "file_name": "20261119機器學習4.m4a",
+      "size_bytes": 14600494,
+      "extension": ".m4a"
+    },
+    "destination": {
+      "category": "General/Inbox",
+      "sanitized_name": "20261119機器學習4.m4a",
+      "final_path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox/20261119機器學習4.m4a"
+    },
+    "decision_metadata": {
+      "wiki_title": "20261119機器學習音頻檔案",
+      "tags": [
+        "機器學習",
+        "音頻",
+        "未解析"
+      ],
+      "double_links": [
+        "[[機器學習]]",
+        "[[音頻]]"
+      ],
+      "reasoning": "該檔案為機器學習相關的音頻檔案，但由于其二進制性質，無法進行解析。根據 RAG 檢索結果，此類型的檔案通常被分類在 General/Inbox 目錄下。"
+    },
+    "dry_run": false,
+    "folder_directory_snapshots": {
+      "target_directory": {
+        "path": "/Users/philiplin/Documents/Obsidian_Vault/General/Inbox",
+        "total_files": 8,
+        "files": [
+          {
+            "relative_path": "20261119機器學習.m4a",
+            "size_bytes": 26933772,
+            "modified": "2026-11-19 16:16:24"
+          },
+          {
+            "relative_path": "20261119機器學習.md",
+            "size_bytes": 918,
+            "modified": "2026-11-19 16:17:27"
+          },
+          {
+            "relative_path": "20261119機器學習2.m4a",
+            "size_bytes": 21376028,
+            "modified": "2026-11-19 16:16:31"
+          },
+          {
+            "relative_path": "20261119機器學習3.m4a",
+            "size_bytes": 9146602,
+            "modified": "2026-11-19 16:16:34"
+          },
+          {
+            "relative_path": "20261119機器學習4.m4a",
+            "size_bytes": 14600494,
+            "modified": "2026-11-19 16:16:39"
+          },
+          {
+            "relative_path": "20261119機器學習音頻檔案.md",
+            "size_bytes": 1012,
+            "modified": "2026-11-19 16:18:13"
+          },
+          {
+            "relative_path": "Exoskeleton Assistance Presentation v2.md",
+            "size_bytes": 956,
+            "modified": "2026-11-19 14:33:57"
+          },
+          {
+            "relative_path": "exoskeleton-assistance-presentation-v2.pptx",
+            "size_bytes": 99818,
+            "modified": "2026-11-19 14:33:28"
+          }
+        ]
+      },
+      "watch_directory": {
+        "path": "/Users/philiplin/Downloads",
+        "total_files": 8,
+        "files": [
+          {
+            "relative_path": "IMG_0089.HEIC",
+            "size_bytes": 2613637,
+            "modified": "2026-06-06 15:12:16"
+          },
+          {
+            "relative_path": "pedal-weekly-tasks.md",
+            "size_bytes": 8104,
+            "modified": "2026-11-18 13:46:29"
+          },
+          {
+            "relative_path": "~$2862619.docx",
+            "size_bytes": 162,
+            "modified": "2026-09-01 16:17:53"
+          },
+          {
+            "relative_path": "~$文獻導讀.docx",
+            "size_bytes": 162,
+            "modified": "2026-11-02 19:59:54"
+          },
+          {
+            "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+            "size_bytes": 162,
+            "modified": "2026-11-04 10:50:08"
+          },
+          {
+            "relative_path": "~$申請_林宸平.docx",
+            "size_bytes": 162,
+            "modified": "2026-10-14 10:09:59"
+          },
+          {
+            "relative_path": "受試者招募意願QR code.png",
+            "size_bytes": 4625,
+            "modified": "2026-11-16 14:45:14"
+          },
+          {
+            "relative_path": "師大投稿自行車踏頻與齒輪比/The Effect of Different Cadence and Gear Ratio on Pedal Force and Riding Stability.enl",
+            "size_bytes": 53248,
+            "modified": "2026-10-01 20:21:32"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "event_92198623",
+    "timestamp": "2026-11-19 20:43:18",
+    "event_type": "DETACH",
+    "directory": "/Users/philiplin/Downloads",
+    "note": "Agent 收到中斷信號，安全卸載並停止監聽",
+    "directory_snapshot": {
+      "path": "/Users/philiplin/Downloads",
+      "total_files": 8,
+      "files": [
+        {
+          "relative_path": "IMG_0089.HEIC",
+          "size_bytes": 2613637,
+          "modified": "2026-06-06 15:12:16"
+        },
+        {
+          "relative_path": "pedal-weekly-tasks.md",
+          "size_bytes": 8104,
+          "modified": "2026-11-18 13:46:29"
+        },
+        {
+          "relative_path": "~$2862619.docx",
+          "size_bytes": 162,
+          "modified": "2026-09-01 16:17:53"
+        },
+        {
+          "relative_path": "~$文獻導讀.docx",
+          "size_bytes": 162,
+          "modified": "2026-11-02 19:59:54"
+        },
+        {
+          "relative_path": "~$用人申請_校外學生聘用資料表(系統填寫用)_(空白).docx",
+          "size_bytes": 162,
+          "modified": "2026-11-04 10:50:08"
+        },
+        {
+          "relative_path": "~$申請_林宸平.docx",
+          "size_bytes": 162,
+          "modified": "2026-10-14 10:09:59"
+        },
+        {
+          "relative_path": "受試者招募意願QR code.png",
+          "size_bytes": 4625,
+          "modified": "2026-11-16 14:45:14"
+        },
+        {
+          "relative_path": "師大投稿自行車踏頻與齒輪比/The Effect of Different Cadence and Gear Ratio on Pedal Force and Riding Stability.enl",
+          "size_bytes": 53248,
+          "modified": "2026-10-01 20:21:32"
+        }
+      ]
+    }
   }
 ]
